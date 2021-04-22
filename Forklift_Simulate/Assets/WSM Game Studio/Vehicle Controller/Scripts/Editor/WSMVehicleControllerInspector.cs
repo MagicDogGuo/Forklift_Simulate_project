@@ -139,6 +139,16 @@ namespace WSMGameStudio.Vehicles
                 }
 
                 EditorGUI.BeginChangeCheck();
+                WSMVehicleTransmissionType transmissionType = (WSMVehicleTransmissionType)EditorGUILayout.EnumPopup("TransmissionType", _vehicleController.transmissionType);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    Undo.RecordObject(_vehicleController, "TransmissionType");
+                    _vehicleController.transmissionType = transmissionType;
+                    MarkSceneAlteration();
+                }
+
+
+                EditorGUI.BeginChangeCheck();
                 float maxSpeed = EditorGUILayout.FloatField("Max Speed", _vehicleController.MaxSpeed);
                 if (EditorGUI.EndChangeCheck())
                 {

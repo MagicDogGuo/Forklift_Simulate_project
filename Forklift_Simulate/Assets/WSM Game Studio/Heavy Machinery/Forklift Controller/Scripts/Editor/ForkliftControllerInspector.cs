@@ -15,8 +15,12 @@ namespace WSMGameStudio.HeavyMachinery
         protected SerializedProperty _forksCylinders;
         protected SerializedProperty _forks;
         protected SerializedProperty _forksVerticalLever;
-        protected SerializedProperty _forksHorizontalLever;
+        //protected SerializedProperty _forksHorizontalLever;
+        protected SerializedProperty _Lever_BackFront;
+        protected SerializedProperty _Lever_ChangePower;
         protected SerializedProperty _mastTiltLever;
+
+
         protected SerializedProperty _forkMovingSFX;
         protected SerializedProperty _forkStartMovingSFX;
         protected SerializedProperty _forkStopMovingSFX;
@@ -106,8 +110,10 @@ namespace WSMGameStudio.HeavyMachinery
                 _forksCylinders = serializedObject.FindProperty("forksCylinders");
                 _forks = serializedObject.FindProperty("forks");
                 _forksVerticalLever = serializedObject.FindProperty("forksVerticalLever");
-                _forksHorizontalLever = serializedObject.FindProperty("forksHorizontalLever");
+                //_forksHorizontalLever = serializedObject.FindProperty("forksHorizontalLever");               
                 _mastTiltLever = serializedObject.FindProperty("mastTiltLever");
+                _Lever_BackFront = serializedObject.FindProperty("Lever_BackFront");
+                _Lever_ChangePower = serializedObject.FindProperty("Lever_ChangePower");
 
                 EditorGUILayout.PropertyField(_mainMast, new GUIContent("Main Mast"));
                 EditorGUILayout.PropertyField(_secondaryMast, new GUIContent("Secondary Mast"));
@@ -117,8 +123,10 @@ namespace WSMGameStudio.HeavyMachinery
                 GUILayout.Label("LEVERS", EditorStyles.boldLabel);
 
                 EditorGUILayout.PropertyField(_forksVerticalLever, new GUIContent("Forks Vertical Lever"));
-                EditorGUILayout.PropertyField(_forksHorizontalLever, new GUIContent("Forks Horizontal Lever"));
+                //EditorGUILayout.PropertyField(_forksHorizontalLever, new GUIContent("Forks Horizontal Lever"));
                 EditorGUILayout.PropertyField(_mastTiltLever, new GUIContent("Mast Tilt Lever"));
+                EditorGUILayout.PropertyField(_Lever_BackFront, new GUIContent("Lever_BackFront"));
+                EditorGUILayout.PropertyField(_Lever_ChangePower, new GUIContent("Lever_ChangePower"));
 
                 serializedObject.ApplyModifiedProperties();
             }

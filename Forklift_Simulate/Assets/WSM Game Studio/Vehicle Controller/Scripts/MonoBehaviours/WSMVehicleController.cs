@@ -15,7 +15,7 @@ namespace WSMGameStudio.Vehicles
         public WSMVehicleDrivetrainType drivetrainType;
         public WSMVehicleSteeringMode steeringMode;
         public WSMVehicleSpeedUnit speedUnit;
-        private WSMVehicleTransmissionType _transmissionType = WSMVehicleTransmissionType.Automatic;
+        public WSMVehicleTransmissionType transmissionType = WSMVehicleTransmissionType.Automatic;
         private WSMVehicleCameraLookDirection _camLookDirection;
 
         [SerializeField] public WheelCollider[] frontWheelsColliders;
@@ -489,15 +489,16 @@ namespace WSMGameStudio.Vehicles
                 else
                     _currentSteerAngle = _steering * wheelsSteerAngle;
 
-                // Steering Wheel
+                // Steering Wheel/////////////////////////////////////////////////////////
                 if (steeringWheel != null)
-                    steeringWheel.localEulerAngles = new Vector3(0f, _currentSteerAngle * _steeringWheelAngleMultiplier, 0f);
+                    steeringWheel.localEulerAngles = new Vector3(-120f, 0f, (_currentSteerAngle * _steeringWheelAngleMultiplier*2)+90);
 
                 // Wheels
                 if (_steeringWheelsColliders != null)
                 {
                     for (int i = 0; i < _steeringWheelsCollidersCount; i++)
-                        _steeringWheelsColliders[i].steerAngle = _currentSteerAngle;
+                        if(steeringMode == WSMVehicleSteeringMode.RearWheelsSteering) _steeringWheelsColliders[i].steerAngle = -_currentSteerAngle;////////////後輪相反解度
+                        else _steeringWheelsColliders[i].steerAngle = _currentSteerAngle;
                 }
             }
 
@@ -533,12 +534,25 @@ namespace WSMGameStudio.Vehicles
         }
 
         /// <summary>
+        /// 手排時更換檔位
+        /// </summary>
+        public void CurrentGearControl_Manual(int gearNumber)
+        {
+            if (transmissionType == WSMVehicleTransmissionType.Manual)
+            {
+                //Debug.Log("gearNumber" + gearNumber);
+                _currentGear = gearNumber;
+            }
+        }
+
+        /// <summary>
         /// Gears transmission
         /// </summary>
         private void Gearbox()
         {
-            if (_transmissionType == WSMVehicleTransmissionType.Automatic)
+            if (transmissionType == WSMVehicleTransmissionType.Automatic)
             {
+                //判斷是否在倒車
                 Vector3 localVelocity = transform.InverseTransformDirection(_rigidbody.velocity);
                 _movingBackwards = localVelocity.z < 0 && Mathf.RoundToInt(_currentSpeed) > 0;
 
@@ -554,6 +568,22 @@ namespace WSMGameStudio.Vehicles
                         _currentGear--;
                 }
             }
+            if (transmissionType == WSMVehicleTransmissionType.Manual)
+            {
+                Vector3 localVelocity = transform.InverseTransformDirection(_rigidbody.velocity);
+                _movingBackwards = localVelocity.z < 0 && Mathf.RoundToInt(_currentSpeed) > 0;
+
+                if (_movingBackwards)
+                    _currentGear = -1;
+                else
+                {
+                    _currentGear = (_currentGear <= 0) ? 1 : _currentGear;
+
+
+                }
+            }
+
+           //Debug.Log("_currentGear" + _currentGear+ " CurrentSpeed"+ CurrentSpeed);///////////////////////////////////////////////////////
         }
 
         /// <summary>
@@ -658,7 +688,7 @@ namespace WSMGameStudio.Vehicles
             {
                 if (i < wheelColliders.Length)
                 {
-                    wheelColliders[i].GetWorldPose(out _wheelPosition, out _wheelRotation);
+                    wheelColliders[i].GetWorldPose(out _wheelPosition, out _wheelRotation);//抓WheelCollider的位置與旋轉
                     wheelMeshes[i].transform.position = _wheelPosition;
                     wheelMeshes[i].transform.rotation = _wheelRotation;
                 }

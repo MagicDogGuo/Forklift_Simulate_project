@@ -16,15 +16,20 @@ namespace WSMGameStudio.HeavyMachinery
         [SerializeField] public MovingMechanicalPart forksCylinders;
         [SerializeField] public MovingMechanicalPart forks;
         [SerializeField] public Transform forksVerticalLever;
-        [SerializeField] public Transform forksHorizontalLever;
+        //[SerializeField] public Transform forksHorizontalLever;
         [SerializeField] public Transform mastTiltLever;
+        [SerializeField] public Transform Lever_BackFront;
+        [SerializeField] public Transform Lever_ChangePower;
         [SerializeField] public AudioSource forkMovingSFX;
         [SerializeField] public AudioSource forkStartMovingSFX;
         [SerializeField] public AudioSource forkStopMovingSFX;
 
         private float _verticalLeverAngle = 0;
-        private float _horizontalLeverAngle = 0;
+        //private float _horizontalLeverAngle = 0;
         private float _tiltLeverAngle = 0;
+        private float _Lever_BackFrontAngle = 0;
+        private float _Lever_ChangePowerAngle = 0;
+
 
         [Range(0f, 1f)] private float _forksVertical;
         [Range(0f, 1f)] private float _secondaryMastVertical;
@@ -143,17 +148,26 @@ namespace WSMGameStudio.HeavyMachinery
         /// <param name="forkVerticalInput"></param>
         /// <param name="forkHorizontalInput"></param>
         /// <param name="mastTiltInput"></param>
-        public void UpdateLevers(int forkVerticalInput, int forkHorizontalInput, int mastTiltInput)
+        public void UpdateLevers(int forkVerticalInput, int mastTiltInput,int Lever_BackFrontInput, int Lever_ChangePowerInput)//(int forkVerticalInput, int forkHorizontalInput, int mastTiltInput)
         {
             if (_isEngineOn)
             {
                 _verticalLeverAngle = Mathf.MoveTowards(_verticalLeverAngle, forkVerticalInput * -10f, 70f * Time.deltaTime);
-                _horizontalLeverAngle = Mathf.MoveTowards(_horizontalLeverAngle, forkHorizontalInput * 10f, 70f * Time.deltaTime);
+                //_horizontalLeverAngle = Mathf.MoveTowards(_horizontalLeverAngle, forkHorizontalInput * 10f, 70f * Time.deltaTime);
                 _tiltLeverAngle = Mathf.MoveTowards(_tiltLeverAngle, mastTiltInput * 10f, 70f * Time.deltaTime);
+                _Lever_BackFrontAngle = Mathf.MoveTowards(_Lever_BackFrontAngle, Lever_BackFrontInput * 10f, 70f * Time.deltaTime); //10f是旋轉範圍
+                _Lever_ChangePowerAngle = Mathf.MoveTowards(_Lever_ChangePowerAngle, Lever_ChangePowerInput * 10f, 70f * Time.deltaTime);
+
+                //Debug.Log("Lever_BackFrontInput:" + Lever_BackFrontInput);
+                //Debug.Log("_Lever_BackFrontAngle" + _Lever_BackFrontAngle + "  _Lever_ChangePowerAngle" + _Lever_ChangePowerAngle);
 
                 if (forksVerticalLever != null) forksVerticalLever.localEulerAngles = new Vector3(_verticalLeverAngle, 0f, 0f);
-                if (forksHorizontalLever != null) forksHorizontalLever.localEulerAngles = new Vector3(_horizontalLeverAngle, 0f, 0f);
-                if (mastTiltLever != null) mastTiltLever.localEulerAngles = new Vector3(_tiltLeverAngle, 0f, 0f); 
+                //if (forksHorizontalLever != null) forksHorizontalLever.localEulerAngles = new Vector3(_horizontalLeverAngle, 0f, 0f);
+                if (mastTiltLever != null) mastTiltLever.localEulerAngles = new Vector3(_tiltLeverAngle, 0f, 0f);
+                if (Lever_BackFront != null) Lever_BackFront.localEulerAngles = new Vector3(_Lever_BackFrontAngle, 0f, 0f);
+                if (Lever_ChangePower != null) Lever_ChangePower.localEulerAngles = new Vector3(_Lever_ChangePowerAngle, 0f, 0f);
+
+
             }
         }
 

@@ -46,7 +46,7 @@ namespace WSMGameStudio.HeavyMachinery
             _controlsText += string.Format("{0}FORKLIFT{0}", System.Environment.NewLine);
             _controlsText += string.Format("Forks Engine On/Off: {0}{1}", _forkliftInput.inputSettings.toggleEngine, System.Environment.NewLine);
             _controlsText += string.Format("Forks up/down: {0}/{1}{2}", _forkliftInput.inputSettings.forksUp, _forkliftInput.inputSettings.forksDown, System.Environment.NewLine);
-            _controlsText += string.Format("Forks left/right: {0}/{1}{2}", _forkliftInput.inputSettings.forksLeft, _forkliftInput.inputSettings.forksRight, System.Environment.NewLine);
+            //_controlsText += string.Format("Forks left/right: {0}/{1}{2}", _forkliftInput.inputSettings.forksLeft, _forkliftInput.inputSettings.forksRight, System.Environment.NewLine);
             _controlsText += string.Format("Mast Tilt Back/Forward: {0}/{1}{2}", _forkliftInput.inputSettings.mastTiltBackwards, _forkliftInput.inputSettings.mastTiltForwards, System.Environment.NewLine);
             //Vehicle
             _controlsText += string.Format("{0}VEHICLE{0}", System.Environment.NewLine);
