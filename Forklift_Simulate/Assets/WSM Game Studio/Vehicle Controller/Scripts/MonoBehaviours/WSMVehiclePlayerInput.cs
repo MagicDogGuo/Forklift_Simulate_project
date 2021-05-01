@@ -13,6 +13,7 @@ namespace WSMGameStudio.Vehicles
         private WSMVehicleController _vehicleController;
 
         private float _acceleration = 0f;
+        private float _backFront = 0f;
         private float _steering = 0f;
 
         /// <summary>
@@ -34,8 +35,16 @@ namespace WSMGameStudio.Vehicles
 
                 #region Vehicle Controls
 
+                //前進後退檔控制+-
+                if (Input.GetKey(inputSettings.backMove)) _backFront = 1;
+                if (Input.GetKey(inputSettings.nullMove)) _backFront = 0;
+                if (Input.GetKey(inputSettings.frontMove)) _backFront = -1;
+
+                _vehicleController.BackFrontInput = _backFront;
+
+                //控制油門
                 _acceleration = Input.GetKey(inputSettings.acceleration) ? 1f : 0;
-                _acceleration = Input.GetKey(inputSettings.reverse) ? _acceleration - 1 : _acceleration;
+                //_acceleration = Input.GetKey(inputSettings.reverse) ? _acceleration - 1 : _acceleration; //倒退改打檔
                 _vehicleController.AccelerationInput = _acceleration;
 
                 _steering = 0f;

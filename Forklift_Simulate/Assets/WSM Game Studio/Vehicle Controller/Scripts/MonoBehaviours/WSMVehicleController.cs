@@ -80,6 +80,7 @@ namespace WSMGameStudio.Vehicles
         // Input
         private float _steering = 0f;
         private float _acceleration = 0f;
+        private float _backFront = 0f;
         private float _brakes = 0f;
         private float _handbrake = 0f;
         private float _clutch = 0f;
@@ -129,6 +130,7 @@ namespace WSMGameStudio.Vehicles
         // Inputs
         public float SteeringInput { get { return _steering; } set { _steering = Mathf.Clamp(value, -1f, 1f); } }
         public float AccelerationInput { get { return _acceleration; } set { _acceleration = Mathf.Clamp(value, -1f, 1f); } }
+        public float BackFrontInput { get { return _backFront; } set { _backFront = Mathf.Clamp(value, -1f, 1f); } }
         public float BrakesInput { get { return _brakes; } set { _brakes = Mathf.Clamp01(value); } }
         public float HandBrakeInput { get { return _handbrake; } set { _handbrake = Mathf.Clamp01(value); } }
         public float ClutchInput { get { return _clutch; } set { _clutch = Mathf.Clamp01(value); } }
@@ -303,12 +305,13 @@ namespace WSMGameStudio.Vehicles
 
                 if (_leftSinalLightsOn)
                 {
-                    InvokeRepeating("LeftSignalLights", 0.2f, 0.2f);
+                    LeftSignalLights();
+                    //InvokeRepeating("LeftSignalLights", 3f, 3f);
                     RightSinalLightsOn = false;
                 }
                 else
                 {
-                    CancelInvoke("LeftSignalLights");
+                    //CancelInvoke("LeftSignalLights");
                     ToggleLights(signalLightsLeft, false);
                 }
             }
@@ -323,12 +326,13 @@ namespace WSMGameStudio.Vehicles
 
                 if (_rightSinalLightsOn)
                 {
-                    InvokeRepeating("RightSignalLights", 0.2f, 0.2f);
+                    RightSignalLights();
+                    //InvokeRepeating("RightSignalLights", 3f, 3f);
                     LeftSinalLightsOn = false;
                 }
                 else
                 {
-                    CancelInvoke("RightSignalLights");
+                    //CancelInvoke("RightSignalLights");
                     ToggleLights(signalLightsRight, false);
                 }
             }
@@ -534,15 +538,21 @@ namespace WSMGameStudio.Vehicles
         }
 
         /// <summary>
-        /// 手排時更換檔位
+        /// 燈號///////////////////////////////////////////////////////////?/////////////////////////////////////////////////////////////
         /// </summary>
-        public void CurrentGearControl_Manual(int gearNumber)
+        public void CurrenLightControl(int lightNumber)
         {
-            if (transmissionType == WSMVehicleTransmissionType.Manual)
+            if(lightNumber == -1) LeftSinalLightsOn = true;
+
+            if(lightNumber == 1) RightSinalLightsOn = true;
+
+            if (lightNumber == 0)
             {
-                //Debug.Log("gearNumber" + gearNumber);
-                _currentGear = gearNumber;
+                RightSinalLightsOn = false;
+                LeftSinalLightsOn = false;
             }
+
+            Debug.Log("lightNumber"+lightNumber);
         }
 
         /// <summary>
@@ -594,10 +604,12 @@ namespace WSMGameStudio.Vehicles
             if (_torqueWheelsColliders != null)
             {
                 _individualWheelTorque = _torqueWheelsCount > 0 ? (_currentTorque / _torqueWheelsCount) : _individualWheelTorque;
+                
 
-                _thrustTorque = _acceleration >= 0f ? (_acceleration * _individualWheelTorque) : (_acceleration * _individualWheelReverseTorque);
+                _thrustTorque = _acceleration >= 0f ? (_acceleration * _individualWheelTorque* _backFront) : (_acceleration * _individualWheelReverseTorque* _backFront);
                 _thrustTorque = _thrustTorque * (1f - _clutch);
 
+                Debug.Log("_thrustTorque"+ _thrustTorque);
                 for (int i = 0; i < _torqueWheelsCount; i++)
                     _torqueWheelsColliders[i].motorTorque = _thrustTorque;
             }
@@ -706,8 +718,8 @@ namespace WSMGameStudio.Vehicles
             _currentClutchPedalAngle = Mathf.MoveTowards(_currentClutchPedalAngle, _clutch * 25f, 200f * Time.deltaTime);
 
             if (gasPedal != null) gasPedal.localEulerAngles = new Vector3(_currentGasPedalAngle, 0f, 0f);
-            if (brakesPedal != null) brakesPedal.localEulerAngles = new Vector3(_currentBrakesPedalAngle, 0f, 0f);
-            if (clutchPedal != null) clutchPedal.localEulerAngles = new Vector3(_currentClutchPedalAngle, 0f, 0f);
+            if (brakesPedal != null) brakesPedal.localEulerAngles = new Vector3(-_currentBrakesPedalAngle, 0f, 0f);
+            if (clutchPedal != null) clutchPedal.localEulerAngles = new Vector3(-_currentClutchPedalAngle, 0f, 0f);
         }
 
         /// <summary>
@@ -816,19 +828,26 @@ namespace WSMGameStudio.Vehicles
 
         private void RightSignalLights()
         {
+
             ToggleLights(signalLightsRight);
         }
 
+        float countTime = 0;
+        float lightBlinkSpeed = 0.5f;
         /// <summary>
         /// Toggle lights on/off depending on their current status
         /// </summary>
         /// <param name="lights"></param>
         private void ToggleLights(Light[] lights)
         {
-            if (lights != null)
+            countTime += 1 * Time.deltaTime;
+            if (lights != null && countTime >= lightBlinkSpeed)
             {
+                countTime = 0;
                 foreach (var light in lights)
                     light.enabled = !light.enabled;
+            
+
             }
         }
 

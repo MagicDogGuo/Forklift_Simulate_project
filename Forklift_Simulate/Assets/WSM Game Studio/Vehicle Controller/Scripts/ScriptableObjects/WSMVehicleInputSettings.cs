@@ -25,6 +25,11 @@ namespace WSMGameStudio.Vehicles
         public KeyCode cameraLookDown = KeyCode.RightShift;
         public KeyCode toggleCamera = KeyCode.C;
 
+
+        public KeyCode backMove = KeyCode.Alpha5;
+        public KeyCode nullMove = KeyCode.Alpha6;
+        public KeyCode frontMove = KeyCode.Alpha7;
+
         public KeyCode[] customEventTriggers;
     } 
 }

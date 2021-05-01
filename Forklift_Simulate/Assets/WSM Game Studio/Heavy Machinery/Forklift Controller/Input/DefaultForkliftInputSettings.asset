@@ -18,7 +18,9 @@ MonoBehaviour:
   mastTiltBackwards: 51
   mastTiltForwards: 52
   backMove: 53
-  frontMove: 54
-  power01: 55
-  power02: 56
+  nullMove: 54
+  frontMove: 55
+  leftLight: 56
+  rightLight: 48
+  nullLight: 57
   customEventTriggers: 
