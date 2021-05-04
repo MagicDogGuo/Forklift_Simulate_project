@@ -62,6 +62,7 @@ namespace WSMGameStudio.HeavyMachinery
 
 
                 _forkliftController.RotateMast(_mastTilt);//貨插旋轉
+                _forkliftController.MoveTilt(_mastTilt);//液壓白鐵前後
                 _forkliftController.MoveForksVertically(_forksVertical);//貨插升降
                 //更換燈
                 _WSMVehicleController.CurrenLightControl(_changeLight);

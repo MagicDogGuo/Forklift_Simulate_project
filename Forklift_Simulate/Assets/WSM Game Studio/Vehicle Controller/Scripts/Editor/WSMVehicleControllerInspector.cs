@@ -21,6 +21,7 @@ namespace WSMGameStudio.Vehicles
         protected SerializedProperty _gasPedal;
         protected SerializedProperty _brakesPedal;
         protected SerializedProperty _clutchPedal;
+        protected SerializedProperty _handBreak;
         protected SerializedProperty _centerOfMass;
         protected SerializedProperty _articulatedVehiclePivot;
         protected SerializedProperty _engineStartSFX;
@@ -325,6 +326,7 @@ namespace WSMGameStudio.Vehicles
                 _gasPedal = serializedObject.FindProperty("gasPedal");
                 _brakesPedal = serializedObject.FindProperty("brakesPedal");
                 _clutchPedal = serializedObject.FindProperty("clutchPedal");
+                _handBreak = serializedObject.FindProperty("handBreak");
                 _centerOfMass = serializedObject.FindProperty("centerOfMass");
                 //_articulatedVehiclePivot = serializedObject.FindProperty("articulatedVehiclePivot");
                 _driverDoor = serializedObject.FindProperty("driverDoor");
@@ -335,6 +337,7 @@ namespace WSMGameStudio.Vehicles
                 EditorGUILayout.PropertyField(_gasPedal);
                 EditorGUILayout.PropertyField(_brakesPedal);
                 EditorGUILayout.PropertyField(_clutchPedal);
+                EditorGUILayout.PropertyField(_handBreak);            
                 EditorGUILayout.PropertyField(_centerOfMass);
                 //EditorGUILayout.PropertyField(_articulatedVehiclePivot);
                 EditorGUILayout.PropertyField(_driverDoor);

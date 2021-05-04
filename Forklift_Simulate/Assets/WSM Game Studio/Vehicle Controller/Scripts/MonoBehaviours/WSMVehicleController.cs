@@ -28,6 +28,8 @@ namespace WSMGameStudio.Vehicles
         [SerializeField] public Transform gasPedal;
         [SerializeField] public Transform brakesPedal;
         [SerializeField] public Transform clutchPedal;
+        [SerializeField] public Transform handBreak;
+
         [SerializeField] public Transform centerOfMass;
         //[SerializeField] public Transform articulatedVehiclePivot;
         [SerializeField] public AudioSource engineStartSFX;
@@ -66,6 +68,7 @@ namespace WSMGameStudio.Vehicles
         private float _currentGasPedalAngle = 0f;
         private float _currentBrakesPedalAngle = 0f;
         private float _currentClutchPedalAngle = 0f;
+        private float _currenthandBreakAngle = 0f;
         private float _currentRevs = 0f; // Calculated only when the Revs propertie is requested, if you need this, call Revs instead
         private bool _leftSinalLightsOn = false;
         private bool _rightSinalLightsOn = false;
@@ -82,7 +85,7 @@ namespace WSMGameStudio.Vehicles
         private float _acceleration = 0f;
         private float _backFront = 0f;
         private float _brakes = 0f;
-        private float _handbrake = 0f;
+        private float _handbrake = 1f;
         private float _clutch = 0f;
 
         // Settings
@@ -381,6 +384,7 @@ namespace WSMGameStudio.Vehicles
             UpdateWheelMeshesRotation(extraWheelsColliders, extraWheelsMeshes);
 
             UpdatePedals();
+            UpdataHandBreak();
             UpdateUI();
             VehicleSFX();
             VehicleLights();
@@ -485,6 +489,7 @@ namespace WSMGameStudio.Vehicles
 
             if (!articulated || (articulated && (isMoving || _nonMovingArticulatedSteering)))
             {
+                //方向盤轉動速度
                 float steeringSpeed = articulated ? _articulatedSteeringSpeed * 1f - (_currentSpeed / _maxSpeed) : _defaultSteeringSpeed;
                 float wheelsSteerAngle = Mathf.LerpAngle(_highSpeedSteeringAngle, _maxSteeringAngle, 1f - (_currentSpeed / _maxSpeed));
 
@@ -493,9 +498,11 @@ namespace WSMGameStudio.Vehicles
                 else
                     _currentSteerAngle = _steering * wheelsSteerAngle;
 
+
+                Debug.Log("_currentSteerAngle" + _currentSteerAngle);
                 // Steering Wheel/////////////////////////////////////////////////////////
                 if (steeringWheel != null)
-                    steeringWheel.localEulerAngles = new Vector3(-120f, 0f, (_currentSteerAngle * _steeringWheelAngleMultiplier*2)+90);
+                    steeringWheel.localEulerAngles = new Vector3(-120f, 0f, (_currentSteerAngle * _steeringWheelAngleMultiplier)+90);
 
                 // Wheels
                 if (_steeringWheelsColliders != null)
@@ -720,6 +727,13 @@ namespace WSMGameStudio.Vehicles
             if (gasPedal != null) gasPedal.localEulerAngles = new Vector3(_currentGasPedalAngle, 0f, 0f);
             if (brakesPedal != null) brakesPedal.localEulerAngles = new Vector3(-_currentBrakesPedalAngle, 0f, 0f);
             if (clutchPedal != null) clutchPedal.localEulerAngles = new Vector3(-_currentClutchPedalAngle, 0f, 0f);
+        }
+
+        private void UpdataHandBreak()
+        {
+            _currenthandBreakAngle = Mathf.MoveTowards(_currenthandBreakAngle, _handbrake * 25f, 200f * Time.deltaTime);
+            if (handBreak != null) handBreak.localEulerAngles = new Vector3(-_currenthandBreakAngle, 0f, 0f);
+
         }
 
         /// <summary>

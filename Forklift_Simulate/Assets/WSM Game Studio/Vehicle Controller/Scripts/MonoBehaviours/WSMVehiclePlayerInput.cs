@@ -11,17 +11,24 @@ namespace WSMGameStudio.Vehicles
         public UnityEvent[] customEvents;
 
         private WSMVehicleController _vehicleController;
+        private HeavyMachinery.ForkliftController _forkliftController;
 
         private float _acceleration = 0f;
         private float _backFront = 0f;
         private float _steering = 0f;
+        private float _forksVerticalSpeed = 0;
 
         /// <summary>
         /// Initializing references
         /// </summary>
         void Start()
         {
+            _forkliftController = GetComponent<HeavyMachinery.ForkliftController>();
+
             _vehicleController = GetComponent<WSMVehicleController>();
+
+            //一開始先存速度
+            _forksVerticalSpeed = _forkliftController.forksVerticalSpeed;
         }
 
         /// <summary>
@@ -53,8 +60,14 @@ namespace WSMGameStudio.Vehicles
                 _vehicleController.SteeringInput = _steering;
 
                 _vehicleController.BrakesInput = Input.GetKey(inputSettings.brakes) ? 1f : 0f;
-                _vehicleController.HandBrakeInput = Input.GetKey(inputSettings.handbrake) ? 1f : 0f;
+
+                if (Input.GetKey(inputSettings.handbrakeOn))_vehicleController.HandBrakeInput = 1;
+                if (Input.GetKey(inputSettings.handbrakeOff))_vehicleController.HandBrakeInput = 0;
+
                 _vehicleController.ClutchInput = Input.GetKey(inputSettings.clutch) ? 1f : 0f;
+                if (Input.GetKey(inputSettings.clutch)) _forkliftController.forksVerticalSpeed = _forksVerticalSpeed * 2;
+                else _forkliftController.forksVerticalSpeed = _forksVerticalSpeed;
+
 
                 if (Input.GetKeyDown(inputSettings.toggleEngine))
                     _vehicleController.IsEngineOn = !_vehicleController.IsEngineOn;

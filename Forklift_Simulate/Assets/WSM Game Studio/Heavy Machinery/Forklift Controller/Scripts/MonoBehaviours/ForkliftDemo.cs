@@ -53,7 +53,7 @@ namespace WSMGameStudio.HeavyMachinery
             _controlsText += string.Format("Vehicle's Engine On/Off: {0}{1}", _vehicleInput.inputSettings.toggleEngine, System.Environment.NewLine);
             _controlsText += string.Format("Acceleration/Reverse: {0}/{1}{2}", _vehicleInput.inputSettings.acceleration, _vehicleInput.inputSettings.reverse, System.Environment.NewLine);
             _controlsText += string.Format("Steering Left/Right: {0}/{1}{2}", _vehicleInput.inputSettings.turnLeft, _vehicleInput.inputSettings.turnRight, System.Environment.NewLine);
-            _controlsText += string.Format("Brakes/Handbrake: {0}/{1}{2}", _vehicleInput.inputSettings.brakes, _vehicleInput.inputSettings.handbrake, System.Environment.NewLine);
+            _controlsText += string.Format("Brakes/Handbrake: {0}/{1}{2}", _vehicleInput.inputSettings.brakes, _vehicleInput.inputSettings.handbrakeOn, System.Environment.NewLine);
             _controlsText += string.Format("Clutch: {0}{1}", _vehicleInput.inputSettings.clutch, System.Environment.NewLine);
             _controlsText += string.Format("Horn: {0}{1}", _vehicleInput.inputSettings.horn, System.Environment.NewLine);
             _controlsText += string.Format("Headlights: {0}{1}", _vehicleInput.inputSettings.headlights, System.Environment.NewLine);

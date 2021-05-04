@@ -18,7 +18,8 @@ MonoBehaviour:
   turnRight: 100
   turnLeft: 97
   brakes: 32
-  handbrake: 306
+  handbrakeOn: 122
+  handbrakeOff: 120
   clutch: 304
   horn: 104
   headlights: 108
@@ -31,4 +32,7 @@ MonoBehaviour:
   cameraLookUp: 273
   cameraLookDown: 303
   toggleCamera: 99
+  backMove: 53
+  nullMove: 54
+  frontMove: 55
   customEventTriggers: 6500000072000000

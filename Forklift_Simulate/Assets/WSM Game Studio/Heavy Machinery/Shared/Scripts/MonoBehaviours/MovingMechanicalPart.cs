@@ -15,6 +15,7 @@ namespace WSMGameStudio.HeavyMachinery
         protected override void LinearMovement()
         {
             _transform.localPosition = Vector3.Lerp(_min, _max, _movementInput);
+            Debug.Log("++++++++++++++++++++++++++++++++" + this.name);
         }
 
         /// <summary>

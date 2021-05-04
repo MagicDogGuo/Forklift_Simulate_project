@@ -15,6 +15,9 @@ namespace WSMGameStudio.HeavyMachinery
         [SerializeField] public MovingMechanicalPart secondaryMast;
         [SerializeField] public MovingMechanicalPart forksCylinders;
         [SerializeField] public MovingMechanicalPart forks;
+        [SerializeField] public MovingMechanicalPart tiltPipe01;
+        [SerializeField] public MovingMechanicalPart tiltPipe02;
+
         [SerializeField] public Transform forksVerticalLever;
         //[SerializeField] public Transform forksHorizontalLever;
         [SerializeField] public Transform mastTiltLever;
@@ -35,7 +38,12 @@ namespace WSMGameStudio.HeavyMachinery
         [Range(0f, 1f)] private float _secondaryMastVertical;
         [Range(0f, 1f)] private float _forksHorizontal;
         [Range(0f, 1f)] private float _mastTilt;
+        [Range(0f, 1f)] private float _tiltPipe01;
+        [Range(0f, 1f)] private float _tiltPipe02;
 
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////////////用在哪??????
+        /// </summary>
         public float ForksVertical { get { return _forksVertical; } set { _forksVertical = value; } }
         public float ForksHorizontal { get { return _forksHorizontal; } set { _forksHorizontal = value; } }
         public float MastTilt { get { return _mastTilt; } set { _mastTilt = value; } }
@@ -61,6 +69,9 @@ namespace WSMGameStudio.HeavyMachinery
             _forksHorizontal = forksCylinders.MovementInput;
             _forksVertical = forks.MovementInput;
             _secondaryMastVertical = secondaryMast.MovementInput;
+            _tiltPipe01 = tiltPipe01.MovementInput;
+            _tiltPipe02 = tiltPipe02.MovementInput;
+
 
             forksVerticalSpeed = Mathf.Abs(forksVerticalSpeed);
             forksHorizontalSpeed = Mathf.Abs(forksHorizontalSpeed);
@@ -141,6 +152,23 @@ namespace WSMGameStudio.HeavyMachinery
                 _mastTilt += (direction * Time.deltaTime * mastTiltSpeed);
                 _mastTilt = Mathf.Clamp01(_mastTilt);
                 mainMast.MovementInput = _mastTilt; 
+            }
+        }
+
+        public void MoveTilt(int verticalInput)
+        {
+            float speed = 0.5f;
+            if (_isEngineOn)
+            {
+                _tiltPipe01 += (verticalInput * Time.deltaTime * speed);
+                _tiltPipe02 += (verticalInput * Time.deltaTime * speed);
+
+                _tiltPipe01 = Mathf.Clamp01(_tiltPipe01);
+                _tiltPipe02 = Mathf.Clamp01(_tiltPipe02);
+
+                tiltPipe01.MovementInput = _tiltPipe01;
+                tiltPipe01.MovementInput = _tiltPipe02;
+                //Debug.Log("_tiltPipe01:"+ _tiltPipe01+ "_tiltPipe02:"+ _tiltPipe02);
             }
         }
 

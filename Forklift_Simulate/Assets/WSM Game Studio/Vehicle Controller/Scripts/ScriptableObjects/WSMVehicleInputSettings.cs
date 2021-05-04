@@ -11,7 +11,8 @@ namespace WSMGameStudio.Vehicles
         public KeyCode turnRight = KeyCode.D;
         public KeyCode turnLeft = KeyCode.A;
         public KeyCode brakes = KeyCode.Space;
-        public KeyCode handbrake = KeyCode.LeftControl;
+        public KeyCode handbrakeOn = KeyCode.Z;
+        public KeyCode handbrakeOff = KeyCode.X;
         public KeyCode clutch = KeyCode.LeftShift;
         public KeyCode horn = KeyCode.H;
         public KeyCode headlights = KeyCode.L;

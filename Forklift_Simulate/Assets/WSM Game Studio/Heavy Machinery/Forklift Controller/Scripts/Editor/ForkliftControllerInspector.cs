@@ -15,6 +15,9 @@ namespace WSMGameStudio.HeavyMachinery
         protected SerializedProperty _forksCylinders;
         protected SerializedProperty _forks;
         protected SerializedProperty _forksVerticalLever;
+        protected SerializedProperty _tiltPipe01;
+        protected SerializedProperty _tiltPipe02;
+
         //protected SerializedProperty _forksHorizontalLever;
         protected SerializedProperty _Lever_BackFront;
         protected SerializedProperty _Lever_ChangePower;
@@ -110,6 +113,9 @@ namespace WSMGameStudio.HeavyMachinery
                 _forksCylinders = serializedObject.FindProperty("forksCylinders");
                 _forks = serializedObject.FindProperty("forks");
                 _forksVerticalLever = serializedObject.FindProperty("forksVerticalLever");
+                _tiltPipe01 = serializedObject.FindProperty("tiltPipe01");
+                _tiltPipe02 = serializedObject.FindProperty("tiltPipe02");
+
                 //_forksHorizontalLever = serializedObject.FindProperty("forksHorizontalLever");               
                 _mastTiltLever = serializedObject.FindProperty("mastTiltLever");
                 _Lever_BackFront = serializedObject.FindProperty("Lever_BackFront");
@@ -119,6 +125,8 @@ namespace WSMGameStudio.HeavyMachinery
                 EditorGUILayout.PropertyField(_secondaryMast, new GUIContent("Secondary Mast"));
                 EditorGUILayout.PropertyField(_forksCylinders, new GUIContent("Forks Cylinders"));
                 EditorGUILayout.PropertyField(_forks, new GUIContent("Forks"));
+                EditorGUILayout.PropertyField(_tiltPipe01, new GUIContent("_tiltPipe01"));
+                EditorGUILayout.PropertyField(_tiltPipe02, new GUIContent("_tiltPipe02"));
 
                 GUILayout.Label("LEVERS", EditorStyles.boldLabel);
 
