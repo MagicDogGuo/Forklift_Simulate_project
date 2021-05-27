@@ -42,12 +42,16 @@ namespace WSMGameStudio.Vehicles
         [SerializeField] public AudioSource closeDoorSFX;
         [SerializeField] public Text speedText;
         [SerializeField] public Light[] headlights;
+        [SerializeField] public Material[] headlights_Materials;
         [SerializeField] public Light[] rearLights;
         [SerializeField] public Light[] brakeLights;
         [SerializeField] public Light[] interiorLights;
         [SerializeField] public Light[] signalLightsLeft;
         [SerializeField] public Light[] signalLightsRight;
+        [SerializeField] public Material signalLightsLeft_Material;
+        [SerializeField] public Material signalLightsRight_Material;
         [SerializeField] public Light[] reverseAlarmLights;
+        [SerializeField] public Material[] reverseAlarmLights_Materials;
         [SerializeField] public Transform alarmLightsPivot;
         [SerializeField] public WSMVehicleDoor driverDoor;
         [SerializeField] public WSMVehicleDoor[] passengersDoors;
@@ -274,6 +278,9 @@ namespace WSMGameStudio.Vehicles
                 {
                     foreach (var headlight in headlights)
                         headlight.enabled = _headlightsOn;
+                    foreach (var headlightMat in headlights_Materials)
+                        if (_headlightsOn) headlightMat.SetColor("_EmissionColor", Color.white);
+                        else headlightMat.SetColor("_EmissionColor", Color.black);
                 }
 
                 if (rearLights != null)
@@ -315,7 +322,7 @@ namespace WSMGameStudio.Vehicles
                 else
                 {
                     //CancelInvoke("LeftSignalLights");
-                    ToggleLights(signalLightsLeft, false);
+                    ToggleLights(signalLightsLeft, signalLightsLeft_Material, false);
                 }
             }
         }
@@ -336,12 +343,17 @@ namespace WSMGameStudio.Vehicles
                 else
                 {
                     //CancelInvoke("RightSignalLights");
-                    ToggleLights(signalLightsRight, false);
+                    ToggleLights(signalLightsRight,signalLightsRight_Material, false);
                 }
             }
         }
 
         #endregion
+
+
+        Color _signalLightColor_Light = new Color(122,10,6,255);
+        Color _signalLightColor_Dark = new Color(0,0,0,0);
+
 
         #region UNITY DEFAULT EVENTS
         /// <summary>
@@ -499,7 +511,7 @@ namespace WSMGameStudio.Vehicles
                     _currentSteerAngle = _steering * wheelsSteerAngle;
 
 
-                Debug.Log("_currentSteerAngle" + _currentSteerAngle);
+                //Debug.Log("_currentSteerAngle" + _currentSteerAngle);
                 // Steering Wheel/////////////////////////////////////////////////////////
                 if (steeringWheel != null)
                     steeringWheel.localEulerAngles = new Vector3(-120f, 0f, (_currentSteerAngle * _steeringWheelAngleMultiplier)+90);
@@ -616,7 +628,7 @@ namespace WSMGameStudio.Vehicles
                 _thrustTorque = _acceleration >= 0f ? (_acceleration * _individualWheelTorque* _backFront) : (_acceleration * _individualWheelReverseTorque* _backFront);
                 _thrustTorque = _thrustTorque * (1f - _clutch);
 
-                Debug.Log("_thrustTorque"+ _thrustTorque);
+                //Debug.Log("_thrustTorque"+ _thrustTorque);
                 for (int i = 0; i < _torqueWheelsCount; i++)
                     _torqueWheelsColliders[i].motorTorque = _thrustTorque;
             }
@@ -821,6 +833,12 @@ namespace WSMGameStudio.Vehicles
                 {
                     foreach (var alarmLights in reverseAlarmLights)
                         alarmLights.enabled = _movingBackwards;
+                    foreach(var reverseAlarm in reverseAlarmLights_Materials)
+                    {
+                        if(_movingBackwards) reverseAlarm.SetColor("_EmissionColor",new Color(1,0,0));
+                        else reverseAlarm.SetColor("_EmissionColor", new Color(0.1f, 0, 0));
+                    }
+           
 
                     if (_movingBackwards && _rotateAlarmLights && alarmLightsPivot != null)
                         alarmLightsPivot.Rotate(alarmLightsPivot.up, _alarmLightsRotationSpeed, Space.Self);
@@ -837,13 +855,13 @@ namespace WSMGameStudio.Vehicles
 
         private void LeftSignalLights()
         {
-            ToggleLights(signalLightsLeft);
+            ToggleLights(signalLightsLeft, signalLightsLeft_Material);
         }
 
         private void RightSignalLights()
         {
 
-            ToggleLights(signalLightsRight);
+            ToggleLights(signalLightsRight, signalLightsRight_Material);
         }
 
         float countTime = 0;
@@ -852,7 +870,7 @@ namespace WSMGameStudio.Vehicles
         /// Toggle lights on/off depending on their current status
         /// </summary>
         /// <param name="lights"></param>
-        private void ToggleLights(Light[] lights)
+        private void ToggleLights(Light[] lights, Material materials)
         {
             countTime += 1 * Time.deltaTime;
             if (lights != null && countTime >= lightBlinkSpeed)
@@ -860,7 +878,14 @@ namespace WSMGameStudio.Vehicles
                 countTime = 0;
                 foreach (var light in lights)
                     light.enabled = !light.enabled;
-            
+                if(materials.GetColor("_EmissionColor") == _signalLightColor_Light * 0.01f)
+                {
+                    materials.SetColor("_EmissionColor", _signalLightColor_Dark);
+                }
+                else
+                {
+                    materials.SetColor("_EmissionColor", _signalLightColor_Light*0.01f);
+                }
 
             }
         }
@@ -870,12 +895,14 @@ namespace WSMGameStudio.Vehicles
         /// </summary>
         /// <param name="lights"></param>
         /// <param name="onOff"></param>
-        private void ToggleLights(Light[] lights, bool onOff)
+        private void ToggleLights(Light[] lights, Material materials, bool onOff)
         {
             if (lights != null)
             {
                 foreach (var light in lights)
                     light.enabled = onOff;
+                materials.SetColor("_EmissionColor", _signalLightColor_Dark);
+
             }
         }
 

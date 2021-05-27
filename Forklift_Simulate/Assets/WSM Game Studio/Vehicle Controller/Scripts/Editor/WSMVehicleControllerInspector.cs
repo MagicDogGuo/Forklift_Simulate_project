@@ -33,12 +33,16 @@ namespace WSMGameStudio.Vehicles
         protected SerializedProperty _openDoorSFX;
         protected SerializedProperty _closeDoorSFX;
         protected SerializedProperty _headlights;
+        protected SerializedProperty _headlights_Material;
         protected SerializedProperty _rearLights;
         protected SerializedProperty _brakeLights;
         protected SerializedProperty _interiorLights;
         protected SerializedProperty _signalLightsLeft;
         protected SerializedProperty _signalLightsRight;
+        protected SerializedProperty _signalLightsLeft_Material;
+        protected SerializedProperty _signalLightsRight_Material;
         protected SerializedProperty _reverseAlarmLights;
+        protected SerializedProperty _reverseAlarmLights_Materials;
         protected SerializedProperty _alarmLightsPivot;
         protected SerializedProperty _driverDoor;
         protected SerializedProperty _passengersDoors;
@@ -412,21 +416,30 @@ namespace WSMGameStudio.Vehicles
 
                 serializedObject.Update();
                 _headlights = serializedObject.FindProperty("headlights");
+                _headlights_Material = serializedObject.FindProperty("headlights_Materials");
+
                 _rearLights = serializedObject.FindProperty("rearLights");
                 _brakeLights = serializedObject.FindProperty("brakeLights");
                 _interiorLights = serializedObject.FindProperty("interiorLights");
                 _signalLightsLeft = serializedObject.FindProperty("signalLightsLeft");
                 _signalLightsRight = serializedObject.FindProperty("signalLightsRight");
+                _signalLightsLeft_Material = serializedObject.FindProperty("signalLightsLeft_Material");
+                _signalLightsRight_Material = serializedObject.FindProperty("signalLightsRight_Material");
                 _reverseAlarmLights = serializedObject.FindProperty("reverseAlarmLights");
+                _reverseAlarmLights_Materials = serializedObject.FindProperty("reverseAlarmLights_Materials");
                 _alarmLightsPivot = serializedObject.FindProperty("alarmLightsPivot");
 
                 EditorGUILayout.PropertyField(_headlights, true);
+                EditorGUILayout.PropertyField(_headlights_Material, true);
                 EditorGUILayout.PropertyField(_rearLights, true);
                 EditorGUILayout.PropertyField(_brakeLights, true);
                 EditorGUILayout.PropertyField(_interiorLights, true);
                 EditorGUILayout.PropertyField(_signalLightsLeft, true);
                 EditorGUILayout.PropertyField(_signalLightsRight, true);
+                EditorGUILayout.PropertyField(_signalLightsLeft_Material, true);
+                EditorGUILayout.PropertyField(_signalLightsRight_Material, true);
                 EditorGUILayout.PropertyField(_reverseAlarmLights, true);
+                EditorGUILayout.PropertyField(_reverseAlarmLights_Materials, true);
                 EditorGUILayout.PropertyField(_alarmLightsPivot);
 
                 serializedObject.ApplyModifiedProperties();
