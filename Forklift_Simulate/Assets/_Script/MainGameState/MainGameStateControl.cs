@@ -7,7 +7,7 @@ public class MainGameStateControl {
     public enum GameFlowState
     {
         Init,
-        DriveForkleft,
+        DriveForkKit,
         Complete
     }
     
@@ -37,7 +37,7 @@ public class MainGameStateControl {
             case GameFlowState.Init:
                 m_State = new InitState(m_MainGameStateController);
                 break;   
-            case GameFlowState.DriveForkleft:
+            case GameFlowState.DriveForkKit:
                 m_State = new DriveForkleftState(m_MainGameStateController);
                 break;
             case GameFlowState.Complete:

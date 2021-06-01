@@ -18,6 +18,11 @@ public class PipeDetectControl : MonoBehaviour
     void Start()
     {
         pipes = PipeGroup.GetComponentsInChildren<Pipe>();
+
+        for (int i = 0; i < pipes.Length; i++)
+        {
+
+        }
     }
 
     void Update()
@@ -27,12 +32,12 @@ public class PipeDetectControl : MonoBehaviour
 
             if (pipes[i].IsBeCollider)
             {
-                _beColliderTotalAmount += pipes[i].BeColliderAmount;
+                _beColliderTotalAmount += 1;
+                Debug.Log("BeColliderTotalAmount: " + BeColliderTotalAmount);
+
             }
- 
 
         }
-        Debug.Log("BeColliderTotalAmount: " + BeColliderTotalAmount);
 
     }
 

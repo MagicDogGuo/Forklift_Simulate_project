@@ -1,14 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Pipe : MonoBehaviour
 {
-    int _beColliderAmount;
-    public int BeColliderAmount
-    {
-        get { return _beColliderAmount; }
-    }
 
     bool _isbeCollider;
     public bool IsBeCollider
@@ -16,33 +12,32 @@ public class Pipe : MonoBehaviour
         get { return _isbeCollider; }
     }
 
+    bool isStopCollDetect;
+
     private void Start()
     {
+        isStopCollDetect = false;
         _isbeCollider = false;
     }
 
+
     private void OnCollisionEnter(Collision collision)
     {
+        if (isStopCollDetect) return;
+
         if(collision.gameObject.tag == "Forkleft")
         {
-            _beColliderAmount++;
             _isbeCollider = true;
+            isStopCollDetect = true;
+            StartCoroutine(DelayFalse());
         }
     }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.tag == "Forkleft")
-        {
-            _isbeCollider = false;
-        }
-    }
 
-    private void OnCollisionExit(Collision collision)
+    IEnumerator DelayFalse()
     {
-        if (collision.gameObject.tag == "Forkleft")
-        {
-            _isbeCollider = false;
-        }
+        yield return new WaitForEndOfFrame();
+        _isbeCollider = false;
+
     }
 }

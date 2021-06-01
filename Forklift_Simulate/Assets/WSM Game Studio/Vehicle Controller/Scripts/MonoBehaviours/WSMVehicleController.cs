@@ -7,6 +7,7 @@ namespace WSMGameStudio.Vehicles
     [RequireComponent(typeof(Rigidbody))]
     public class WSMVehicleController : MonoBehaviour
     {
+
         #region VARIABLES AND PROPERTIES
 
         private const float _mphConversion = 2.23694f;
@@ -135,12 +136,17 @@ namespace WSMGameStudio.Vehicles
         private float[] _gearsSpeedLimits;
 
         // Inputs
-        public float SteeringInput { get { return _steering; } set { _steering = Mathf.Clamp(value, -1f, 1f); } }
-        public float AccelerationInput { get { return _acceleration; } set { _acceleration = Mathf.Clamp(value, -1f, 1f); } }
+        //public float SteeringInput { get { return _steering; } set { _steering = Mathf.Clamp(value, -1f, 1f); } }
+        public float SteeringInput { get { return _steering; } set {  _steering=value; } }
+        //public float AccelerationInput { get { return _acceleration; } set { _acceleration = Mathf.Clamp(value, -1f, 1f); } }
+        public float AccelerationInput { get { return _acceleration; } set { _acceleration = value; } }
         public float BackFrontInput { get { return _backFront; } set { _backFront = Mathf.Clamp(value, -1f, 1f); } }
-        public float BrakesInput { get { return _brakes; } set { _brakes = Mathf.Clamp01(value); } }
+        //public float BrakesInput { get { return _brakes; } set { _brakes = Mathf.Clamp01(value); } }
+        public float BrakesInput { get { return _brakes; } set { _brakes = value; } }
         public float HandBrakeInput { get { return _handbrake; } set { _handbrake = Mathf.Clamp01(value); } }
-        public float ClutchInput { get { return _clutch; } set { _clutch = Mathf.Clamp01(value); } }
+        //public float ClutchInput { get { return _clutch; } set { _clutch = Mathf.Clamp01(value); } }
+        public float ClutchInput { get { return _clutch; } set { _clutch = value; } }
+
         // Settings
         public float MaxTorque { get { return _maxTorque; } set { _maxTorque = Mathf.Abs(value); } }
         public float ReverseTorque { get { return _reverseTorque; } set { _reverseTorque = Mathf.Abs(value); } }
@@ -165,6 +171,11 @@ namespace WSMGameStudio.Vehicles
 
         public float CurrentSpeed { get { return _currentSpeed; } }
         public int CurrentGear { get { return _currentGear; } }
+        public float CurrentHandbrake { get { return _handbrake; } }
+        public float CurrentBrakes { get { return _brakes; } }
+        public float CurrentClutch { get { return _clutch; } }
+        public float CurrentBackFront { get { return _backFront; } }
+        public bool CurrentEngineOn { get { return _isEngineOn; } }
 
         public bool CameraToggleRequested
         {
@@ -365,6 +376,7 @@ namespace WSMGameStudio.Vehicles
 
             if (_isEngineOn && engineSFX != null && !engineSFX.isPlaying)
                 engineSFX.Play();
+
         }
 
         /// <summary>
@@ -506,22 +518,24 @@ namespace WSMGameStudio.Vehicles
                 float wheelsSteerAngle = Mathf.LerpAngle(_highSpeedSteeringAngle, _maxSteeringAngle, 1f - (_currentSpeed / _maxSpeed));
 
                 if (_softSteering)
-                    _currentSteerAngle = Mathf.MoveTowards(_currentSteerAngle, _steering * wheelsSteerAngle, steeringSpeed * Time.deltaTime);
+                    _currentSteerAngle = _steering;// Mathf.MoveTowards(_currentSteerAngle, _steering * wheelsSteerAngle, steeringSpeed * Time.deltaTime);
                 else
-                    _currentSteerAngle = _steering * wheelsSteerAngle;
+                    _currentSteerAngle = _steering; //_steering * wheelsSteerAngle;
 
 
                 //Debug.Log("_currentSteerAngle" + _currentSteerAngle);
                 // Steering Wheel/////////////////////////////////////////////////////////
                 if (steeringWheel != null)
-                    steeringWheel.localEulerAngles = new Vector3(-120f, 0f, (_currentSteerAngle * _steeringWheelAngleMultiplier)+90);
+                    steeringWheel.localEulerAngles = new Vector3(-120f, 0f, (_currentSteerAngle +90));//* _steeringWheelAngleMultiplier)+90
 
                 // Wheels
                 if (_steeringWheelsColliders != null)
                 {
+                    float _wheelTransValue = _currentSteerAngle * 0.177777f;
+                    Debug.Log("_wheelTransValue:" + _wheelTransValue + "_currentSteerAngle:" + _currentSteerAngle);
                     for (int i = 0; i < _steeringWheelsCollidersCount; i++)
-                        if(steeringMode == WSMVehicleSteeringMode.RearWheelsSteering) _steeringWheelsColliders[i].steerAngle = -_currentSteerAngle;////////////後輪相反解度
-                        else _steeringWheelsColliders[i].steerAngle = _currentSteerAngle;
+                        if (steeringMode == WSMVehicleSteeringMode.RearWheelsSteering) _steeringWheelsColliders[i].steerAngle = -_wheelTransValue;////////////後輪相反解度
+                        else _steeringWheelsColliders[i].steerAngle = _wheelTransValue;
                 }
             }
 
@@ -571,7 +585,7 @@ namespace WSMGameStudio.Vehicles
                 LeftSinalLightsOn = false;
             }
 
-            Debug.Log("lightNumber"+lightNumber);
+            //Debug.Log("lightNumber"+lightNumber);
         }
 
         /// <summary>
@@ -625,7 +639,9 @@ namespace WSMGameStudio.Vehicles
                 _individualWheelTorque = _torqueWheelsCount > 0 ? (_currentTorque / _torqueWheelsCount) : _individualWheelTorque;
                 
 
-                _thrustTorque = _acceleration >= 0f ? (_acceleration * _individualWheelTorque* _backFront) : (_acceleration * _individualWheelReverseTorque* _backFront);
+                //_thrustTorque = _acceleration >= 0f ? (_acceleration * _individualWheelTorque* _backFront) : (_acceleration * _individualWheelReverseTorque* _backFront);
+                _thrustTorque = Mathf.Clamp(_acceleration,0,1) * _individualWheelTorque * _backFront;
+
                 _thrustTorque = _thrustTorque * (1f - _clutch);
 
                 //Debug.Log("_thrustTorque"+ _thrustTorque);
@@ -732,9 +748,12 @@ namespace WSMGameStudio.Vehicles
         /// </summary>
         private void UpdatePedals()
         {
-            _currentGasPedalAngle = Mathf.MoveTowards(_currentGasPedalAngle, Mathf.Abs(_acceleration) * 25f, 70f * Time.deltaTime);
-            _currentBrakesPedalAngle = Mathf.MoveTowards(_currentBrakesPedalAngle, _brakes * 25f, 200f * Time.deltaTime);
-            _currentClutchPedalAngle = Mathf.MoveTowards(_currentClutchPedalAngle, _clutch * 25f, 200f * Time.deltaTime);
+            //_currentGasPedalAngle = Mathf.MoveTowards(_currentGasPedalAngle, Mathf.Abs(_acceleration) * 25f, 70f * Time.deltaTime);
+            //_currentBrakesPedalAngle = Mathf.MoveTowards(_currentBrakesPedalAngle, _brakes * 25f, 200f * Time.deltaTime);
+            //_currentClutchPedalAngle = Mathf.MoveTowards(_currentClutchPedalAngle, _clutch * 25f, 200f * Time.deltaTime);
+            _currentGasPedalAngle = _acceleration;
+            _currentBrakesPedalAngle = _brakes;
+            _currentClutchPedalAngle = _clutch;
 
             if (gasPedal != null) gasPedal.localEulerAngles = new Vector3(_currentGasPedalAngle, 0f, 0f);
             if (brakesPedal != null) brakesPedal.localEulerAngles = new Vector3(-_currentBrakesPedalAngle, 0f, 0f);

@@ -71,6 +71,10 @@ namespace WSMGameStudio.HeavyMachinery
             }
         }
 
+        public float CurrentForksVertical { get { return _forksVertical; } }
+        public float CurrentMastTilt { get { return _mastTilt; } }
+
+
         /// <summary>
         /// Initialize forklift
         /// </summary>
@@ -93,6 +97,7 @@ namespace WSMGameStudio.HeavyMachinery
         /// </summary>
         private void LateUpdate()
         {
+
             if (_isEngineOn)
             {
                 bool forksMoving = forks.IsMoving || secondaryMast.IsMoving || mainMast.IsMoving || forksCylinders.IsMoving;

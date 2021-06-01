@@ -25,8 +25,10 @@ public class MainGameManager : MonoBehaviour
     }
 
     [SerializeField]
-    GameObject forkleft;
+    GameObject Forkleft;
 
+    [SerializeField]
+    GameObject PipeGroup;
 
     // 場景狀態
     MainGameStateControl m_MainGameStateController = new MainGameStateControl();
@@ -42,12 +44,25 @@ public class MainGameManager : MonoBehaviour
         get { return _forkleftObj; }
     }
 
+    GameObject _pipeGroupObj;
+    public GameObject PipeGroupObj
+    {
+        get { return _pipeGroupObj; }
+    }
+
+    ScoreManager scoreManager;
+
     public void MainGameBegin()
     {
-        _forkleftObj = forkleft;
+        _forkleftObj = Forkleft;
+        _pipeGroupObj = PipeGroup;
+
         // 設定起始State
         m_MainGameStateController.SetState(MainGameStateControl.GameFlowState.Init, m_MainGameStateController);
-      
+
+
+        scoreManager = this.GetComponent<ScoreManager>();
+        scoreManager.enabled = true;
 
     }
 

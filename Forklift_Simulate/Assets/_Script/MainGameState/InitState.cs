@@ -8,15 +8,21 @@ public class InitState : IMainGameState
     {
         this.StateName = "InitState";
     }
-    // Start is called before the first frame update
-    void Start()
+    public override void StateBegin()
     {
+        m_Conrtoller.SetState(MainGameStateControl.GameFlowState.DriveForkKit, m_Conrtoller);
 
     }
-
-    // Update is called once per frame
-    void Update()
+    public override void StateUpdate()
     {
+    }
 
+    public override void StateEnd()
+    {
+       
+    }
+
+    void LoginGame()
+    {
     }
 }
