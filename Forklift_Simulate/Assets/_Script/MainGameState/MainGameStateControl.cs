@@ -8,9 +8,11 @@ public class MainGameStateControl {
     {
         Init,
         DriveForkKit,
-        Complete
+        CompleteTest,
+        CompletePrictice,
+
     }
-    
+
     public GameFlowState GameState { get; private set; }
 
     IMainGameState m_State = null; //現在三個子類別 MainMenuState、LoadingState、MainGameState
@@ -40,8 +42,11 @@ public class MainGameStateControl {
             case GameFlowState.DriveForkKit:
                 m_State = new DriveForkleftState(m_MainGameStateController);
                 break;
-            case GameFlowState.Complete:
-                m_State = new CompleteState(m_MainGameStateController);
+            case GameFlowState.CompleteTest:
+                m_State = new CompleteTestState(m_MainGameStateController);
+                break;
+            case GameFlowState.CompletePrictice:
+                m_State = new CompletePricticeState(m_MainGameStateController);
                 break;
         }
     }

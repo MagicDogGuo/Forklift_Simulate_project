@@ -43,7 +43,8 @@ public class SceneStateControler {
         {
             return;
         }
-        asyn = SceneManager.LoadSceneAsync(LoadSceneName);
+        asyn = PhotonNetwork.LoadLevelAsync(LoadSceneName);//連線用
+        //asyn = SceneManager.LoadSceneAsync(LoadSceneName);
     }
 
     /// <summary>

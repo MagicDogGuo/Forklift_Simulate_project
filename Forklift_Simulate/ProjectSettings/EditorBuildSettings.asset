@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/WSM Game Studio/Heavy Machinery/Forklift Controller/_Demo/RWS_ForkliftDemo.unity
     guid: 7fdc86ff1509a1d408730f17a3e7aa20
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scene/TitleState.unity
     guid: 3abb44ecac7df614d9cf7cd5769bc5f6
   - enabled: 1

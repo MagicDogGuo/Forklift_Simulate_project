@@ -377,7 +377,12 @@ namespace WSMGameStudio.Vehicles
             if (_isEngineOn && engineSFX != null && !engineSFX.isPlaying)
                 engineSFX.Play();
 
-        }
+
+        _currentGear = 0;
+        _currentSpeed = 0f;
+        _maxSpeedFactorMPH = 0f;
+        _maxSpeedFactorKPH = 0f;
+    }
 
         /// <summary>
         /// Update physics
@@ -642,7 +647,7 @@ namespace WSMGameStudio.Vehicles
                 //_thrustTorque = _acceleration >= 0f ? (_acceleration * _individualWheelTorque* _backFront) : (_acceleration * _individualWheelReverseTorque* _backFront);
                 _thrustTorque = Mathf.Clamp(_acceleration,0,1) * _individualWheelTorque * _backFront;
 
-                _thrustTorque = _thrustTorque * (1f - _clutch);
+               ////////////////////////////////////////_thrustTorque = _thrustTorque * (1f - _clutch);
 
                 //Debug.Log("_thrustTorque"+ _thrustTorque);
                 for (int i = 0; i < _torqueWheelsCount; i++)
@@ -671,6 +676,16 @@ namespace WSMGameStudio.Vehicles
             _currentSpeed = _rigidbody.velocity.magnitude * speedUnitConversion;
             if (_currentSpeed > gearSpeedLimit)
                 _rigidbody.velocity = Vector3.MoveTowards(_rigidbody.velocity, maxSpeedFactor * _rigidbody.velocity.normalized, 5f * Time.deltaTime);
+        }
+
+        /// <summary>
+        /// 給測驗停止遊戲用
+        /// </summary>
+        public void StopGameBrake()
+        {
+            float StopBrakeTorque = 1000000000000000; 
+            foreach (var wheel in _allWheelsColliders)
+                wheel.brakeTorque = StopBrakeTorque;      
         }
 
         /// <summary>
@@ -852,11 +867,28 @@ namespace WSMGameStudio.Vehicles
                 {
                     foreach (var alarmLights in reverseAlarmLights)
                         alarmLights.enabled = _movingBackwards;
-                    foreach(var reverseAlarm in reverseAlarmLights_Materials)
+
+                    //大燈跟倒車燈顏色不同(白、紅)
+                    for(int i =0 ; i < reverseAlarmLights_Materials.Length; i++)
                     {
-                        if(_movingBackwards) reverseAlarm.SetColor("_EmissionColor",new Color(1,0,0));
-                        else reverseAlarm.SetColor("_EmissionColor", new Color(0.1f, 0, 0));
+                        if (i == 0 || i==1)
+                        {
+                            if (_movingBackwards) reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(1, 0, 0));
+                            else reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(0.1f, 0, 0));
+
+                        }
+                        else if(i >1)
+                        {
+                            if (_movingBackwards) reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(1, 1, 1)); 
+                            else reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(0.0f, 0, 0));
+                        }
+
                     }
+                    //foreach(var reverseAlarm in reverseAlarmLights_Materials)
+                    //{
+                    //    if(_movingBackwards) reverseAlarm.SetColor("_EmissionColor",new Color(1,0,0));
+                    //    else reverseAlarm.SetColor("_EmissionColor", new Color(0.1f, 0, 0));
+                    //}
            
 
                     if (_movingBackwards && _rotateAlarmLights && alarmLightsPivot != null)

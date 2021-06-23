@@ -23,12 +23,33 @@ public class MainGameManager : MonoBehaviour
             return m_Instance;
         }
     }
+    public enum GameMode
+    {
+        TestMode,
+        PracticeMode
+    }
 
     [SerializeField]
     GameObject Forkleft;
 
     [SerializeField]
+    GameObject PipeGroupPos;
+    [SerializeField]
     GameObject PipeGroup;
+
+    [SerializeField]
+    GameObject InitPlayCam;
+
+    [SerializeField]
+    GameObject InitCancvs;
+    [SerializeField]
+    GameObject InitCancasPos;
+
+    [SerializeField]
+    GameObject ScoreGroupCanvas;
+    //[SerializeField]
+    //GameObject ForkitCanvasPos;
+
 
     // 場景狀態
     MainGameStateControl m_MainGameStateController = new MainGameStateControl();
@@ -38,6 +59,20 @@ public class MainGameManager : MonoBehaviour
         get { return m_MainGameStateController.GameState; }
     }
 
+    GameObject _initPlayerCam;
+    public GameObject InitPlayerCam
+    {
+        get { return _initPlayerCam; }
+    }
+
+    GameMode _gameMode;
+    public GameMode GameModes
+    {
+        get { return _gameMode; }
+        set { _gameMode = value; }
+    }
+
+
     GameObject _forkleftObj;
     public GameObject ForkleftObj
     {
@@ -45,30 +80,68 @@ public class MainGameManager : MonoBehaviour
     }
 
     GameObject _pipeGroupObj;
-    public GameObject PipeGroupObj
+    public GameObject PipeGroupObjs
     {
         get { return _pipeGroupObj; }
     }
 
-    ScoreManager scoreManager;
+    ScoreManager _scoreManager;
+    public ScoreManager ScoreManagers
+    {
+        get { return _scoreManager; }
+    }
+
+    int _totalWrongScore;
+    public int TotalWrongScore
+    {
+        get { return _scoreManager.TotalWrongAmount; }
+    }
+
+    int _isSussuesPassTest;
+    public int IsSussuesPassTest //0沒過 1有過 2測驗中
+    {
+        get { return _isSussuesPassTest; }
+    }
+
+    GameObject _initCanvas;
+    public GameObject InitCanvass
+    {
+        get { return _initCanvas; }
+    }
+
+    GameObject _scoreGroupCanvas;
+    public GameObject ScoreGroupCanvass
+    {
+        get { return _scoreGroupCanvas; }
+    }
+    GameObject _forkitCanvasPos;
+    public GameObject ForkitCanvasPoss
+    {
+        get { return _forkleftObj.GetComponent<ForkUI>().ForkkitCanvasPos; }
+    }
+
 
     public void MainGameBegin()
     {
-        _forkleftObj = Forkleft;
-        _pipeGroupObj = PipeGroup;
+        _isSussuesPassTest = 2;
+        _initPlayerCam = InitPlayCam;
+        _scoreManager = this.GetComponent<ScoreManager>();
+        _scoreGroupCanvas = ScoreGroupCanvas;
+        //_forkitCanvasPos = ForkitCanvasPos;
 
         // 設定起始State
         m_MainGameStateController.SetState(MainGameStateControl.GameFlowState.Init, m_MainGameStateController);
-
-
-        scoreManager = this.GetComponent<ScoreManager>();
-        scoreManager.enabled = true;
-
     }
 
     public void MainGameUpdate()
     {
         m_MainGameStateController.StateUpdate();
+
+        //判斷有無過關
+        if (TotalWrongScore >= 20)
+        {
+            _isSussuesPassTest = 0;
+        }
     }
 
 
@@ -76,9 +149,22 @@ public class MainGameManager : MonoBehaviour
     /// 生成主選單初始物件
     /// </summary>
    public void InstantiateInitObject()
-   {
+    {
+        _pipeGroupObj = Instantiate(PipeGroup, PipeGroupPos.transform);
+        _initCanvas = Instantiate(InitCancvs, InitCancasPos.transform);
         //mainMenuUICanvases = Instantiate(MainGameUICanvas);
-     
+   }
+
+    public void CreateForkkit()
+    {
+        _isSussuesPassTest = 2;
+
+        _forkleftObj = GameObject.Instantiate(Forkleft); 
+    }
+
+    public void DestoryForkkit()
+    {
+        Destroy(_forkleftObj);
     }
 
     public void ExitDestoryObject()

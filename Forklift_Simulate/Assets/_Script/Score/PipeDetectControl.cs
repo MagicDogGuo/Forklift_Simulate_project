@@ -8,6 +8,7 @@ public class PipeDetectControl : MonoBehaviour
     GameObject PipeGroup;
 
     Pipe[] pipes;
+    Transform[] pipPos;
 
     int _beColliderTotalAmount;
     public int BeColliderTotalAmount
@@ -19,10 +20,7 @@ public class PipeDetectControl : MonoBehaviour
     {
         pipes = PipeGroup.GetComponentsInChildren<Pipe>();
 
-        for (int i = 0; i < pipes.Length; i++)
-        {
-
-        }
+        Init();
     }
 
     void Update()
@@ -39,6 +37,11 @@ public class PipeDetectControl : MonoBehaviour
 
         }
 
+    }
+
+    public void Init()
+    {
+        _beColliderTotalAmount = 0;
     }
 
 }

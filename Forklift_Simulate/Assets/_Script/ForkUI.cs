@@ -11,6 +11,8 @@ public class ForkUI : MonoBehaviour
     [SerializeField]
     Text SpeedTxt;
 
+    public GameObject ForkkitCanvasPos;
+
     private WSMGameStudio.Vehicles.WSMVehicleController _WSMVehicleController;
 
 

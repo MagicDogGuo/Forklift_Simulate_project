@@ -10,8 +10,14 @@ public class InitState : IMainGameState
     }
     public override void StateBegin()
     {
-        m_Conrtoller.SetState(MainGameStateControl.GameFlowState.DriveForkKit, m_Conrtoller);
+        MainGameManager.Instance.ScoreManagers.enabled = false;
 
+        MainGameManager.Instance.InitPlayerCam.SetActive(true);
+
+        GameEventSystem.Instance.OnPushTestModeBtn += OnPushTestBtn;
+        GameEventSystem.Instance.OnPushPracticeModeBtn += OnPushPracticeBtn;
+
+        MainGameManager.Instance.InstantiateInitObject();
     }
     public override void StateUpdate()
     {
@@ -19,10 +25,23 @@ public class InitState : IMainGameState
 
     public override void StateEnd()
     {
-       
+        MainGameManager.Instance.InitPlayerCam.SetActive(false);
+
+        GameObject.Destroy(MainGameManager.Instance.InitCanvass);
+        //GameObject.Destroy(MainGameManager.Instance.InitPlayerCam);
+
     }
 
-    void LoginGame()
+
+    void OnPushPracticeBtn()
     {
+        MainGameManager.Instance.GameModes = MainGameManager.GameMode.PracticeMode;
+        m_Conrtoller.SetState(MainGameStateControl.GameFlowState.DriveForkKit, m_Conrtoller);
+    }
+
+    void OnPushTestBtn()
+    {
+        MainGameManager.Instance.GameModes = MainGameManager.GameMode.TestMode;
+        m_Conrtoller.SetState(MainGameStateControl.GameFlowState.DriveForkKit, m_Conrtoller);
     }
 }
