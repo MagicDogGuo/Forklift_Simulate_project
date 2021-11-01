@@ -31,7 +31,7 @@ public class PipeDetectControl : MonoBehaviour
             if (pipes[i].IsBeCollider)
             {
                 _beColliderTotalAmount += 1;
-                Debug.Log("BeColliderTotalAmount: " + BeColliderTotalAmount);
+                //Debug.Log("BeColliderTotalAmount: " + BeColliderTotalAmount);
 
             }
 

@@ -92,16 +92,27 @@ public class LogtichControl : MonoBehaviour
         //Spring Force -> S
         if (Input.GetKeyUp(KeyCode.S))
         {
-            if (LogitechGSDK.LogiIsPlaying(0, LogitechGSDK.LOGI_FORCE_SPRING))
+            //if (LogitechGSDK.LogiIsPlaying(0, LogitechGSDK.LOGI_FORCE_SPRING))
+            //{
+            //    LogitechGSDK.LogiStopSpringForce(0);
+            //    Debug.Log("A");
+            //}
+            //else
+            //{
+            //    LogitechGSDK.LogiPlaySpringForce(0, 0, 30, 30);
+            //    Debug.Log("B");
+
+            //}
+
+            if (LogitechGSDK.LogiIsPlaying(0, LogitechGSDK.LOGI_FORCE_DIRT_ROAD))
             {
-                LogitechGSDK.LogiStopSpringForce(0);
-                Debug.Log("A");
+                LogitechGSDK.LogiStopDirtRoadEffect(0);
+                LogitechGSDK.LogiStopDamperForce(0);
             }
             else
             {
-                LogitechGSDK.LogiPlaySpringForce(0, 0, 50, 50);
-                Debug.Log("B");
-
+                LogitechGSDK.LogiPlayDamperForce(0, 45);
+                LogitechGSDK.LogiPlayDirtRoadEffect(0, 30);
             }
         }
     }

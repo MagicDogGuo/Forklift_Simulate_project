@@ -19,6 +19,13 @@ namespace WSMGameStudio.Vehicles
         private float _backFront = 0f;
         private float _steering = 0f;
         private float _forksVerticalSpeed = 0;
+        private float _forksHorizontalSpeed = 0;
+        private float _mastTiltSpeed = 0;
+        float _maxSpeed = 0;
+
+        float onGasOnlyInFrontBackSpeedLimit = 2;//沒踩油門入檔的最高速
+
+
 
         bool isChageControlMode = false;
 
@@ -33,6 +40,11 @@ namespace WSMGameStudio.Vehicles
 
             //一開始先存速度
             _forksVerticalSpeed = _forkliftController.forksVerticalSpeed;
+            _forksHorizontalSpeed = _forkliftController.forksHorizontalSpeed;
+            _mastTiltSpeed = _forkliftController.mastTiltSpeed;
+
+            //行駛最大速度
+            _maxSpeed = _vehicleController.MaxSpeed;
 
             logtichControl = GetComponent<LogtichControl>();
 
@@ -72,14 +84,12 @@ namespace WSMGameStudio.Vehicles
             #region Vehicle Controls
 
             //前進後退檔控制+-
-            Debug.Log("logtichControl.BackMove" + logtichControl.BackMove);
+            //Debug.Log("logtichControl.BackMove" + logtichControl.BackMove);
             if (logtichControl.BackMove) _backFront = -1;
             if (!logtichControl.FrontMove && !logtichControl.BackMove) _backFront = 0;
             if (logtichControl.FrontMove) _backFront = 1;
             _vehicleController.BackFrontInput = _backFront;
 
-            //控制油門
-            _vehicleController.AccelerationInput = logtichControl.LogitchGasRotation;
 
             //方向
             _steering = 0f;
@@ -91,10 +101,80 @@ namespace WSMGameStudio.Vehicles
             if (Input.GetKey(inputSettings.handbrakeOn)) _vehicleController.HandBrakeInput = 1;
             if (Input.GetKey(inputSettings.handbrakeOff)) _vehicleController.HandBrakeInput = 0;
 
-            //吋動踏板
+
+            //控制油門
+            if (_backFront == 1 || _backFront == -1)
+            {
+                //是否踩油門
+                if (logtichControl.LogitchGasRotation > 10)
+                {
+                    //踩油門
+                    _vehicleController.AccelerationInput = logtichControl.LogitchGasRotation;
+                    //_vehicleController.MaxSpeed = _maxSpeed;
+                }
+                else
+                {
+
+                    //入檔時的速度
+                    if (_vehicleController.CurrentSpeed > onGasOnlyInFrontBackSpeedLimit)
+                    {
+                        _vehicleController.AccelerationInput = 0f;
+                    }
+                    else
+                    {
+                        //沒踩油門時由這來控致剎車
+                        if (logtichControl.LogitchBreakRotation < 5)
+                        {
+                            _vehicleController.BrakesInput = 0;
+                            _vehicleController.AccelerationInput = 0.3f;
+                        }
+                        else if (logtichControl.LogitchBreakRotation < 10)
+                        {
+                            _vehicleController.BrakesInput = 0;
+                            _vehicleController.AccelerationInput = 0.05f;
+                        }
+                        //else if (logtichControl.LogitchBreakRotation >= 10)
+                        //{
+                        //    _vehicleController.BrakesInput = logtichControl.LogitchBreakRotation;
+                        //}
+                    }
+
+                    //if (logtichControl.LogitchBreakRotation > 5)
+                    //{
+                    //    _vehicleController.MaxSpeed = 1;
+
+                    //}
+                }
+            }
+            else
+            {
+                _vehicleController.AccelerationInput = logtichControl.LogitchGasRotation;
+            }
+
+
+
+
+            //吋動踏板(煞車連動)
             _vehicleController.ClutchInput = logtichControl.LogitchCluthRotation;
-            if (logtichControl.LogitchCluthRotation > 10) _forkliftController.forksVerticalSpeed = _forksVerticalSpeed * 2;
-            else _forkliftController.forksVerticalSpeed = _forksVerticalSpeed;
+            if (logtichControl.LogitchCluthRotation>5)
+            {
+                _vehicleController.BrakesInput = logtichControl.LogitchCluthRotation;
+
+                //採吋動+踩油門
+                if (logtichControl.LogitchGasRotation>10)
+                {
+                    _forkliftController.forksVerticalSpeed = _forksVerticalSpeed * 2;
+                    _forkliftController.forksHorizontalSpeed = _forksHorizontalSpeed * 2;
+                    _forkliftController.mastTiltSpeed = _mastTiltSpeed * 2;
+                }
+                else
+                {
+                    _forkliftController.forksVerticalSpeed = _forksVerticalSpeed;
+                    _forkliftController.forksHorizontalSpeed = _forksHorizontalSpeed;
+                    _forkliftController.mastTiltSpeed = _mastTiltSpeed;
+
+                }
+            }
 
 
 
@@ -159,7 +239,7 @@ namespace WSMGameStudio.Vehicles
             _vehicleController.BackFrontInput = _backFront;
 
             //控制油門
-            _acceleration = Input.GetKey(inputSettings.acceleration) ? 1f : 0;
+            _acceleration = Input.GetKey(inputSettings.acceleration) ? 25f : 0;
             _acceleration = Input.GetKey(inputSettings.reverse) ? _acceleration - 1 : _acceleration; //倒退改打檔
             _vehicleController.AccelerationInput = _acceleration;
 
@@ -175,10 +255,28 @@ namespace WSMGameStudio.Vehicles
             if (Input.GetKey(inputSettings.handbrakeOn)) _vehicleController.HandBrakeInput = 1;
             if (Input.GetKey(inputSettings.handbrakeOff)) _vehicleController.HandBrakeInput = 0;
 
-            //吋動踏板
+            //吋動踏板(煞車連動)
             _vehicleController.ClutchInput = Input.GetKey(inputSettings.clutch) ? 25f : 0f;
-            if (Input.GetKey(inputSettings.clutch)) _forkliftController.forksVerticalSpeed = _forksVerticalSpeed * 2;
-            else _forkliftController.forksVerticalSpeed = _forksVerticalSpeed;
+            if (Input.GetKey(inputSettings.clutch))
+            {
+                _vehicleController.BrakesInput = Input.GetKey(inputSettings.clutch) ? 25f : 0f;
+
+                //採吋動+踩油門
+                if (Input.GetKey(inputSettings.acceleration)) {
+                    _forkliftController.forksVerticalSpeed = _forksVerticalSpeed * 2;
+                    _forkliftController.forksHorizontalSpeed = _forksHorizontalSpeed * 2;
+                    _forkliftController.mastTiltSpeed = _mastTiltSpeed * 2;
+                }
+                else{
+                    _forkliftController.forksVerticalSpeed = _forksVerticalSpeed;
+                    _forkliftController.forksHorizontalSpeed = _forksHorizontalSpeed;
+                    _forkliftController.mastTiltSpeed = _mastTiltSpeed;
+
+                }
+
+            }
+
+
 
 
 

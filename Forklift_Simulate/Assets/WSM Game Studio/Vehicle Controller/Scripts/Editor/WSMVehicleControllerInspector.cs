@@ -81,10 +81,12 @@ namespace WSMGameStudio.Vehicles
                 GUILayout.Label("SETTINGS", EditorStyles.boldLabel);
 
                 EditorGUI.BeginChangeCheck();
+                bool isInFirstStage = EditorGUILayout.Toggle("isInFirstStage", _vehicleController.isInFirstStage);
                 bool isEngineOn = EditorGUILayout.Toggle("Engine On", _vehicleController.IsEngineOn);
                 if (EditorGUI.EndChangeCheck())
                 {
                     Undo.RecordObject(_vehicleController, "Toggled Engine On");
+                    _vehicleController.isInFirstStage = isInFirstStage;
                     _vehicleController.IsEngineOn = isEngineOn;
                     MarkSceneAlteration();
                 }

@@ -7,6 +7,8 @@ namespace WSMGameStudio.Vehicles
     [RequireComponent(typeof(Rigidbody))]
     public class WSMVehicleController : MonoBehaviour
     {
+        [SerializeField]
+        public bool isInFirstStage = false;
 
         #region VARIABLES AND PROPERTIES
 
@@ -177,6 +179,8 @@ namespace WSMGameStudio.Vehicles
         public float CurrentBackFront { get { return _backFront; } }
         public bool CurrentEngineOn { get { return _isEngineOn; } }
 
+
+
         public bool CameraToggleRequested
         {
             get
@@ -326,14 +330,14 @@ namespace WSMGameStudio.Vehicles
 
                 if (_leftSinalLightsOn)
                 {
-                    LeftSignalLights();
+                    //LeftSignalLights();
                     //InvokeRepeating("LeftSignalLights", 3f, 3f);
                     RightSinalLightsOn = false;
                 }
                 else
                 {
                     //CancelInvoke("LeftSignalLights");
-                    ToggleLights(signalLightsLeft, signalLightsLeft_Material, false);
+                    //ToggleLights(signalLightsLeft, signalLightsLeft_Material, false);
                 }
             }
         }
@@ -347,14 +351,14 @@ namespace WSMGameStudio.Vehicles
 
                 if (_rightSinalLightsOn)
                 {
-                    RightSignalLights();
+                    //RightSignalLights();
                     //InvokeRepeating("RightSignalLights", 3f, 3f);
                     LeftSinalLightsOn = false;
                 }
                 else
                 {
                     //CancelInvoke("RightSignalLights");
-                    ToggleLights(signalLightsRight,signalLightsRight_Material, false);
+                    //ToggleLights(signalLightsRight,signalLightsRight_Material, false);
                 }
             }
         }
@@ -389,7 +393,7 @@ namespace WSMGameStudio.Vehicles
         /// </summary>
         void FixedUpdate()
         {
-            if (_isEngineOn)
+            if (_isEngineOn && !isInFirstStage)
             {
                 Steering();
                 ApplySteerHelper();
@@ -412,11 +416,33 @@ namespace WSMGameStudio.Vehicles
             UpdateWheelMeshesRotation(rearWheelsColliders, rearWheelsMeshes);
             UpdateWheelMeshesRotation(extraWheelsColliders, extraWheelsMeshes);
 
-            UpdatePedals();
-            UpdataHandBreak();
+            if (!isInFirstStage)
+            {
+                UpdatePedals();
+                UpdataHandBreak();
+
+            }
+
             UpdateUI();
             VehicleSFX();
             VehicleLights();
+
+            if (LeftSinalLightsOn) LeftSignalLights();
+            if (!_rightSinalLightsOn) ToggleLights(signalLightsRight, signalLightsRight_Material, false);
+
+            if (RightSinalLightsOn) RightSignalLights();
+            if (!_leftSinalLightsOn) ToggleLights(signalLightsLeft, signalLightsLeft_Material, false);
+
+
+            //更新最大速度////////////////////////////////////
+            //_maxSpeedFactorMPH = _maxSpeed / _mphConversion;
+            //_maxSpeedFactorKPH = _maxSpeed / _kphConversion;
+            //float speedGearFactor = (_maxSpeed / _numberOfGears);
+            //_gearsSpeedLimits = new float[_numberOfGears];
+            //for (int i = 0; i < _gearsSpeedLimits.Length; i++)
+            //{
+            //    _gearsSpeedLimits[i] = Mathf.RoundToInt(speedGearFactor * (i + 1));
+            //}
         }
 
         #endregion
@@ -580,16 +606,19 @@ namespace WSMGameStudio.Vehicles
         /// </summary>
         public void CurrenLightControl(int lightNumber)
         {
-            if(lightNumber == -1) LeftSinalLightsOn = true;
-
-            if(lightNumber == 1) RightSinalLightsOn = true;
-
-            if (lightNumber == 0)
+            if (_isEngineOn)
             {
-                RightSinalLightsOn = false;
-                LeftSinalLightsOn = false;
-            }
+                if (lightNumber == -1) LeftSinalLightsOn = true;
 
+                if (lightNumber == 1) RightSinalLightsOn = true;
+
+                if (lightNumber == 0)
+                {
+                    RightSinalLightsOn = false;
+                    LeftSinalLightsOn = false;
+                }
+            }
+           
             //Debug.Log("lightNumber"+lightNumber);
         }
 
@@ -701,9 +730,11 @@ namespace WSMGameStudio.Vehicles
             }
             else
             {
-                float brakeTorque = _brakes * _brakesTorque;
+                float brakeTorque = (_brakes/25) * _brakesTorque; //25是角度
                 foreach (var wheel in _allWheelsColliders)
                     wheel.brakeTorque = brakeTorque;
+
+
             }
         }
 
@@ -891,7 +922,7 @@ namespace WSMGameStudio.Vehicles
                     //}
            
 
-                    if (_movingBackwards && _rotateAlarmLights && alarmLightsPivot != null)
+                    if ( _rotateAlarmLights && alarmLightsPivot != null)//_movingBackwards &&
                         alarmLightsPivot.Rotate(alarmLightsPivot.up, _alarmLightsRotationSpeed, Space.Self);
                 }
 
@@ -911,7 +942,6 @@ namespace WSMGameStudio.Vehicles
 
         private void RightSignalLights()
         {
-
             ToggleLights(signalLightsRight, signalLightsRight_Material);
         }
 
@@ -923,22 +953,28 @@ namespace WSMGameStudio.Vehicles
         /// <param name="lights"></param>
         private void ToggleLights(Light[] lights, Material materials)
         {
-            countTime += 1 * Time.deltaTime;
-            if (lights != null && countTime >= lightBlinkSpeed)
+            if (_isEngineOn)
             {
-                countTime = 0;
-                foreach (var light in lights)
-                    light.enabled = !light.enabled;
-                if(materials.GetColor("_EmissionColor") == _signalLightColor_Light * 0.01f)
+                countTime += 1 * Time.deltaTime;
+                if (lights != null && countTime >= lightBlinkSpeed)
                 {
-                    materials.SetColor("_EmissionColor", _signalLightColor_Dark);
-                }
-                else
-                {
-                    materials.SetColor("_EmissionColor", _signalLightColor_Light*0.01f);
+                    countTime = 0;
+                    foreach (var light in lights)
+                        light.enabled = !light.enabled;
+                    if (materials.GetColor("_EmissionColor") == _signalLightColor_Light * 0.01f)
+                    {
+                        materials.SetColor("_EmissionColor", _signalLightColor_Dark);
+                    }
+                    else
+                    {
+                        materials.SetColor("_EmissionColor", _signalLightColor_Light * 0.01f);
+                    }
+
                 }
 
             }
+
+
         }
 
         /// <summary>

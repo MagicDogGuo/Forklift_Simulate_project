@@ -19,6 +19,10 @@ public class ScoreManager : MonoBehaviour
     [HideInInspector]
     public int pipeFallScore;
     [HideInInspector]
+    public int ForkitOnLineScore;
+    [HideInInspector]
+    public int StopTooLongScore;
+    [HideInInspector]
     public int SpeedToHightScore;
     [HideInInspector]
     public int ForkPositionHightScore;
@@ -36,6 +40,8 @@ public class ScoreManager : MonoBehaviour
 
     public UnityAction<int> OnTimeScore;
     public UnityAction<int> OnPipeFallScore;
+    public UnityAction<int> OnForkitOnLineScore;
+    public UnityAction<int> OnStopTooLongScore;
     public UnityAction<int> OnSpeedToHightScore;
     public UnityAction<int> OnForkPositionHightScore;
     public UnityAction<int> OnForkMastTiltScore;
@@ -55,6 +61,8 @@ public class ScoreManager : MonoBehaviour
     WSMGameStudio.HeavyMachinery.ForkliftController _forkliftController;
 
     bool isTimeUp = false;
+    bool isCheckOnRoadLine = false;
+    bool isCheckStopTooLong = false;
     bool isCheckToHightSpeed = false;
     bool isCheckPositionHight = false;
     bool isChecMastTilt = false;
@@ -80,10 +88,10 @@ public class ScoreManager : MonoBehaviour
     //    GUI.Label(new Rect(10, 150, 200, 100), "OnRoadNotEngineScore" + OnRoadNotEngineScore);
     //}
 
-    void Start()
-    {
-        Init();
-    }
+    //void Start()
+    //{
+    //    Init();
+    //}
 
     public void Init()
     {
@@ -99,6 +107,7 @@ public class ScoreManager : MonoBehaviour
 
         TimeScore = 0;
         pipeFallScore = 0;
+        ForkitOnLineScore = 0;
         SpeedToHightScore = 0;
         ForkPositionHightScore = 0;
         ForkMastTiltScore = 0;
@@ -108,6 +117,8 @@ public class ScoreManager : MonoBehaviour
         OnRoadNotEngineScore = 0;
 
         isTimeUp = false;
+        isCheckOnRoadLine = false;
+        isCheckStopTooLong = false;
         isCheckToHightSpeed = false;
         isCheckPositionHight = false;
         isChecMastTilt = false;
@@ -117,20 +128,7 @@ public class ScoreManager : MonoBehaviour
         isCheckOnRoadNotEngine = false;
     }
 
-    public void ReleaseEvent()
-    {
-        OnTimeScore = null;
-        OnPipeFallScore = null;
-        OnSpeedToHightScore = null;
-        OnForkPositionHightScore = null;
-        OnForkMastTiltScore = null;
-        OnForkHandBrakeScore = null;
-        OnForkCluthScore = null;
-        OnForkBackFrontNorStopScore = null;
-        OnOnRoadNotEngineScore = null;
-    }
-
-    void Update()
+    public void ScoreUpdate()
     {
         if(mainGameManager.CurrentState == MainGameStateControl.GameFlowState.DriveForkKit)
         {
@@ -143,18 +141,35 @@ public class ScoreManager : MonoBehaviour
             //行駛時突然變換前後檔
             //行駛時熄火
 
-            CountTime(480,10);
-            PipeFall(5);
+            CountTime(480,20);
+            PipeFall(10);
+            ForkitOnRoad(10);
+            OnStopTooLong(2, 20);
             SpeedToHight(20,10);
-            ForkPositionHight(3, .02f,5);
-            ForkMastTiltRotate(3, 0.6f,5);
-            ForkHandBrake(3,10);
+            ForkPositionHight(2, 0.02f,5);
+            ForkMastTiltRotate(2, 0.6f,5);
+            ForkHandBrake(2,10);
             //ForkBrake(20, 10);
-            ForkCluth(3, 10,10);
-            ForkBackFrontNorStop(3,10);
-            OnRoadNotEngine(3,10);
+            ForkCluth(2, 10,10);
+            ForkBackFrontNorStop(2,10);
+            OnRoadNotEngine(2,10);
         }
 
+    }
+
+    public void ReleaseEvent()
+    {
+        OnTimeScore = null;
+        OnPipeFallScore = null;
+        OnForkitOnLineScore = null;
+        OnStopTooLongScore = null;
+        OnSpeedToHightScore = null;
+        OnForkPositionHightScore = null;
+        OnForkMastTiltScore = null;
+        OnForkHandBrakeScore = null;
+        OnForkCluthScore = null;
+        OnForkBackFrontNorStopScore = null;
+        OnOnRoadNotEngineScore = null;
     }
 
     /// <summary>
@@ -183,12 +198,76 @@ public class ScoreManager : MonoBehaviour
         temp = pipeFallScore;
         pipeFallScore = _pipeDetectControl.BeColliderTotalAmount;
 
-        if( temp > 0 && temp != pipeFallScore)
+        if(pipeFallScore > 0 && temp != pipeFallScore)
         {
             OnPipeFallScore(pipeFallScore);
             PlayWrongVoice(wrongVoice[1]);
             TotalWrongAmount += score;
         }
+    }
+
+    /// <summary>
+    /// 壓線
+    /// </summary>
+    /// <param name="score"></param>
+    void ForkitOnRoad(int score)
+    {
+        if (MainGameManager.Instance.IsForkitOnRoadOutLine && !isCheckOnRoadLine)
+        {
+            isCheckOnRoadLine = true;
+            ForkitOnLineScore += 1;
+            Debug.Log("壓線" + ForkitOnLineScore + "次");
+            OnForkitOnLineScore(ForkitOnLineScore);
+            //PlayWrongVoice(wrongVoice[2]);
+            TotalWrongAmount += score;
+        }
+        else if (!MainGameManager.Instance.IsForkitOnRoadOutLine)
+        {
+            isCheckOnRoadLine = false;
+        }
+    }
+
+    /// <summary>
+    /// 原地停超過5秒
+    /// </summary>
+    bool isMove = false;
+    float countTime = 0;
+    void OnStopTooLong(int stopSpeed, int score)
+    {
+        //在開始點不計算
+        if (!mainGameManager.StartPointObjs.GetComponent<StartPoint>().isOnStartPoint_Forkit)
+        {
+            if (_wSMVehicleController.CurrentSpeed >= stopSpeed)
+            {
+                isMove = true;
+            }
+            if (isMove)
+            {
+                if ((int)_wSMVehicleController.CurrentSpeed == 0)
+                {
+                    countTime += Time.deltaTime;
+
+                }
+                if ((int)_wSMVehicleController.CurrentSpeed == 0 && !isCheckStopTooLong && countTime > 5)
+                {
+                    isCheckStopTooLong = true;
+                    StopTooLongScore += 1;
+                    Debug.Log("停留超過5秒" + StopTooLongScore + "次");
+                    OnStopTooLongScore(StopTooLongScore);
+                    //PlayWrongVoice(wrongVoice[2]);
+                    TotalWrongAmount += score;
+                }
+                else if ((int)_wSMVehicleController.CurrentSpeed > 0 && isCheckStopTooLong)
+                {
+                    countTime = 0;
+                    isCheckStopTooLong = false;
+                }
+            }
+
+        }
+
+      
+       
     }
 
     /// <summary>
@@ -245,7 +324,7 @@ public class ScoreManager : MonoBehaviour
     /// <param name="tiltRotate"></param>
     void ForkMastTiltRotate(float speed, float tiltRotate, int score)
     {
-        Debug.Log("_CurrentMastTilt" + _forkliftController.CurrentMastTilt);
+        //Debug.Log("_CurrentMastTilt" + _forkliftController.CurrentMastTilt);
 
         if (_wSMVehicleController.CurrentSpeed > speed &&
             _forkliftController.CurrentMastTilt > tiltRotate

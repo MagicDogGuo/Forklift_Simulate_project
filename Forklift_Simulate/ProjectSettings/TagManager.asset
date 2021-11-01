@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Forkleft
+  - EndPoint
+  - StartPoint
+  - NoDriveArea
   layers:
   - Default
   - TransparentFX

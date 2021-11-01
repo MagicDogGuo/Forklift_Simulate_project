@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CompletePricticeState : IMainGameState
 {
@@ -8,18 +9,32 @@ public class CompletePricticeState : IMainGameState
     {
         this.StateName = "CompletePricticeState";
     }
+    GameObject WarningUI;
 
     public override void StateBegin()
     {
+        Debug.Log("完成練習!");
+
+        if (WarningUI == null) WarningUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+        WarningUI.GetComponentInChildren<Text>().text = "完成練習!";
 
     }
     public override void StateUpdate()
     {
+        Debug.Log("完成練習!");
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            GameObject.Destroy(WarningUI);
+            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.Init, m_Conrtoller);
+
+        }
 
     }
 
     public override void StateEnd()
     {
-
+        MainGameManager.Instance.ScoreManagers.ReleaseEvent();
+        MainGameManager.Instance.DestoryForkkit();
+        GameObject.Destroy(MainGameManager.Instance.PipeGroupObjs);
     }
 }

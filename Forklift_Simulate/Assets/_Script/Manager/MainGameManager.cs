@@ -30,7 +30,16 @@ public class MainGameManager : MonoBehaviour
     }
 
     [SerializeField]
+    GameObject EndPointObj;
+
+    [SerializeField]
+    GameObject StartPointObj;
+
+    [SerializeField]
     GameObject Forkleft;
+
+    [SerializeField]
+    Transform ForkitOriPos;
 
     [SerializeField]
     GameObject PipeGroupPos;
@@ -47,9 +56,20 @@ public class MainGameManager : MonoBehaviour
 
     [SerializeField]
     GameObject ScoreGroupCanvas;
+
+    [SerializeField]
+    IfForkitOnMe IfForkitOnMe_Road;
+
+    [SerializeField]
+    IfForkitOnMe IfForkitOnMe_RoadOutLine;
+    [SerializeField]
+    GameObject WarningUI;
+
     //[SerializeField]
     //GameObject ForkitCanvasPos;
 
+    //public bool isPassPractice = false;
+    //public bool isPassTest = false;
 
     // 場景狀態
     MainGameStateControl m_MainGameStateController = new MainGameStateControl();
@@ -72,11 +92,48 @@ public class MainGameManager : MonoBehaviour
         set { _gameMode = value; }
     }
 
+    public bool IsForkitOnRoad
+    {
+        get { return IfForkitOnMe_Road.isForkitOnRoad; }
+    }
+
+    public bool IsForkitOnRoadOutLine
+    {
+        get { return IfForkitOnMe_RoadOutLine.isForkitOnRoad; }
+    }
+
+    public IfForkitOnMe IsForkitOnRoadObj
+    {
+        get { return IfForkitOnMe_Road; }
+    }
+
+    public IfForkitOnMe IsForkitOnRoadOutLineObj
+    {
+        get { return IfForkitOnMe_RoadOutLine; }
+    }
+
+
+
+    GameObject _startPointObj;
+    public GameObject StartPointObjs
+    {
+        get { return _startPointObj; }
+    }
+    GameObject _endPointObj;
+    public GameObject EndPointObjs
+    {
+        get { return _endPointObj; }
+    }
 
     GameObject _forkleftObj;
     public GameObject ForkleftObj
     {
         get { return _forkleftObj; }
+    }
+
+    public Transform ForkitOriPoss
+    {
+        get { return ForkitOriPos; }
     }
 
     GameObject _pipeGroupObj;
@@ -101,6 +158,7 @@ public class MainGameManager : MonoBehaviour
     public int IsSussuesPassTest //0沒過 1有過 2測驗中
     {
         get { return _isSussuesPassTest; }
+        set { _isSussuesPassTest = value; }
     }
 
     GameObject _initCanvas;
@@ -120,6 +178,13 @@ public class MainGameManager : MonoBehaviour
         get { return _forkleftObj.GetComponent<ForkUI>().ForkkitCanvasPos; }
     }
 
+    GameObject _warningUI;
+    public GameObject WarningUIs
+    {
+        get { return _warningUI; }
+
+    }
+
 
     public void MainGameBegin()
     {
@@ -127,6 +192,7 @@ public class MainGameManager : MonoBehaviour
         _initPlayerCam = InitPlayCam;
         _scoreManager = this.GetComponent<ScoreManager>();
         _scoreGroupCanvas = ScoreGroupCanvas;
+        _warningUI = WarningUI;
         //_forkitCanvasPos = ForkitCanvasPos;
 
         // 設定起始State
@@ -137,11 +203,6 @@ public class MainGameManager : MonoBehaviour
     {
         m_MainGameStateController.StateUpdate();
 
-        //判斷有無過關
-        if (TotalWrongScore >= 20)
-        {
-            _isSussuesPassTest = 0;
-        }
     }
 
 
@@ -152,14 +213,17 @@ public class MainGameManager : MonoBehaviour
     {
         _pipeGroupObj = Instantiate(PipeGroup, PipeGroupPos.transform);
         _initCanvas = Instantiate(InitCancvs, InitCancasPos.transform);
+        _startPointObj = Instantiate(StartPointObj);
+        _endPointObj = Instantiate(EndPointObj);
+
+
         //mainMenuUICanvases = Instantiate(MainGameUICanvas);
-   }
+    }
 
     public void CreateForkkit()
     {
         _isSussuesPassTest = 2;
-
-        _forkleftObj = GameObject.Instantiate(Forkleft); 
+        _forkleftObj = GameObject.Instantiate(Forkleft, ForkitOriPos); 
     }
 
     public void DestoryForkkit()
@@ -169,7 +233,10 @@ public class MainGameManager : MonoBehaviour
 
     public void ExitDestoryObject()
     {
-     
+        Destroy(_pipeGroupObj);
+        Destroy(_initCanvas);
+        Destroy(_startPointObj);
+        Destroy(_endPointObj);
     }
 
   

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using WSMGameStudio.Vehicles;
 public class CompleteTestState : IMainGameState
 {
     public CompleteTestState(MainGameStateControl Controller) : base(Controller)
@@ -13,12 +13,23 @@ public class CompleteTestState : IMainGameState
     {
         Debug.Log("============測驗結束"+ MainGameManager.Instance.TotalWrongScore);
 
+        if (MainGameManager.Instance.IsSussuesPassTest == 1)
+        {
+            Debug.Log("============測驗成功");
+        }
+        else if ( MainGameManager.Instance.IsSussuesPassTest == 0)
+        {
+            Debug.Log("============測驗失敗");
+        }
+
+
     }
     public override void StateUpdate()
     {
-        MainGameManager.Instance.ForkleftObj.GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>().HandBrakeInput = 25;
-        MainGameManager.Instance.ForkleftObj.GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>().StopGameBrake();
-        MainGameManager.Instance.ForkleftObj.GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>().enabled = false;
+        MainGameManager.Instance.ForkleftObj.GetComponent<WSMVehicleController>().HandBrakeInput = 25;
+        MainGameManager.Instance.ForkleftObj.GetComponent<WSMVehicleController>().StopGameBrake();
+        MainGameManager.Instance.ForkleftObj.GetComponent<WSMVehicleController>().IsEngineOn = false;
+        MainGameManager.Instance.ForkleftObj.GetComponent<WSMVehicleController>().enabled = false;
 
         if (Input.GetKeyDown(KeyCode.R))
         {
