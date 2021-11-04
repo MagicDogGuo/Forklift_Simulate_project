@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HandelContorller : MonoBehaviour
 {
-    public bool isPushHandTrig;
+    public bool isPushHandTrig;//把手的開關
 
     [SerializeField]
     GameObject TipUIObj;
@@ -14,7 +14,9 @@ public class HandelContorller : MonoBehaviour
     [SerializeField]
     AudioClip HornSound;
     [SerializeField]
-    GameObject keyOnHand;
+    GameObject Key_onHand;
+    [SerializeField]
+    GameObject Key_onTable;
 
     AudioSource _audioSourse;
 
@@ -52,15 +54,37 @@ public class HandelContorller : MonoBehaviour
     bool isInHorn;
     GameObject Hron;
 
-    bool isInKey;
-    GameObject Key;
+    bool isKey_onHand;
+    bool isKey_onTable;
+    bool isKey_onCar;
+    GameObject Key_onCar;
+
+
 
     bool isInControlRight_右控制桿;
     GameObject ControlRight_右控制桿;
     GameObject TipChooseObj;
 
+    bool isInControlLeft_左控制桿;
+    GameObject ControlLeft_左控制桿;
+    float oriTemp_ControlLeft = 0;
+
+    string forkNameR_good;
+    string forkNameR_bad;
+    bool isInfork_固定銷R;
+    GameObject fork_固定銷R;
+    string forkNameL_good;
+    string forkNameL_bad;
+    bool isInfork_固定銷L;
+    GameObject fork_固定銷L;
+
+    string fork固定銷CurrentName;
+
     void Start()
     {
+         Key_onHand.SetActive(false);
+
+
         checkDeviceManager = GameObject.FindObjectOfType<CheckDeviceManager>();
         _audioSourse = this.GetComponent<AudioSource>();
 
@@ -81,22 +105,36 @@ public class HandelContorller : MonoBehaviour
         HronBreakKeyWord = checkDeviceManager.wheels.BreakHronName;
         HronNormalKeyWord = checkDeviceManager.wheels.NormalHornName;
 
-        Key = checkDeviceManager.dashbroad.key;
+        Key_onCar = checkDeviceManager.dashbroad.key_onCar;
         ControlRight_右控制桿 = checkDeviceManager.carLight.ControlRight_右控制桿;
+
+        ControlLeft_左控制桿 = checkDeviceManager.carLight.ControlLeft_左控制桿;
+
+        forkNameR_good = checkDeviceManager.fork_固定銷.NormalFork_固定銷RName;
+        forkNameR_bad = checkDeviceManager.fork_固定銷.BreakFork_固定銷RName;
+        fork_固定銷R = checkDeviceManager.fork_固定銷.Fork_固定銷R;
+
+        forkNameL_good = checkDeviceManager.fork_固定銷.NormalFork_固定銷LName;
+        forkNameL_bad = checkDeviceManager.fork_固定銷.BreakFork_固定銷LName;
+        fork_固定銷L = checkDeviceManager.fork_固定銷.Fork_固定銷L;
+
     }
 
     void Update()
     {
-        PadelControl(CluthPadel, isInCluthPadel,"C");
+        PadelControl(CluthPadel, isInCluthPadel, "C");
         PadelControl(BrakePadel, isInBrakePadel, "B");
         PadelControl(HandBrakePadel, isInHandBrakePadel, "H");
         BreakScrewControl();
         HornControl();
         ControlRight_右控制桿Control();
+        ControlLeft_左控制桿Control();
+        Controlfork_固定銷();
+        GetKeyOnTable();
     }
-    
 
-    void PadelControl(GameObject padel,bool isInPadel,string type)
+
+    void PadelControl(GameObject padel, bool isInPadel, string type)
     {
         if (padel != null)
         {
@@ -111,7 +149,7 @@ public class HandelContorller : MonoBehaviour
                 case "H":
                     HandBrakeMove();
                     break;
-            }      
+            }
         }
 
 
@@ -134,11 +172,15 @@ public class HandelContorller : MonoBehaviour
             if (isInPadel && isPushHandTrig)
             {
                 oriTemp_Brake = Mathf.MoveTowards(oriTemp_Brake, pushDegree, 70f * Time.deltaTime);
+                checkDeviceManager.ControlLight(true, "Brake_On");
             }
             else
             {
                 oriTemp_Brake = Mathf.MoveTowards(oriTemp_Brake, 0, 70f * Time.deltaTime);
+                checkDeviceManager.ControlLight(true, "Brake_Off");
+
             }
+
             padel.transform.localEulerAngles = new Vector3(oriTemp_Brake, 0, 0);
 
         }
@@ -169,15 +211,15 @@ public class HandelContorller : MonoBehaviour
                 {
                     TipObj = Instantiate(TipUIObj, BrakeScrew.transform);
                     TipObj.GetComponentInChildren<Text>().text = "螺絲鬆脫!";
-                }   
+                }
             }
             else
-            { 
+            {
                 Destroy(TipObj);
             }
         }
     }
-  
+
 
     void HornControl()
     {
@@ -207,7 +249,7 @@ public class HandelContorller : MonoBehaviour
             if (TipChooseObj == null)
             {
                 TipChooseObj = Instantiate(TipChooseUIObj, ControlRight_右控制桿.transform);
-                TipChooseObj.transform.localRotation = new Quaternion(0, 180, 0,0);
+                TipChooseObj.transform.localRotation = new Quaternion(0, 180, 0, 0);
                 Button[] btn = TipChooseObj.GetComponent<TipChooseUI_CheckDevice>().stateBtn;
                 btn[0].GetComponentInChildren<Text>().text = "右方向燈開";
                 btn[1].GetComponentInChildren<Text>().text = "左方向燈開";
@@ -224,6 +266,84 @@ public class HandelContorller : MonoBehaviour
         }
     }
 
+    void ControlLeft_左控制桿Control()
+    {
+        if (isInControlLeft_左控制桿 && isPushHandTrig)
+        {
+            //Debug.Log("在左");
+            oriTemp_ControlLeft = Mathf.MoveTowards(oriTemp_ControlLeft, pushDegree, 70f * Time.deltaTime);
+            checkDeviceManager.ControlLight(true, "RevLight_On");
+        }
+        else
+        {
+            //Debug.Log("沒在左");
+
+            oriTemp_ControlLeft = Mathf.MoveTowards(oriTemp_ControlLeft, 0, 70f * Time.deltaTime);
+            checkDeviceManager.ControlLight(true, "RevLight_Off");
+
+        }
+        ControlLeft_左控制桿.transform.localEulerAngles = new Vector3(0, 0, -oriTemp_ControlLeft);
+    }
+
+    void Controlfork_固定銷()
+    {
+        //R
+        if (isInfork_固定銷R && isPushHandTrig)
+        {
+            if(fork固定銷CurrentName == forkNameR_good)
+            {
+                fork_固定銷R.gameObject.GetComponent<Animator>().SetBool("IsTouchNor", true);
+
+            }
+            else if (fork固定銷CurrentName == forkNameR_bad)
+            {
+                fork_固定銷R.gameObject.GetComponent<Animator>().SetTrigger("IsTouchAbNor");
+            }
+        }
+        else
+        {
+            if (fork固定銷CurrentName == forkNameR_good)
+            {
+                fork_固定銷R.gameObject.GetComponent<Animator>().SetBool("IsTouchNor", false);
+
+            }
+
+        }
+        //L
+        if (isInfork_固定銷L && isPushHandTrig)
+        {
+            if (fork固定銷CurrentName == forkNameL_good)
+            {
+                Debug.Log("other.name");
+
+                fork_固定銷L.gameObject.GetComponent<Animator>().SetBool("IsTouchNor", true);
+
+            }
+            //else if (fork固定銷CurrentName == forkNameL_bad)
+            //{
+            //    fork_固定銷L.gameObject.GetComponent<Animator>().SetTrigger("IsTouchAbNor");
+            //}
+        }
+        else
+        {
+            if (fork固定銷CurrentName == forkNameL_good)
+            {
+                fork_固定銷L.gameObject.GetComponent<Animator>().SetBool("IsTouchNor", false);
+
+            }
+
+        }
+
+    }
+    void GetKeyOnTable()
+    {
+        if (isKey_onTable && isPushHandTrig)
+        {
+            Key_onHand.SetActive(true);
+            Key_onTable.SetActive(false);
+
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == CluthPadelName_good)
@@ -252,21 +372,45 @@ public class HandelContorller : MonoBehaviour
             isInHorn = true;
             Hron = other.gameObject;
         }
-        if (other.name == Key.name)
+        if (other.name == Key_onCar.name)
         {
-            isInKey = true;
+            isKey_onTable = false;
+            isKey_onHand = false;
+            isKey_onCar = true;
+
             if (checkDeviceManager.dashbroad.OnKeyPlugIn != null)
             {
                 checkDeviceManager.dashbroad.OnKeyPlugIn();
-                keyOnHand.SetActive(false);
+                Key_onHand.SetActive(false);
             }
+        }
+        if (other.name == Key_onTable.name)
+        {
+            isKey_onTable = true;
+            isKey_onHand = false;
+            isKey_onCar = false;
+
+
         }
         if (other.name == ControlRight_右控制桿.name)
         {
             isInControlRight_右控制桿 = true;
         }
-
-     }
+        if (other.name == ControlLeft_左控制桿.name)
+        {
+            isInControlLeft_左控制桿 = true;
+        }
+        if(other.name == forkNameR_good|| other.name == forkNameR_bad)
+        {
+            isInfork_固定銷R = true;
+            fork固定銷CurrentName = other.name;
+        }
+        if (other.name == forkNameL_good || other.name == forkNameL_bad)
+        {
+            isInfork_固定銷L = true;
+            fork固定銷CurrentName = other.name;
+        }
+    }
 
     private void OnTriggerExit(Collider other)
     {
@@ -290,13 +434,29 @@ public class HandelContorller : MonoBehaviour
         {
             isInHorn = false;
         }
-        if (other.name == Key.name)
+        if (other.name == Key_onCar.name)
         {
-            isInKey = false;
+            //isKey_onTable = false;
+            //isKey_onHand = false;
+            //isKey_onCar = false;
         }
         if (other.name == ControlRight_右控制桿.name)
         {
             isInControlRight_右控制桿 = false;
+        }
+        if (other.name == ControlLeft_左控制桿.name)
+        {
+            isInControlLeft_左控制桿 = false;
+        }
+        if (other.name == forkNameR_good || other.name == forkNameR_bad)
+        {
+            isInfork_固定銷R = false;
+            fork固定銷CurrentName = other.name;
+        }
+        if (other.name == forkNameL_good || other.name == forkNameL_bad)
+        {
+            isInfork_固定銷L = false;
+            fork固定銷CurrentName = other.name;
         }
     }
 }

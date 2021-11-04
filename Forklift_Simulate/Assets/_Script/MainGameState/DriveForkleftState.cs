@@ -164,7 +164,7 @@ public class DriveForkleftState : IMainGameState
             StopDrive();
 
             if (WarningUI == null) WarningUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
-            WarningUI.GetComponentInChildren<Text>().text = "醜一，按下'O'回原點";
+            WarningUI.GetComponentInChildren<Text>().text = "壓線醜一，按下'O'回原點";
 
             if (Input.GetKeyDown(KeyCode.O))
             {

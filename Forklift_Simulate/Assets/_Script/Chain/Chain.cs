@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WSMGameStudio.HeavyMachinery;
+using WSMGameStudio.Vehicles;
+
 public class Chain : MonoBehaviour
 {
     [SerializeField]
@@ -25,13 +27,16 @@ public class Chain : MonoBehaviour
     int startChainCountMax = 111;
     int endChainCountMin = 28;
 
-
+    LogtichControl  logtichControl;
     ForkliftPlayerInput forkliftPlayerInput;
+    WSMVehiclePlayerInput wSMVehiclePlayerInput;
 
     // Start is called before the first frame update
     void Start()
     {
+        logtichControl = GetComponentInParent<LogtichControl>();
         forkliftPlayerInput = GetComponentInParent<ForkliftPlayerInput>();
+        wSMVehiclePlayerInput = GetComponentInParent<WSMVehiclePlayerInput>();
 
         for (int i = 0; i < initStartChainCount; i++)
         {
@@ -55,13 +60,25 @@ public class Chain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        float speedTime = appearTime_speed;
+        if (logtichControl.LogitchCluthRotation > 5 || Input.GetKey(wSMVehiclePlayerInput.inputSettings.clutch))
+        {
+            //採吋動+踩油門
+            if (logtichControl.LogitchGasRotation > 10|| Input.GetKey(wSMVehiclePlayerInput.inputSettings.acceleration))
+            {
+                speedTime = speedTime / 2;
+            }
+            else
+            {
+                speedTime = speedTime;
+            }
+        }
 
         if (Input.GetKey(forkliftPlayerInput.inputSettings.forksUp) || forkliftPlayerInput.logtichControl.ForkUp)
         {
             countTime += Time.deltaTime;
 
-            if(countTime> appearTime_speed)
+            if(countTime> speedTime)
             {
                 AddChain(StartObj, startChainCountMax, initStartChainCount);
                 LessChain(EndObj, initEndChainCount+1, endChainCountMin + 1);
@@ -74,7 +91,7 @@ public class Chain : MonoBehaviour
         {
             countTime += Time.deltaTime;
 
-            if (countTime > appearTime_speed)
+            if (countTime > speedTime)
             {
                 AddChain(EndObj, initEndChainCount, endChainCountMin);
                 LessChain(StartObj, startChainCountMax + 1, initStartChainCount+1);

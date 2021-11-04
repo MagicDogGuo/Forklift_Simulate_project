@@ -79,7 +79,7 @@ namespace WSMGameStudio.Vehicles
         private float _currentRevs = 0f; // Calculated only when the Revs propertie is requested, if you need this, call Revs instead
         private bool _leftSinalLightsOn = false;
         private bool _rightSinalLightsOn = false;
-        private bool _movingBackwards = false;
+        public bool _movingBackwards = false;
         private bool _cameraToggleRequested = false;
         private float _defaultSteeringSpeed = 100f;
         private float _articulatedSteeringSpeed = 25f;
@@ -91,7 +91,7 @@ namespace WSMGameStudio.Vehicles
         private float _steering = 0f;
         private float _acceleration = 0f;
         private float _backFront = 0f;
-        private float _brakes = 0f;
+        public float _brakes = 0f;
         private float _handbrake = 1f;
         private float _clutch = 0f;
 

@@ -243,12 +243,12 @@ public class ScoreManager : MonoBehaviour
             }
             if (isMove)
             {
-                if ((int)_wSMVehicleController.CurrentSpeed == 0)
+                if (_wSMVehicleController.CurrentSpeed <= 0.001f)
                 {
                     countTime += Time.deltaTime;
 
                 }
-                if ((int)_wSMVehicleController.CurrentSpeed == 0 && !isCheckStopTooLong && countTime > 5)
+                if (_wSMVehicleController.CurrentSpeed <= 0.001f && !isCheckStopTooLong && countTime > 5)
                 {
                     isCheckStopTooLong = true;
                     StopTooLongScore += 1;
@@ -257,7 +257,7 @@ public class ScoreManager : MonoBehaviour
                     //PlayWrongVoice(wrongVoice[2]);
                     TotalWrongAmount += score;
                 }
-                else if ((int)_wSMVehicleController.CurrentSpeed > 0 && isCheckStopTooLong)
+                else if (_wSMVehicleController.CurrentSpeed > 0.001f && isCheckStopTooLong)
                 {
                     countTime = 0;
                     isCheckStopTooLong = false;
@@ -299,6 +299,7 @@ public class ScoreManager : MonoBehaviour
     /// <param name="forkHight"></param>
     void ForkPositionHight(float speed , float forkHight, int score)
     {
+        //Debug.Log("CurrentForksVertical:"+_forkliftController.CurrentForksVertical);
         if (_wSMVehicleController.CurrentSpeed > speed &&
             _forkliftController.CurrentForksVertical <= forkHight
             && !isCheckPositionHight)
@@ -324,7 +325,7 @@ public class ScoreManager : MonoBehaviour
     /// <param name="tiltRotate"></param>
     void ForkMastTiltRotate(float speed, float tiltRotate, int score)
     {
-        //Debug.Log("_CurrentMastTilt" + _forkliftController.CurrentMastTilt);
+        Debug.Log("_CurrentMastTilt" + _forkliftController.CurrentMastTilt);
 
         if (_wSMVehicleController.CurrentSpeed > speed &&
             _forkliftController.CurrentMastTilt > tiltRotate

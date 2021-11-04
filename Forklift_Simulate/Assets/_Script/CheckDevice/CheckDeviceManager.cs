@@ -45,6 +45,12 @@ public class CheckDeviceManager : MonoBehaviour
     [SerializeField]
     public CarLight carLight;
 
+    [SerializeField]
+    public IronPipe_白鐵蕊 ironPipe;
+
+    [SerializeField]
+    public Fork_固定銷 fork_固定銷;
+
     enum DevicePart
     {
         Cold_冷卻液 = 1,
@@ -61,7 +67,9 @@ public class CheckDeviceManager : MonoBehaviour
         Horn = 12,
         Dashbroad = 13,
         CarLight_BigLight = 14,
-        CarLight_DirctLight = 15
+        CarLight_DirctLight = 15,
+        ironPipe = 16,
+        fork_固定銷 = 17
     }
 
     void Start()
@@ -81,8 +89,10 @@ public class CheckDeviceManager : MonoBehaviour
         handBrake.Obj.name = handBrake.goodObjName;
         TireGood();
         HronGood();
-        dashbroad.key.GetComponent<MeshRenderer>().enabled = false;
+        dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = false;
         dashbroad.OnKeyPlugIn += DashBoardGood_key;
+        ironPipe.goodObj.SetActive(true);
+        Fork_固定銷Good();
 
         DevicePart breakObj01 = MyRondom();
         Debug.Log(breakObj01);
@@ -130,13 +140,20 @@ public class CheckDeviceManager : MonoBehaviour
                 dashbroad.OnKeyPlugIn = null;
                 dashbroad.OnKeyPlugIn += DashBoardRandomBreak_key;
                 break;
+            case DevicePart.ironPipe:
+                ironPipe.goodObj.SetActive(false);
+                ironPipe.badObj.SetActive(true);
+                break;
+            case DevicePart.fork_固定銷:
+                Fork_固定銷Bad();
+                break;
         }  
     }
 
 
     DevicePart MyRondom()
     {
-        DevicePart devicePart = (DevicePart)Random.Range(13, 14);
+        DevicePart devicePart = (DevicePart)Random.Range(17, 18);
         return devicePart;
     }
 
@@ -181,7 +198,7 @@ public class CheckDeviceManager : MonoBehaviour
     void DashBoardGood_key()
     {
         _wSMVehicleController.IsEngineOn = true;
-        dashbroad.key.GetComponent<MeshRenderer>().enabled = true;
+        dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = true;
         dashbroad.OffDashBoard.SetActive(false);
         dashbroad.goodObj.SetActive(true);
         dashbroad.badObj_ChargeLight.SetActive(false);
@@ -191,7 +208,7 @@ public class CheckDeviceManager : MonoBehaviour
     void DashBoardRandomBreak_key()
     {
         _wSMVehicleController.IsEngineOn = true;
-        dashbroad.key.GetComponent<MeshRenderer>().enabled = true;
+        dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = true;
         dashbroad.OffDashBoard.SetActive(false);
         dashbroad.goodObj.SetActive(false);
 
@@ -213,7 +230,7 @@ public class CheckDeviceManager : MonoBehaviour
     {
         _wSMVehicleController.IsEngineOn = false;
         dashbroad.OnKeyPlugIn = null;
-        dashbroad.key.GetComponent<MeshRenderer>().enabled = false;
+        dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = false;
         dashbroad.OffDashBoard.SetActive(true);
         dashbroad.goodObj.SetActive(false);
         dashbroad.badObj_ChargeLight.SetActive(false);
@@ -250,7 +267,36 @@ public class CheckDeviceManager : MonoBehaviour
             {
                 _wSMVehicleController.HeadlightsOn = false;
             }
+            if (LighType == "Brake_On")
+            {
+                _wSMVehicleController._brakes = 2;    //沒有指定燈
+                //_wSMVehicleController._movingBackwards = true;
+            }
+            if (LighType == "Brake_Off")
+            {
+                _wSMVehicleController._brakes = 0;    //沒有指定燈
+                // _wSMVehicleController._movingBackwards = false;
+            }
+            if (LighType == "RevLight_On")
+            {
+                _wSMVehicleController._movingBackwards = true;
+            }
+            if (LighType == "RevLight_Off")
+            {
+                _wSMVehicleController._movingBackwards = false;
+            }
         }
+    }
+
+    void Fork_固定銷Good()
+    {
+        fork_固定銷.Fork_固定銷R.name = fork_固定銷.NormalFork_固定銷RName;
+        fork_固定銷.Fork_固定銷L.name = fork_固定銷.NormalFork_固定銷LName;
+    }
+    void Fork_固定銷Bad()
+    {
+        fork_固定銷.Fork_固定銷R.name = fork_固定銷.BreakFork_固定銷RName;
+        //沒有坐左邊錯誤的
     }
 
 }
@@ -366,7 +412,7 @@ public class Tire
 [System.Serializable]
 public class Dashbroad
 {
-    public GameObject key;
+    public GameObject key_onCar;
     [HideInInspector]
     public UnityAction OnKeyPlugIn;
 
@@ -387,6 +433,10 @@ public class CarLight
 {
     [SerializeField]
     public GameObject ControlRight_右控制桿;
+
+    [SerializeField]
+    public GameObject ControlLeft_左控制桿;
+
 
     //[SerializeField]
     //public GameObject goodObj_BigLight;
@@ -428,10 +478,19 @@ public class IronPipe_白鐵蕊
 }
 
 [System.Serializable]
-public class Fork
+public class Fork_固定銷
 {
     [SerializeField]
-    public GameObject goodObj;
+    public GameObject Fork_固定銷R;
     [SerializeField]
-    public GameObject badObj;
+    public string BreakFork_固定銷RName = "abNormal_固定銷R_Group039";
+    [SerializeField]
+    public string NormalFork_固定銷RName = "Normal_固定銷R_Group039";
+
+    [SerializeField]
+    public GameObject Fork_固定銷L;
+    [SerializeField]
+    public string BreakFork_固定銷LName = "abNormal_固定銷L_Group039";
+    [SerializeField]
+    public string NormalFork_固定銷LName = "Normal_固定銷L_Group039";
 }
