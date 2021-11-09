@@ -90,6 +90,23 @@ public class DriveForkleftState : IMainGameState
             OnTest();
         }
 
+
+        //隨時歸位
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            //堆高機回原點
+            MainGameManager.Instance.ForkleftObj.transform.position
+                = MainGameManager.Instance.ForkitOriPoss.position;
+
+            MainGameManager.Instance.ForkleftObj.transform.localRotation
+                = MainGameManager.Instance.ForkitOriPoss.localRotation;
+
+            //pipe歸位
+            MainGameManager.Instance.PipeGroupObjs.GetComponent<PipeDetectControl>().PipeBackToOri();
+
+
+            if(WarningUI!=null) GameObject.Destroy(WarningUI);
+        }
     }
 
     public override void StateEnd()
@@ -122,16 +139,7 @@ public class DriveForkleftState : IMainGameState
         {
             if (WarningUI == null) WarningUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
 
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                MainGameManager.Instance.ForkleftObj.transform.position
-                    = MainGameManager.Instance.ForkitOriPoss.position;
-
-                MainGameManager.Instance.ForkleftObj.transform.localRotation
-                    = MainGameManager.Instance.ForkitOriPoss.localRotation;
-
-                GameObject.Destroy(WarningUI);
-            }
+       
         }
 
 

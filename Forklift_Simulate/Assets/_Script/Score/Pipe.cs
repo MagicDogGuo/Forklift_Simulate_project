@@ -12,23 +12,30 @@ public class Pipe : MonoBehaviour
         get { return _isbeCollider; }
     }
 
-    bool isStopCollDetect;
+    public Transform oriTras;
+    public Vector3 oriPos;
+    public Quaternion oriRote;
+
+    public bool IsStopCollDetect;
 
     private void Start()
     {
-        isStopCollDetect = false;
+        IsStopCollDetect = false;
         _isbeCollider = false;
+        oriTras = this.transform;
+        oriPos = this.transform.localPosition;
+        oriRote = this.transform.localRotation;
     }
 
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (isStopCollDetect) return;
+        if (IsStopCollDetect) return;
 
         if(collision.gameObject.tag == "Forkleft")
         {
             _isbeCollider = true;
-            isStopCollDetect = true;
+            IsStopCollDetect = true;
             StartCoroutine(DelayFalse());
         }
     }

@@ -44,4 +44,18 @@ public class PipeDetectControl : MonoBehaviour
         _beColliderTotalAmount = 0;
     }
 
+    public void PipeBackToOri()
+    {
+        for (int i = 0; i < pipes.Length; i++)
+        {
+            pipes[i].gameObject.transform.localPosition = pipes[i].oriPos;
+            pipes[i].gameObject.transform.localRotation = pipes[i].oriRote;
+            pipes[i].IsStopCollDetect = false;
+            if(i==74)
+            {
+                Debug.Log("=================================opip"+ pipes[i].name + "   " + pipes[i].gameObject.transform.localPosition+"  " + pipes[i].oriTras.localPosition);
+
+            }
+        }
+    }
 }

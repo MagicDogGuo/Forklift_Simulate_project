@@ -239,6 +239,4 @@ public class MainGameManager : MonoBehaviour
         Destroy(_endPointObj);
     }
 
-  
-
 }
