@@ -18,4 +18,16 @@ public class IntiComp : MonoBehaviour
 
         GetComponent<Canvas>().worldCamera = GameObject.Find("InitCamera").GetComponent<Camera>();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            GameEventSystem.Instance.OnPushTestModeBtn();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            GameEventSystem.Instance.OnPushPracticeModeBtn();
+        }
+    }
 }

@@ -25,7 +25,7 @@ public class PipeDetectControl : MonoBehaviour
 
     void Update()
     {
-        for (int i =0; i < pipes.Length; i++)
+        for (int i = 0; i < pipes.Length; i++)
         {
 
             if (pipes[i].IsBeCollider)
@@ -50,12 +50,15 @@ public class PipeDetectControl : MonoBehaviour
         {
             pipes[i].gameObject.transform.localPosition = pipes[i].oriPos;
             pipes[i].gameObject.transform.localRotation = pipes[i].oriRote;
+            pipes[i].gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             pipes[i].IsStopCollDetect = false;
-            if(i==74)
+            if (i == 74)
             {
-                Debug.Log("=================================opip"+ pipes[i].name + "   " + pipes[i].gameObject.transform.localPosition+"  " + pipes[i].oriTras.localPosition);
+                Debug.Log("=================================opip" + pipes[i].name + "   " + pipes[i].gameObject.transform.localPosition + "  " + pipes[i].oriTras.localPosition);
 
             }
         }
     }
+
+   
 }
