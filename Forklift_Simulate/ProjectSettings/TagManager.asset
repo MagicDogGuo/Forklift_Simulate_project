@@ -5,9 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Forkleft
-  - EndPoint
-  - StartPoint
-  - NoDriveArea
+  - NoTeleportObj
   layers:
   - Default
   - TransparentFX
@@ -17,7 +15,7 @@ TagManager:
   - UI
   - 
   - 
-  - noRander
+  - 
   - 
   - 
   - 

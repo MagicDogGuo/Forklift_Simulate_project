@@ -4,17 +4,4 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 0
-    path: Assets/WSM Game Studio/Heavy Machinery/Forklift Controller/_Demo/FWS_ForkliftDemo.unity
-    guid: 8533739924db604439a79849cfb20794
-  - enabled: 0
-    path: Assets/WSM Game Studio/Heavy Machinery/Forklift Controller/_Demo/RWS_ForkliftDemo.unity
-    guid: 7fdc86ff1509a1d408730f17a3e7aa20
-  - enabled: 0
-    path: Assets/_Scene/TitleState.unity
-    guid: 3abb44ecac7df614d9cf7cd5769bc5f6
-  - enabled: 1
-    path: Assets/_Scene/MainGameState.unity
-    guid: 02223e82340c385429d60fa2cae6e240
-  m_configObjects: {}
+  m_Scenes: []

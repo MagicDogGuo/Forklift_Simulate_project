@@ -6,6 +6,7 @@ using WSMGameStudio.Vehicles;
 
 public class CheckDeviceManager : MonoBehaviour
 {
+
     [SerializeField]
     WSMVehicleController _wSMVehicleController;
 
@@ -51,6 +52,10 @@ public class CheckDeviceManager : MonoBehaviour
     [SerializeField]
     public Fork_固定銷 fork_固定銷;
 
+    [Header("額外非測驗題目")]
+    [SerializeField]
+    public GameObject GasPadel;
+
     enum DevicePart
     {
         Cold_冷卻液 = 1,
@@ -68,17 +73,114 @@ public class CheckDeviceManager : MonoBehaviour
         Dashbroad = 13,
         CarLight_BigLight = 14,
         CarLight_DirctLight = 15,
-        ironPipe = 16,
-        fork_固定銷 = 17
+        CarLight_BrakeLight = 16,
+        CarLight_RearLight = 17,
+        RearMoveAlert = 18,
+        ironPipe = 19,
+        fork_固定銷 = 20
+    }
+
+    private void Awake()
+    {
+
     }
 
     void Start()
     {
+        StartCoroutine(IEInitLight());
+
         DecideObjectState();
+
+        //BrakeALL();
+    }
+
+    IEnumerator IEInitLight()
+    {
+        AudioSource[] audioChild = _wSMVehicleController.GetComponentsInChildren<AudioSource>();
+        foreach(var s in audioChild)
+        {
+            s.enabled = false;
+        }
+        yield return new WaitForEndOfFrame();
+        _wSMVehicleController.IsEngineOn = true;
+        ControlLight(true, "RevLight_Off");
+        ControlLight(true, "Dirct_Off");
+        ControlLight(true, "Big_Off");
+        ControlLight(true, "Brake_Off");
+        yield return new WaitForEndOfFrame();
+        _wSMVehicleController.IsEngineOn = false;
+        foreach (var s in audioChild)
+        {
+            s.enabled = true;
+        }
+    }
+
+    /// <summary>
+    /// 測試用，全異常
+    /// </summary>
+    void BrakeALL()
+    {
+               
+        cold_冷卻液.goodObj.SetActive(false);
+        cold_冷卻液.badObj.SetActive(true);
+     
+        engineOil.goodObj.SetActive(false);
+        engineOil.badObj.SetActive(true);
+      
+        batteryWater.goodObj.SetActive(false);
+        batteryWater.badObj.SetActive(true);
+       
+        brakeOil.goodObj.SetActive(false);
+        brakeOil.badObj.SetActive(true);
+      
+        waterOil_液壓油.goodObj.SetActive(false);
+        waterOil_液壓油.badObj.SetActive(true);
+    
+        clutch.Obj.name = clutch.badObjName;
+
+        brake.Obj.name = brake.goodObjName;
+        //brake.Obj.name = brake.badObjName;
+
+        handBrake.Obj.name = handBrake.badObjName;
+      
+        TireRandomBreak();
+       
+        ScrewRandomBreak();
+      
+        HronBreak();
+        
+        dashbroad.OnKeyPlugIn = null;
+        dashbroad.OnKeyPlugIn += DashBoardRandomBreak_key;
+
+        carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_BigLightName;
+        carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_LName;
+        carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_RName;
+        
+        //剎車燈
+        brake.Obj.name += brake.breakRearLightName;
+
+        carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_LightName;
+        carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_SoundName;
+
+        ironPipe.goodObj.SetActive(false);
+        ironPipe.badObj.SetActive(true);
+
+        Fork_固定銷Bad();
+        
+    }
+
+    void DisableBad()
+    {
+        cold_冷卻液.badObj.SetActive(false);
+        engineOil.badObj.SetActive(false);
+        batteryWater.badObj.SetActive(false);
+        brakeOil.badObj.SetActive(false);
+        waterOil_液壓油.badObj.SetActive(false);
     }
 
     void DecideObjectState()
     {
+        DisableBad();
         cold_冷卻液.goodObj.SetActive(true);
         engineOil.goodObj.SetActive(true);
         batteryWater.goodObj.SetActive(true);
@@ -88,9 +190,14 @@ public class CheckDeviceManager : MonoBehaviour
         brake.Obj.name = brake.goodObjName;
         handBrake.Obj.name = handBrake.goodObjName;
         TireGood();
+        ScrewGood();
         HronGood();
         dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = false;
         dashbroad.OnKeyPlugIn += DashBoardGood_key;
+
+        carLight.ControlRight_右控制桿.name = carLight.NormalControlRight_右控制桿Name;
+        carLight.ControlLeft_左控制桿.name = carLight.NormalControlLeft_左控制桿Name;
+
         ironPipe.goodObj.SetActive(true);
         Fork_固定銷Good();
 
@@ -140,6 +247,25 @@ public class CheckDeviceManager : MonoBehaviour
                 dashbroad.OnKeyPlugIn = null;
                 dashbroad.OnKeyPlugIn += DashBoardRandomBreak_key;
                 break;
+
+            case DevicePart.CarLight_BigLight:
+                carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_BigLightName;
+                break;
+            case DevicePart.CarLight_DirctLight:
+                //隨機壞一個 or 兩個一起壞?/////////////////////////////////////////
+                carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_LName;
+                carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_RName;
+                break;
+            case DevicePart.CarLight_BrakeLight:
+                brake.Obj.name += brake.breakRearLightName;
+                break;
+            case DevicePart.CarLight_RearLight:
+                carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_LightName;
+                break;
+            case DevicePart.RearMoveAlert:
+                carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_SoundName;
+                break;
+
             case DevicePart.ironPipe:
                 ironPipe.goodObj.SetActive(false);
                 ironPipe.badObj.SetActive(true);
@@ -153,7 +279,7 @@ public class CheckDeviceManager : MonoBehaviour
 
     DevicePart MyRondom()
     {
-        DevicePart devicePart = (DevicePart)Random.Range(17, 18);
+        DevicePart devicePart = (DevicePart)Random.Range(12, 13);
         return devicePart;
     }
 
@@ -176,23 +302,37 @@ public class CheckDeviceManager : MonoBehaviour
         tire.goodObj_Tire[brakeTire].SetActive(false);
         Debug.Log("TireBrake: " + tire.badObj_Tire[brakeTire].name);
     }
-
+    void ScrewGood()
+    {
+        //好壞輪胎裡的螺絲都換成
+        foreach(var sc in tire.Screw)
+        {
+            sc.name = tire.NormalScrewName;
+        }
+        foreach (var sc in tire.ScrewInBrakeTire)
+        {
+            sc.name = tire.NormalScrewName;
+        }
+    }
     void ScrewRandomBreak()
     {
         int brakeScrew = Random.Range(0, 4);
 
-        tire.Screw[brakeScrew].name += tire.BreakScrewName;
+        //好壞輪胎裡的螺絲都換成壞的
+        tire.Screw[brakeScrew].name = tire.BreakScrewName;
+        tire.ScrewInBrakeTire[brakeScrew].name = tire.BreakScrewName;
+
         Debug.Log("ScrewBrake: " + tire.Screw[brakeScrew].name);
     }
 
 
     void HronGood()
     {
-        wheels.Horn.name += wheels.NormalHornName;
+        wheels.Horn.name = wheels.NormalHornName;
     }
     void HronBreak()
     {
-        wheels.Horn.name += wheels.BreakHronName;
+        wheels.Horn.name = wheels.BreakHronName;
     }
 
     void DashBoardGood_key()
@@ -281,6 +421,21 @@ public class CheckDeviceManager : MonoBehaviour
             {
                 _wSMVehicleController._movingBackwards = true;
             }
+            if (LighType == "RevLight_On_BreakLight")
+            {
+                _wSMVehicleController._movingBackwards = true;
+                _wSMVehicleController.reverseAlarmLights[0].intensity = 0;//關閉燈號，可以設定成固定壞某邊
+                _wSMVehicleController.reverseAlarmLights[1].intensity = 0;//關閉燈號，可以設定成固定壞某邊
+                _wSMVehicleController.reverseAlarmLights_Materials[0].DisableKeyword("_EMISSION");// = Color.black;//關閉燈號
+                _wSMVehicleController.reverseAlarmLights_Materials[1].DisableKeyword("_EMISSION");//.color = Color.black;//關閉燈號
+                _wSMVehicleController.reverseAlarmLights_Materials[2].DisableKeyword("_EMISSION");// = Color.black;//關閉燈號
+                _wSMVehicleController.reverseAlarmLights_Materials[3].DisableKeyword("_EMISSION");//.color = Color.black;//關閉燈號
+            }
+            if (LighType == "RevLight_On_BreakSound")
+            {
+                _wSMVehicleController._movingBackwards = true;
+                _wSMVehicleController.backUpBeeperSFX = null;//關閉聲音
+            }
             if (LighType == "RevLight_Off")
             {
                 _wSMVehicleController._movingBackwards = false;
@@ -350,9 +505,9 @@ public class Clutch
     [SerializeField]
     public GameObject Obj;
     [SerializeField]
-    public string goodObjName;
+    public string goodObjName = "CluthPadel_nor";
     [SerializeField]
-    public string badObjName;
+    public string badObjName="CluthPadel_ab";
 }
 
 
@@ -362,9 +517,11 @@ public class Brake
     [SerializeField]
     public GameObject Obj;
     [SerializeField]
-    public string goodObjName;
+    public string goodObjName = "BrakePadel_nor";
     [SerializeField]
-    public string badObjName;
+    public string badObjName= "BrakePadel_ab";
+    [SerializeField]
+    public string breakRearLightName = "BreakRearLight";
 }
 
 
@@ -390,9 +547,9 @@ public class HandBrake
     [SerializeField]
     public GameObject Obj;
     [SerializeField]
-    public string goodObjName;
+    public string goodObjName= "HandBrekePipe_nor";
     [SerializeField]
-    public string badObjName;
+    public string badObjName= "HandBrekePipe_ab";
 }
 
 [System.Serializable]
@@ -405,6 +562,10 @@ public class Tire
 
     [SerializeField]
     public GameObject[] Screw;
+    [SerializeField]
+    public GameObject[] ScrewInBrakeTire;
+    [SerializeField]
+    public string NormalScrewName = "_norScrew";
     [SerializeField]
     public string BreakScrewName = "_abScrew";
 }
@@ -433,10 +594,24 @@ public class CarLight
 {
     [SerializeField]
     public GameObject ControlRight_右控制桿;
+    [SerializeField]
+    public string NormalControlRight_右控制桿Name = "_norControlRight_右控制桿";
+    [SerializeField]
+    public string ControlLeft_右控制桿_ab_BigLightName = "ControlLeft_右控制桿_ab_BigLight";
+    [SerializeField]
+    public string ControlLeft_右控制桿_ab_DirtLight_RName= "ControlLeft_右控制桿_ab_DirtLight_R";
+    [SerializeField]
+    public string ControlLeft_右控制桿_ab_DirtLight_LName= "ControlLeft_右控制桿_ab_DirtLight_L";
+
 
     [SerializeField]
     public GameObject ControlLeft_左控制桿;
-
+    [SerializeField]
+    public string NormalControlLeft_左控制桿Name = "_norControlLeft_左控制桿";
+    [SerializeField]
+    public string ControlLeft_左控制桿_ab_LightName = "ControlLeft_左控制桿_ab_Light";
+    [SerializeField]
+    public string ControlLeft_左控制桿_ab_SoundName = "ControlLeft_左控制桿_ab_Sound";
 
     //[SerializeField]
     //public GameObject goodObj_BigLight;
