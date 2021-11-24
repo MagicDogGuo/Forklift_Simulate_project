@@ -16,19 +16,26 @@ public class QuestionUIComp : MonoBehaviour
     public Button ConfirmBtn;
 
     [Header("AllChoose")]
-    public Button[] QuestionChooseButtons;
+    public GameObject OutlineUIObj;
+
+    public QuestionNumberBtuuon[] QuestionNumberButtons;
 
 
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
+}
+
+[System.Serializable]
+public class QuestionNumberBtuuon
+{
+    public Button QuestionChooseButton;
+    public Sprite QuestionIsNoAnswerSprite;
+    public Sprite QuestionIsAnswerSprite;
+
+
 }

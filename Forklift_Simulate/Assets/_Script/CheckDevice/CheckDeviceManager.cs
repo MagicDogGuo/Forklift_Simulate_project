@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using WSMGameStudio.Vehicles;
-
+using VRTK.Controllables.ArtificialBased;
+using VRTK.GrabAttachMechanics;
+using VRTK;
 public class CheckDeviceManager : MonoBehaviour
 {
 
@@ -56,13 +58,15 @@ public class CheckDeviceManager : MonoBehaviour
     [SerializeField]
     public GameObject GasPadel;
 
-    enum DevicePart
+    Dictionary<int, List<int>> CorrectAnswerDict;
+
+    public enum DevicePart
     {
         Cold_冷卻液 = 1,
         EngineOil = 2,
         BatteryWater = 3,
-        BrakeOil=4,
-        WaterOil_液壓油=5,
+        BrakeOil = 4,
+        WaterOil_液壓油 = 5,
         Clutch = 6,
         Brake = 7,
         Wheels = 8,////////還沒做
@@ -87,17 +91,38 @@ public class CheckDeviceManager : MonoBehaviour
 
     void Start()
     {
+        CorrectAnswerDict = new Dictionary<int, List<int>>();
+
         StartCoroutine(IEInitLight());
 
         DecideObjectState();
 
+
         //BrakeALL();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            foreach (KeyValuePair<int, List<int>> kvp in CorrectAnswerDict)
+            {
+                string tmpeS = "";
+
+                foreach (var i in kvp.Value)
+                {
+                    tmpeS += i + ",";
+                }
+                Debug.Log("CorrectAnswerDict: Key = " + (DevicePart)kvp.Key + " Value =" + tmpeS);
+            }
+              
+        }
     }
 
     IEnumerator IEInitLight()
     {
         AudioSource[] audioChild = _wSMVehicleController.GetComponentsInChildren<AudioSource>();
-        foreach(var s in audioChild)
+        foreach (var s in audioChild)
         {
             s.enabled = false;
         }
@@ -120,42 +145,44 @@ public class CheckDeviceManager : MonoBehaviour
     /// </summary>
     void BrakeALL()
     {
-               
+        int tmep = 0;
+
+
         cold_冷卻液.goodObj.SetActive(false);
         cold_冷卻液.badObj.SetActive(true);
-     
+
         engineOil.goodObj.SetActive(false);
         engineOil.badObj.SetActive(true);
-      
+
         batteryWater.goodObj.SetActive(false);
         batteryWater.badObj.SetActive(true);
-       
+
         brakeOil.goodObj.SetActive(false);
         brakeOil.badObj.SetActive(true);
-      
+
         waterOil_液壓油.goodObj.SetActive(false);
         waterOil_液壓油.badObj.SetActive(true);
-    
+
         clutch.Obj.name = clutch.badObjName;
 
         brake.Obj.name = brake.goodObjName;
         //brake.Obj.name = brake.badObjName;
 
         handBrake.Obj.name = handBrake.badObjName;
-      
-        TireRandomBreak();
-       
-        ScrewRandomBreak();
-      
+
+        TireRandomBreak(out tmep);
+
+        ScrewRandomBreak(out tmep);
+
         HronBreak();
-        
+
         dashbroad.OnKeyPlugIn = null;
         dashbroad.OnKeyPlugIn += DashBoardRandomBreak_key;
 
         carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_BigLightName;
         carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_LName;
         carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_RName;
-        
+
         //剎車燈
         brake.Obj.name += brake.breakRearLightName;
 
@@ -166,19 +193,13 @@ public class CheckDeviceManager : MonoBehaviour
         ironPipe.badObj.SetActive(true);
 
         Fork_固定銷Bad();
-        
+
     }
 
-    void DisableBad()
-    {
-        cold_冷卻液.badObj.SetActive(false);
-        engineOil.badObj.SetActive(false);
-        batteryWater.badObj.SetActive(false);
-        brakeOil.badObj.SetActive(false);
-        waterOil_液壓油.badObj.SetActive(false);
-    }
-
-    void DecideObjectState()
+    /// <summary>
+    /// 全對
+    /// </summary>
+    void GoodDeviceALL()
     {
         DisableBad();
         cold_冷卻液.goodObj.SetActive(true);
@@ -188,6 +209,7 @@ public class CheckDeviceManager : MonoBehaviour
         waterOil_液壓油.goodObj.SetActive(true);
         clutch.Obj.name = clutch.goodObjName;
         brake.Obj.name = brake.goodObjName;
+        WheelGood();
         handBrake.Obj.name = handBrake.goodObjName;
         TireGood();
         ScrewGood();
@@ -200,87 +222,159 @@ public class CheckDeviceManager : MonoBehaviour
 
         ironPipe.goodObj.SetActive(true);
         Fork_固定銷Good();
+    }
 
-        DevicePart breakObj01 = MyRondom();
-        Debug.Log(breakObj01);
-        switch (breakObj01)
-        {        
+    void DisableBad()
+    {
+        cold_冷卻液.badObj.SetActive(false);
+        engineOil.badObj.SetActive(false);
+        batteryWater.badObj.SetActive(false);
+        brakeOil.badObj.SetActive(false);
+        waterOil_液壓油.badObj.SetActive(false);
+    }
+
+    int breakDashBoradNumber = 0;
+    /// <summary>
+    /// 選出一個位置壞掉
+    /// </summary>
+    /// <param name="devicePart"></param>
+    void ChooseBreakDevice(DevicePart devicePart)
+    {
+        List<int> tempBreakpartNumber = new List<int>();
+        tempBreakpartNumber.Clear();
+
+        switch (devicePart)
+        {
             case DevicePart.Cold_冷卻液:
+                tempBreakpartNumber.Add(2);
                 cold_冷卻液.goodObj.SetActive(false);
                 cold_冷卻液.badObj.SetActive(true);
                 break;
             case DevicePart.EngineOil:
+                tempBreakpartNumber.Add(2);
                 engineOil.goodObj.SetActive(false);
                 engineOil.badObj.SetActive(true);
                 break;
             case DevicePart.BatteryWater:
+                int[] input = {3,4,5,6,7,8};
+                tempBreakpartNumber.AddRange(input);///////////////////////有1-8(複選題，1到6會一起錯，正極負極不會錯)
                 batteryWater.goodObj.SetActive(false);
                 batteryWater.badObj.SetActive(true);
                 break;
             case DevicePart.BrakeOil:
+                tempBreakpartNumber.Add(3);//只有剎車油
                 brakeOil.goodObj.SetActive(false);
                 brakeOil.badObj.SetActive(true);
                 break;
             case DevicePart.WaterOil_液壓油:
+                tempBreakpartNumber.Add(2);
                 waterOil_液壓油.goodObj.SetActive(false);
                 waterOil_液壓油.badObj.SetActive(true);
                 break;
             case DevicePart.Clutch:
+                tempBreakpartNumber.Add(2);
                 clutch.Obj.name = clutch.badObjName;
                 break;
             case DevicePart.Brake:
+                tempBreakpartNumber.Add(2);
                 brake.Obj.name = brake.badObjName;
                 break;
+            case DevicePart.Wheels:
+                tempBreakpartNumber.Add(2);
+                WheelBreak();
+                break;
             case DevicePart.HandBrake:
+                tempBreakpartNumber.Add(2);
                 handBrake.Obj.name = handBrake.badObjName;
                 break;
             case DevicePart.Tire:
-                TireRandomBreak();
+                int temp1 = 0;
+                TireRandomBreak(out temp1);
+                tempBreakpartNumber.Add(temp1);
                 break;
             case DevicePart.Screw:
-                ScrewRandomBreak();
+                int temp2 = 0;
+                ScrewRandomBreak(out temp2);
+                tempBreakpartNumber.Add(temp2);
+
                 break;
             case DevicePart.Horn:
+                tempBreakpartNumber.Add(2);
                 HronBreak();
                 break;
             case DevicePart.Dashbroad:
+                breakDashBoradNumber = Random.Range(1, 3);
+                tempBreakpartNumber.Add(breakDashBoradNumber);
                 dashbroad.OnKeyPlugIn = null;
                 dashbroad.OnKeyPlugIn += DashBoardRandomBreak_key;
                 break;
-
             case DevicePart.CarLight_BigLight:
+                int[] input2 = {3, 4};
+                tempBreakpartNumber.AddRange(input2);//左右一起壞
                 carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_BigLightName;
                 break;
             case DevicePart.CarLight_DirctLight:
-                //隨機壞一個 or 兩個一起壞?/////////////////////////////////////////
+                //固定壞左側方向燈(前後)
+                tempBreakpartNumber.Add(3);//左側
                 carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_LName;
-                carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_RName;
+                //carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_RName;
                 break;
             case DevicePart.CarLight_BrakeLight:
+                int[] input3 = { 3, 4 };
+                tempBreakpartNumber.AddRange(input3);//左右一起壞
                 brake.Obj.name += brake.breakRearLightName;
                 break;
             case DevicePart.CarLight_RearLight:
+                int[] input4 = { 3, 4 };
+                tempBreakpartNumber.AddRange(input4);//左右一起壞
                 carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_LightName;
                 break;
             case DevicePart.RearMoveAlert:
+                tempBreakpartNumber.Add(2);
                 carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_SoundName;
                 break;
 
             case DevicePart.ironPipe:
+                tempBreakpartNumber.Add(3);//只壞升降
                 ironPipe.goodObj.SetActive(false);
                 ironPipe.badObj.SetActive(true);
                 break;
             case DevicePart.fork_固定銷:
+                tempBreakpartNumber.Add(4);//只壞右邊
                 Fork_固定銷Bad();
                 break;
-        }  
+        }
+        Debug.Log("breakDevice: " + devicePart + "===tempBreakpartNumber: " + tempBreakpartNumber);
+        CorrectAnswerDict.Add((int)devicePart, tempBreakpartNumber);
+    }
+
+    void DecideObjectState()
+    {
+        GoodDeviceALL();
+
+        DevicePart breakObj01 = MyRondom();
+        Debug.Log(breakObj01);
+
+        ChooseBreakDevice(breakObj01);
     }
 
 
     DevicePart MyRondom()
     {
-        DevicePart devicePart = (DevicePart)Random.Range(12, 13);
+        DevicePart devicePart = (DevicePart)Random.Range(3,4);
         return devicePart;
+    }
+
+
+    void WheelGood()
+    {
+        wheels.WheelObj.name = wheels.NormalWheelName;
+    }
+    void WheelBreak()
+    {
+        wheels.WheelObj.name = wheels.BreakWheelName;
+        Destroy(wheels.WheelObj.transform.parent.GetComponentInParent<VRTK_InteractableObject>());
+        Destroy(wheels.WheelObj.GetComponentInParent<VRTK_ArtificialRotator>());
     }
 
     void TireGood()
@@ -294,9 +388,10 @@ public class CheckDeviceManager : MonoBehaviour
             _tire.SetActive(false);
         }
     }
-    void TireRandomBreak()
+    void TireRandomBreak(out int breakPart)
     {
         int brakeTire = Random.Range(0, 4);
+        breakPart = brakeTire + 3;//+3是因為第二階段由3開始
 
         tire.badObj_Tire[brakeTire].SetActive(true);
         tire.goodObj_Tire[brakeTire].SetActive(false);
@@ -314,9 +409,10 @@ public class CheckDeviceManager : MonoBehaviour
             sc.name = tire.NormalScrewName;
         }
     }
-    void ScrewRandomBreak()
+    void ScrewRandomBreak(out int breakPart)
     {
         int brakeScrew = Random.Range(0, 4);
+        breakPart = brakeScrew + 3;//+3是因為第二階段由3開始
 
         //好壞輪胎裡的螺絲都換成壞的
         tire.Screw[brakeScrew].name = tire.BreakScrewName;
@@ -345,15 +441,15 @@ public class CheckDeviceManager : MonoBehaviour
         dashbroad.badObj_EngineOilLight.SetActive(false);
         dashbroad.badObj_WaterLight.SetActive(false);
     }
+
     void DashBoardRandomBreak_key()
     {
         _wSMVehicleController.IsEngineOn = true;
         dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = true;
         dashbroad.OffDashBoard.SetActive(false);
         dashbroad.goodObj.SetActive(false);
-
-        int breakDashBorad = Random.Range(1, 4);
-        switch (breakDashBorad)
+    
+        switch (breakDashBoradNumber)
         {
             case 1:
                 dashbroad.badObj_ChargeLight.SetActive(true);
@@ -361,9 +457,9 @@ public class CheckDeviceManager : MonoBehaviour
             case 2:
                 dashbroad.badObj_EngineOilLight.SetActive(true);
                 break;
-            case 3:
-                dashbroad.badObj_WaterLight.SetActive(true);
-                break;
+            //case 3: //答案裡沒有可以選他的
+            //    dashbroad.badObj_WaterLight.SetActive(true);
+            //    break;
         }
     }
     void OffDashBoard_Key()
@@ -529,10 +625,12 @@ public class Brake
 public class Wheels
 {
     [SerializeField]
-    public GameObject goodObj_Circle;
+    public GameObject WheelObj;
     [SerializeField]
-    public  GameObject badObj_Circle;
-  
+    public string BreakWheelName = "_abWheel";
+    [SerializeField]
+    public string NormalWheelName = "_normalWheel";
+
     [SerializeField]
     public GameObject Horn;
     [SerializeField]

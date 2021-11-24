@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using VRTK.Examples;
 using VRTK;
+using VRTK.Controllables.ArtificialBased;
+using VRTK.GrabAttachMechanics;
 public class HandelContorller : MonoBehaviour
 {
     public bool isPushHandTrig;//把手的開關
@@ -48,6 +50,14 @@ public class HandelContorller : MonoBehaviour
     float oriTemp_Brake = 0;
     GameObject TipObj_NormalBrakePadel;
     GameObject TipObj_abNormalBrakePadel;
+
+    //方向盤
+    string WheelBreakKeyWord;
+    string WheelNormalKeyWord;
+    bool isInWheel_nor;
+    bool isInWheel_ab;
+    GameObject Wheel;
+    GameObject TipObj_BrakeWheel;
 
     //手煞車
     string HandBrakePadelName_good;
@@ -149,6 +159,9 @@ public class HandelContorller : MonoBehaviour
         BrakePadelName_bad = checkDeviceManager.brake.badObjName;
         BrakePadelName_breakRearLight = checkDeviceManager.brake.breakRearLightName;
 
+        WheelBreakKeyWord = checkDeviceManager.wheels.BreakWheelName;
+        WheelNormalKeyWord = checkDeviceManager.wheels.NormalWheelName;
+
         HandBrakePadelName_good = checkDeviceManager.handBrake.goodObjName;
         HandBrakePadelName_bad = checkDeviceManager.handBrake.badObjName;
 
@@ -227,6 +240,7 @@ public class HandelContorller : MonoBehaviour
         PadelControl(BrakePadel_Nor, BrakePadel_abNor, isInBrakePadel_Nor, isInBrakePadel_abNor, "B");
         PadelControl(HandBrakePadel_Nor, HandBrakePadel_abNor, isInHandBrakePadel_Nor, isInHandBrakePadel_abNor, "H");
         PadelControl(GasPadel_Nor, null, isInGasPadel, false, "G");//額外油門
+        WheelControl();
         ScrewControl();
         HornControl();
         ControlRight_右控制桿Control();
@@ -420,6 +434,39 @@ public class HandelContorller : MonoBehaviour
         }
     }
 
+    void WheelControl()
+    {
+        if (Wheel != null)
+        {
+            //正常
+            if (isInWheel_nor && isPushHandTrig)
+            {
+                //Wheel.GetComponentInParent<VRTK_ArtificialRotator>().enabled = true;
+                //Wheel.transform.parent.GetComponentInParent<VRTK_InteractableObject>().enabled = true;
+            }
+
+            //異常
+            if (isInWheel_ab && isPushHandTrig)
+            {
+                //Wheel.transform.parent.GetComponentInParent<VRTK_InteractableObject>().enabled = false;
+                //Wheel.GetComponentInParent<VRTK_ArtificialRotator>().enabled = false;
+                
+                if (TipObj_BrakeWheel == null)
+                {
+                    TipObj_BrakeWheel = Instantiate(TipUIObj, Wheel.transform.parent.transform);
+                    TipObj_BrakeWheel.GetComponentInChildren<Text>().text = "轉不動方向盤!";
+                    TipObj_BrakeWheel.transform.localPosition = new Vector3(0, 0.2f, -0.34f);
+                }
+                if (TipObj_BrakeWheel != null)
+                    TipObj_BrakeWheel.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
+
+            }
+            else
+            {
+               if(TipObj_BrakeWheel!=null) Destroy(TipObj_BrakeWheel);
+            }
+        }
+    }
 
     void ScrewControl()
     {
@@ -463,6 +510,16 @@ public class HandelContorller : MonoBehaviour
     bool isSound = false;
     void HornControl()
     {
+        //if(isInHorn_nor || isInHorn_ab)
+        //{
+        //    if (Wheel != null && isInWheel_ab)//按喇叭時不轉方向盤///////////////////////////////////
+        //    {
+        //        Wheel.transform.parent.GetComponentInParent<VRTK_InteractableObject>().enabled = false;
+        //        Wheel.GetComponentInParent<VRTK_ArtificialRotator>().enabled = false;
+        //    }
+        //}
+    
+
         if (Hron != null)
         {
             //正常
@@ -718,6 +775,22 @@ public class HandelContorller : MonoBehaviour
         {
             isInBrakePadel_abNor = true;
             BrakePadel_abNor = other.gameObject;
+        }  
+        //方向盤
+        if (other.name.Contains(WheelNormalKeyWord))
+        {
+            isInWheel_nor = true;
+            Wheel = other.gameObject;
+        }
+        if (other.name.Contains(WheelBreakKeyWord))
+        {
+            isInWheel_ab = true;
+            Wheel = other.gameObject;
+            //Destroy(Wheel.transform.parent.GetComponentInParent<VRTK_InteractableObject>());
+            //Destroy(Wheel.GetComponentInParent<VRTK_ArtificialRotator>());
+
+            //Wheel.transform.parent.GetComponentInParent<VRTK_InteractableObject>().enabled = false;
+            //Wheel.GetComponentInParent<VRTK_ArtificialRotator>().enabled = false;
         }
         //手煞
         if (other.name == HandBrakePadelName_good)
@@ -835,6 +908,15 @@ public class HandelContorller : MonoBehaviour
         if (other.name.Contains(BrakePadelName_bad))
         {
             isInBrakePadel_abNor = false;
+        }
+        //方向盤
+        if (other.name.Contains(WheelNormalKeyWord))
+        {
+            isInWheel_nor = false;
+        }
+        if (other.name.Contains(WheelBreakKeyWord))
+        {
+            isInWheel_ab = false;
         }
         //手煞
         if (other.name == HandBrakePadelName_good)
