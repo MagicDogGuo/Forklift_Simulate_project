@@ -58,7 +58,17 @@ public class CheckDeviceManager : MonoBehaviour
     [SerializeField]
     public GameObject GasPadel;
 
-    Dictionary<int, List<int>> CorrectAnswerDict;
+    Dictionary<int, List<int>> _CorrectAnswerDict;
+    public Dictionary<int, List<int>> CorrectAnswerDict
+    {
+        get { return _CorrectAnswerDict; }
+    }
+
+    Dictionary<int, List<int>> _BreakDeviceInCorrectAnswerDict;
+    public Dictionary<int, List<int>> BreakDeviceInCorrectAnswerDict
+    {
+        get { return _BreakDeviceInCorrectAnswerDict; }
+    }
 
     public enum DevicePart
     {
@@ -91,12 +101,14 @@ public class CheckDeviceManager : MonoBehaviour
 
     void Start()
     {
-        CorrectAnswerDict = new Dictionary<int, List<int>>();
+        _CorrectAnswerDict = new Dictionary<int, List<int>>();
+        _BreakDeviceInCorrectAnswerDict = new Dictionary<int, List<int>>();
+
+        InitDeviceDict();
 
         StartCoroutine(IEInitLight());
 
         DecideObjectState();
-
 
         //BrakeALL();
     }
@@ -105,7 +117,7 @@ public class CheckDeviceManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            foreach (KeyValuePair<int, List<int>> kvp in CorrectAnswerDict)
+            foreach (KeyValuePair<int, List<int>> kvp in _CorrectAnswerDict)
             {
                 string tmpeS = "";
 
@@ -117,6 +129,16 @@ public class CheckDeviceManager : MonoBehaviour
             }
               
         }
+    }
+
+    void InitDeviceDict()
+    {
+        List<int> correctAnswer = new List<int>();
+        correctAnswer.Add(1);
+        for (int i = (int)DevicePart.Cold_冷卻液; i <= (int)DevicePart.fork_固定銷; i++)
+        {
+            _CorrectAnswerDict.Add(i, correctAnswer);
+        }  
     }
 
     IEnumerator IEInitLight()
@@ -303,7 +325,7 @@ public class CheckDeviceManager : MonoBehaviour
                 HronBreak();
                 break;
             case DevicePart.Dashbroad:
-                breakDashBoradNumber = Random.Range(1, 3);
+                breakDashBoradNumber = Random.Range(1, 3);//1=充電燈 , 2=油燈
                 tempBreakpartNumber.Add(breakDashBoradNumber);
                 dashbroad.OnKeyPlugIn = null;
                 dashbroad.OnKeyPlugIn += DashBoardRandomBreak_key;
@@ -344,25 +366,66 @@ public class CheckDeviceManager : MonoBehaviour
                 Fork_固定銷Bad();
                 break;
         }
-        Debug.Log("breakDevice: " + devicePart + "===tempBreakpartNumber: " + tempBreakpartNumber);
-        CorrectAnswerDict.Add((int)devicePart, tempBreakpartNumber);
+        //Debug.Log("breakDevice: " + devicePart + "===tempBreakpartNumber: " + tempBreakpartNumber);
+
+        if (_CorrectAnswerDict.ContainsKey((int)devicePart))
+        {
+            _CorrectAnswerDict[(int)devicePart] = tempBreakpartNumber;
+        }
+        else
+        {
+            _CorrectAnswerDict.Add((int)devicePart, tempBreakpartNumber);
+        }
+
+        //有壞掉的部位再另外存
+        _BreakDeviceInCorrectAnswerDict.Add((int)devicePart, tempBreakpartNumber);
     }
 
     void DecideObjectState()
     {
         GoodDeviceALL();
 
-        DevicePart breakObj01 = MyRondom();
-        Debug.Log(breakObj01);
+        DevicePart[] breakObjs = MyRondom(5);
+        string s = "[BreakPart]: ";
 
-        ChooseBreakDevice(breakObj01);
+        foreach(var dv in breakObjs)
+        {
+            s += dv+",";
+            ChooseBreakDevice(dv);
+        }
+        Debug.Log(s);
     }
 
-
-    DevicePart MyRondom()
+    /// <summary>
+    ///隨機出不相同的數
+    /// </summary>
+    /// <param name="breakDeviceAmount"></param>
+    /// <returns></returns>
+    DevicePart[]  MyRondom( int breakDeviceAmount)
     {
-        DevicePart devicePart = (DevicePart)Random.Range(3,4);
-        return devicePart;
+        DevicePart[] devicePartArray = new DevicePart[breakDeviceAmount]; //生成了5個隨機數
+
+        for (int i = 0; i < devicePartArray.Length;)
+        {
+            bool iS_i = true;
+            DevicePart devicePart = (DevicePart)Random.Range(3, 8);
+
+            for (int j = 0; j < i; ++j)
+            {
+                if (devicePart == devicePartArray[j])
+                {
+                    iS_i = false;
+                    break;
+                }
+            }
+            if (iS_i)
+            {
+                devicePartArray[i] = devicePart;
+                i++;
+            }
+        }
+        
+        return devicePartArray;
     }
 
 

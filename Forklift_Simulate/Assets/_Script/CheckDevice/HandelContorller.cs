@@ -10,6 +10,7 @@ public class HandelContorller : MonoBehaviour
 {
     public bool isPushHandTrig;//把手的開關
 
+    Vector3 TipUIOffset = new Vector3(0.09f, 0.25f, 0.025f);
     [SerializeField]
     GameObject TipUIObj;
     [SerializeField]
@@ -370,9 +371,10 @@ public class HandelContorller : MonoBehaviour
             {
                 if (TipObj_abNormalCluthPadel == null)
                 {
-                    TipObj_abNormalCluthPadel = Instantiate(TipUIObj, padel_abNor.transform);
-                    TipObj_abNormalCluthPadel.GetComponentInChildren<Text>().text = "卡住!";
-                    TipObj_abNormalCluthPadel.transform.localPosition = new Vector3(0, 0.19f, 0.15f);
+                    //TipObj_abNormalCluthPadel = Instantiate(TipUIObj, padel_abNor.transform);
+                    TipObj_abNormalCluthPadel = Instantiate(TipUIObj, this.transform);
+                    TipObj_abNormalCluthPadel.GetComponentInChildren<Text>().text = "離合器踏板卡住!";
+                    TipObj_abNormalCluthPadel.transform.localPosition = TipUIOffset;//new Vector3(0, 0.19f, 0.15f);
                     //TipObj_abNormalCluthPadel.transform.localEulerAngles = new Vector3(33, 0, -168);
                 }
                 if (TipObj_abNormalCluthPadel != null)
@@ -392,9 +394,10 @@ public class HandelContorller : MonoBehaviour
             {
                 if (TipObj_abNormalBrakePadel == null)
                 {
-                    TipObj_abNormalBrakePadel = Instantiate(TipUIObj, padel_abNor.transform);
-                    TipObj_abNormalBrakePadel.GetComponentInChildren<Text>().text = "卡住!";
-                    TipObj_abNormalBrakePadel.transform.localPosition = new Vector3(0, 0.19f, 0.15f);
+                    //TipObj_abNormalBrakePadel = Instantiate(TipUIObj, padel_abNor.transform);
+                    TipObj_abNormalBrakePadel = Instantiate(TipUIObj, this.transform);
+                    TipObj_abNormalBrakePadel.GetComponentInChildren<Text>().text = "煞車踏板卡住!";
+                    TipObj_abNormalBrakePadel.transform.localPosition = TipUIOffset;//new Vector3(0, 0.19f, 0.15f);
                     //TipObj_abNormalBrakePadel.transform.localEulerAngles = new Vector3(33, 0, -168);
 
                 }
@@ -415,9 +418,10 @@ public class HandelContorller : MonoBehaviour
             {
                 if (TipObj_abNormalHandBrakePadel == null)
                 {
-                    TipObj_abNormalHandBrakePadel = Instantiate(TipUIObj, padel_abNor.transform);
-                    TipObj_abNormalHandBrakePadel.GetComponentInChildren<Text>().text = "卡住!";
-                    TipObj_abNormalHandBrakePadel.transform.localPosition = new Vector3(0.04f, 0.05f, 0.4f);
+                    //TipObj_abNormalHandBrakePadel = Instantiate(TipUIObj, padel_abNor.transform);
+                    TipObj_abNormalHandBrakePadel = Instantiate(TipUIObj, this.transform);
+                    TipObj_abNormalHandBrakePadel.GetComponentInChildren<Text>().text = "煞車拉柄卡住!";
+                    TipObj_abNormalHandBrakePadel.transform.localPosition = TipUIOffset;//new Vector3(0.04f, 0.05f, 0.4f);
                     //TipObj_abNormalHandBrakePadel.transform.localEulerAngles = new Vector3(0, 0, 130);
 
                 }
@@ -453,9 +457,10 @@ public class HandelContorller : MonoBehaviour
                 
                 if (TipObj_BrakeWheel == null)
                 {
-                    TipObj_BrakeWheel = Instantiate(TipUIObj, Wheel.transform.parent.transform);
+                    //TipObj_BrakeWheel = Instantiate(TipUIObj, Wheel.transform.parent.transform);
+                    TipObj_BrakeWheel = Instantiate(TipUIObj, this.transform);
                     TipObj_BrakeWheel.GetComponentInChildren<Text>().text = "轉不動方向盤!";
-                    TipObj_BrakeWheel.transform.localPosition = new Vector3(0, 0.2f, -0.34f);
+                    TipObj_BrakeWheel.transform.localPosition = TipUIOffset;//new Vector3(0, 0.2f, -0.34f);
                 }
                 if (TipObj_BrakeWheel != null)
                     TipObj_BrakeWheel.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
@@ -476,8 +481,10 @@ public class HandelContorller : MonoBehaviour
             {
                 if (TipObj_BrakeScrew == null)
                 {
-                    TipObj_BrakeScrew = Instantiate(TipUIObj, BrakeScrew.transform);
+                    //TipObj_BrakeScrew = Instantiate(TipUIObj, BrakeScrew.transform);
+                    TipObj_BrakeScrew = Instantiate(TipUIObj, this.transform);
                     TipObj_BrakeScrew.GetComponentInChildren<Text>().text = "螺絲鬆脫!";
+                    TipObj_BrakeScrew.transform.localPosition = TipUIOffset;// new Vector3(-0.05f, -.25f, 0);
                 }
                 if (TipObj_BrakeScrew != null)
                     TipObj_BrakeScrew.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
@@ -494,10 +501,13 @@ public class HandelContorller : MonoBehaviour
             {
                 if (TipObj_NormalScrew == null)
                 {
-                    TipObj_NormalScrew = Instantiate(TipUIObj, NormalScrew.transform);
-                    TipObj_NormalScrew.GetComponentInChildren<Text>().text = "正常!";
+                    //TipObj_NormalScrew = Instantiate(TipUIObj, NormalScrew.transform);
+                    TipObj_NormalScrew = Instantiate(TipUIObj, this.transform);
+                    TipObj_NormalScrew.GetComponentInChildren<Text>().text = "所有螺絲正常!";
+                    TipObj_NormalScrew.transform.localPosition = TipUIOffset;// new Vector3(0.09f, 0.25f, 0.025f);
+
                 }
-                if (TipObj_BrakeScrew != null)
+                if (TipObj_NormalScrew != null)
                     TipObj_NormalScrew.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
             }
             else 
@@ -556,6 +566,7 @@ public class HandelContorller : MonoBehaviour
             {
                 TipChooseCnavasObj = Instantiate(TipChooseUIObj, ControlRight_右控制桿.transform);
                 TipChooseCnavasObj.transform.localRotation = new Quaternion(0, 180, 0, 0);
+                TipChooseCnavasObj.transform.localPosition = new Vector3(0, 0.06f, 0.04f);
                 Button[] btn = TipChooseCnavasObj.GetComponent<TipChooseUI_CheckDevice>().stateBtn;
                 btn[0].GetComponentInChildren<Text>().text = "右方向燈開";
                 btn[1].GetComponentInChildren<Text>().text = "左方向燈開";

@@ -15,6 +15,9 @@ public class QuestionUIComp : MonoBehaviour
 
     public Button ConfirmBtn;
 
+    public Text InfoTxt;
+
+
     [Header("AllChoose")]
     public GameObject OutlineUIObj;
 
