@@ -79,7 +79,7 @@ public class CheckDeviceManager : MonoBehaviour
         WaterOil_液壓油 = 5,
         Clutch = 6,
         Brake = 7,
-        Wheels = 8,////////還沒做
+        Wheels = 8,
         HandBrake = 9,
         Tire = 10,
         Screw = 11,
@@ -385,7 +385,7 @@ public class CheckDeviceManager : MonoBehaviour
     {
         GoodDeviceALL();
 
-        DevicePart[] breakObjs = MyRondom(5);
+        DevicePart[] breakObjs = MyRondom(5);/////////////////////////////
         string s = "[BreakPart]: ";
 
         foreach(var dv in breakObjs)

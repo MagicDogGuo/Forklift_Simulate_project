@@ -75,11 +75,14 @@ namespace WSMGameStudio.HeavyMachinery
 
             _forksVertical = logtichControl.ForkUp ? 1 : logtichControl.ForkDown ? -1 : 0;
 
-         
+
             //改羅技
             if (logtichControl.BackMove) _backFront = 1;
             if (!logtichControl.FrontMove && !logtichControl.BackMove) _backFront = 0;
             if (logtichControl.FrontMove) _backFront = -1;
+            //if (Input.GetKey(inputSettings.backMove)) _backFront = -1;
+            //if (Input.GetKey(inputSettings.nullMove)) _backFront = 0;
+            //if (Input.GetKey(inputSettings.frontMove)) _backFront = 1;
 
 
             if (Input.GetKey(inputSettings.rightLight) && _changeLight != 1) _changeLight = 1;

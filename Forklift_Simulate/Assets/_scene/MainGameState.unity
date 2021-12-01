@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1577434423}
-  m_IndirectSpecularColor: {r: 0.38149974, g: 0.46815968, b: 0.6131704, a: 1}
+  m_IndirectSpecularColor: {r: 0.118429944, g: 0.18278612, b: 0.3289296, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -139,6 +139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &3825355 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1880390355850502369, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -157,6 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1001 &19104455
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -283,6 +291,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &69443747 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5367929708787111458, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -301,6 +313,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &99145069 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8595960293872066678, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -338,6 +354,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &107042527 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 760890331440205141, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -356,6 +376,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &110240567 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2629630926349535369, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -374,6 +398,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &118840740 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3902472641066726756, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -392,6 +420,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &123739365 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6529100646838481447, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -410,6 +442,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &147149111
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +508,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &165391335
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,6 +574,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &183239511 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1131501348615160149, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -552,6 +596,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &184054280
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,6 +717,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &206099727 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5395756539031702130, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -687,6 +739,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &219667459
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +839,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &259500097 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5206653263348881114, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -801,6 +861,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &263886522
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,6 +927,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &327831046 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9106240018557979773, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -881,6 +949,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &344148259 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6491938869515351545, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -899,6 +971,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &346996527 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6158921930101915990, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -917,6 +993,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &361989719 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7885802468680952757, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -935,6 +1015,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &366855224 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2483771551214408562, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -953,6 +1037,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &381978536 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7679098401047964610, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -971,6 +1059,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &474228161 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7780090390674780421, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -989,6 +1081,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &500760188
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,6 +1147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &530129433
 GameObject:
   m_ObjectHideFlags: 0
@@ -54930,6 +55030,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &584219548 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4899609505905055965, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -54948,6 +55052,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &606387385 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1623670502776773432, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -54966,6 +55074,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &607325302 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1033736738112415061, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -54984,6 +55096,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &612256049 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2819138344311755101, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55002,6 +55118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &621845239
 GameObject:
   m_ObjectHideFlags: 0
@@ -55116,6 +55236,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &672721026 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7003726740089142492, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55134,6 +55258,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &692212733 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2485077375979054093, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55152,6 +55280,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &754459668 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4720422719713600855, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55170,6 +55302,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &768147144 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5786292093609585335, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55188,6 +55324,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &792985707 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7343332924952958090, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55206,6 +55346,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &856065572 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8882095659023786208, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55224,6 +55368,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1001 &891934922
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55417,6 +55565,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &906945145 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8719710494560150428, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55435,6 +55587,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!4 &916928134 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8692791308422488980, guid: c7b4821140fd5c940bf70226f90090ee,
@@ -55459,6 +55615,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &965445807 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7071324882562826602, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55477,6 +55637,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &967285387 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8377852574997883985, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55495,6 +55659,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &969343545 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4871866137497600361, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55513,6 +55681,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &975842128 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7538005821733335292, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55531,6 +55703,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &984287841 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4651523689269734212, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55549,6 +55725,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &986094420 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3785320962324507768, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55567,6 +55747,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &993911288 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4670250768164932748, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55585,6 +55769,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1034202383 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3199132179338724622, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55603,6 +55791,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1037411930 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5315864328786499042, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55621,6 +55813,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1048120258
 GameObject:
   m_ObjectHideFlags: 0
@@ -55683,6 +55879,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1093957674 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4097336476271944095, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55701,6 +55901,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1119810403 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3773210161685002908, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55719,6 +55923,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1120454111 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4341205574343593144, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55737,6 +55945,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1125281765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 954389771034602307, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55755,6 +55967,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1125570833 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8478738015465825305, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55773,6 +55989,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1163887730 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6091367375736512824, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55791,6 +56011,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1204033368 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3346272704482981661, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55809,6 +56033,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1204163768 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3869414628487920028, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55827,6 +56055,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1205887412 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 747451171078593632, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55845,6 +56077,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1209412268 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6717809042787308882, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55863,6 +56099,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1220447791
 GameObject:
   m_ObjectHideFlags: 0
@@ -55925,6 +56165,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1278086109 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3261544054749669629, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -55943,6 +56187,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1281812441
 GameObject:
   m_ObjectHideFlags: 0
@@ -56119,6 +56367,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1328084003 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5802208224139132772, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56137,6 +56389,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1329475365
 GameObject:
   m_ObjectHideFlags: 0
@@ -56199,6 +56455,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1345179413 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7172274288870145445, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56217,6 +56477,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1349671285 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4364241866792598986, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56235,6 +56499,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1362883728 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6621371913541924514, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56253,6 +56521,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1372731833 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8441981668419892868, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56271,6 +56543,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1377830599 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3338128464015725156, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56289,6 +56565,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1386678544 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5039861486626108458, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56307,6 +56587,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1389517293 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1485176019563545085, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56325,6 +56609,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1411051528 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 906492971123510449, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56343,6 +56631,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1435012017 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4967534949439905564, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56361,6 +56653,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1437664885 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5251937161130693232, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56379,6 +56675,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1444028618
 GameObject:
   m_ObjectHideFlags: 0
@@ -56428,6 +56728,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1454055999 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5063313470084275530, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56446,6 +56750,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1473706855 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 879180456918974561, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56464,6 +56772,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1477299745 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6319337447271869141, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56482,6 +56794,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1486061037 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8935142855442691580, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56500,6 +56816,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1515707547 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5534187945439588185, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56518,6 +56838,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1539954663 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425249926461823222, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56536,6 +56860,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1554971267 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8712481567520745593, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56554,6 +56882,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1577434422
 GameObject:
   m_ObjectHideFlags: 0
@@ -56664,6 +56996,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1601957857 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1580568507578289159, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56682,6 +57018,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1664693348 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6313658163885812359, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -56700,6 +57040,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1676477336
 GameObject:
   m_ObjectHideFlags: 0
@@ -56828,6 +57172,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1754935168
 GameObject:
   m_ObjectHideFlags: 0
@@ -56857,99 +57205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d174fab52f0c4b8399f25d5c3ea524c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  simulateWhenInvisible: 1
-  m_Backend: 0
-  parameters:
-    mode: 0
-    interpolation: 0
-    gravity: {x: 0, y: -9.8, z: 0}
-    damping: 0
-    shockPropagation: 0
-    maxAnisotropy: 3
-    maxDepenetration: 4.97
-    sleepThreshold: 0.005
-  worldLinearInertiaScale: 0
-  worldAngularInertiaScale: 0
-  distanceConstraintParameters:
-    evaluationOrder: 0
-    iterations: 10
-    SORFactor: 1
-    enabled: 1
-  bendingConstraintParameters:
-    evaluationOrder: 1
-    iterations: 3
-    SORFactor: 1
-    enabled: 1
-  particleCollisionConstraintParameters:
-    evaluationOrder: 1
-    iterations: 3
-    SORFactor: 1
-    enabled: 1
-  particleFrictionConstraintParameters:
-    evaluationOrder: 1
-    iterations: 3
-    SORFactor: 1
-    enabled: 1
-  collisionConstraintParameters:
-    evaluationOrder: 0
-    iterations: 10
-    SORFactor: 1
-    enabled: 1
-  frictionConstraintParameters:
-    evaluationOrder: 1
-    iterations: 3
-    SORFactor: 1
-    enabled: 1
-  skinConstraintParameters:
-    evaluationOrder: 0
-    iterations: 3
-    SORFactor: 1
-    enabled: 0
-  volumeConstraintParameters:
-    evaluationOrder: 1
-    iterations: 3
-    SORFactor: 1
-    enabled: 0
-  shapeMatchingConstraintParameters:
-    evaluationOrder: 1
-    iterations: 3
-    SORFactor: 1
-    enabled: 1
-  tetherConstraintParameters:
-    evaluationOrder: 1
-    iterations: 3
-    SORFactor: 1
-    enabled: 0
-  pinConstraintParameters:
-    evaluationOrder: 1
-    iterations: 100
-    SORFactor: 1
-    enabled: 1
-  stitchConstraintParameters:
-    evaluationOrder: 1
-    iterations: 2
-    SORFactor: 1
-    enabled: 1
-  densityConstraintParameters:
-    evaluationOrder: 1
-    iterations: 2
-    SORFactor: 1
-    enabled: 0
-  stretchShearConstraintParameters:
-    evaluationOrder: 0
-    iterations: 3
-    SORFactor: 1
-    enabled: 0
-  bendTwistConstraintParameters:
-    evaluationOrder: 0
-    iterations: 3
-    SORFactor: 1
-    enabled: 1
-  chainConstraintParameters:
-    evaluationOrder: 0
-    iterations: 3
-    SORFactor: 1
-    enabled: 1
 --- !u!4 &1754935170
 Transform:
   m_ObjectHideFlags: 0
@@ -57105,6 +57360,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1001 &1822019771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58252,6 +58511,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1832472144 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8461127687229155053, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58270,6 +58533,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1866145498 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1046688680677770832, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58288,6 +58555,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1873436254 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5768767887612537485, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58306,6 +58577,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1885034166 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3133606081165545709, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58324,6 +58599,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1904753964 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5889204090446711640, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58342,6 +58621,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1929460160 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 579300319108137998, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58360,6 +58643,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1958480699 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1668102622912453415, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58378,6 +58665,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1967496197
 GameObject:
   m_ObjectHideFlags: 0
@@ -58605,6 +58896,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &1996075294 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 262651108847100493, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58623,6 +58918,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &2009494608 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3816192650040164087, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58641,6 +58940,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &2011750802
 GameObject:
   m_ObjectHideFlags: 0
@@ -58689,6 +58992,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &2014414919 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2229397402703231149, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58707,6 +59014,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &2015902634 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6630592628231661840, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58725,6 +59036,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &2041162182 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5847516114118340339, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58743,6 +59058,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &2062387458 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6122383922751203222, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58761,6 +59080,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!1 &2067711771 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 711890404504079188, guid: 07908c18078f5c84c83419ce27e375c0,
@@ -58779,6 +59102,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0010f39ba2b348844a0071558a95c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oriTras: {fileID: 0}
+  oriPos: {x: 0, y: 0, z: 0}
+  oriRote: {x: 0, y: 0, z: 0, w: 0}
+  IsStopCollDetect: 0
 --- !u!114 &2122213844 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2122213844, guid: c450d0ecd9d47544d993e66dbadc4fac,
