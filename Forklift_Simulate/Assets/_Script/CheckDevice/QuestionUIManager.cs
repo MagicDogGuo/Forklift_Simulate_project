@@ -464,7 +464,8 @@ public class QuestionUIManager : MonoBehaviour
         if (_tempCurrentAnwerList.Contains(1))
         {//正常
             Debug.Log("===currentQuestion:"+ currentQuestion);
-            _QuestionUIComp.QuestionNumberButtons[currentQuestion + 1].QuestionChooseButton.onClick.Invoke();
+            if(QuestionID != 20) _QuestionUIComp.QuestionNumberButtons[currentQuestion + 1].QuestionChooseButton.onClick.Invoke();
+            if(QuestionID == 20 ) OnPushLastQuestionBtn();
 
         }
         else if (_tempCurrentAnwerList.Contains(2))

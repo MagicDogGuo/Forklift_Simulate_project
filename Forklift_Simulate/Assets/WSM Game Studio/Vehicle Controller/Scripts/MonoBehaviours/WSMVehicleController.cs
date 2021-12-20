@@ -563,7 +563,7 @@ namespace WSMGameStudio.Vehicles
                 if (_steeringWheelsColliders != null)
                 {
                     float _wheelTransValue = _currentSteerAngle * 0.177777f;
-                    Debug.Log("_wheelTransValue:" + _wheelTransValue + "_currentSteerAngle:" + _currentSteerAngle);
+                    //Debug.Log("_wheelTransValue:" + _wheelTransValue + "_currentSteerAngle:" + _currentSteerAngle);
                     for (int i = 0; i < _steeringWheelsCollidersCount; i++)
                         if (steeringMode == WSMVehicleSteeringMode.RearWheelsSteering) _steeringWheelsColliders[i].steerAngle = -_wheelTransValue;////////////後輪相反解度
                         else _steeringWheelsColliders[i].steerAngle = _wheelTransValue;

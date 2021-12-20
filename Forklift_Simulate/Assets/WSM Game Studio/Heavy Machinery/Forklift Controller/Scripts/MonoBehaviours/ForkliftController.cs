@@ -5,7 +5,7 @@ namespace WSMGameStudio.HeavyMachinery
     [System.Serializable]
     public class ForkliftController : MonoBehaviour
     {
-        public float forksVerticalSpeed = 0.3f;
+        public float forksVerticalSpeed = 0.1f;
         public float forksHorizontalSpeed = 0.5f;
         public float mastTiltSpeed = 0.3f;
 

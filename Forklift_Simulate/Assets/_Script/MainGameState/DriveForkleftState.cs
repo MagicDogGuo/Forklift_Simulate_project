@@ -79,7 +79,7 @@ public class DriveForkleftState : IMainGameState
         }
 
 
-        Debug.Log("=====IsSussuesPassTest:" + MainGameManager.Instance.IsSussuesPassTest);
+        //Debug.Log("=====IsSussuesPassTest:" + MainGameManager.Instance.IsSussuesPassTest);
 
         if (_gameMode == MainGameManager.GameMode.PracticeMode)
         {

@@ -115,6 +115,12 @@ public class CheckDeviceManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             foreach (KeyValuePair<int, List<int>> kvp in _CorrectAnswerDict)
@@ -243,6 +249,7 @@ public class CheckDeviceManager : MonoBehaviour
         carLight.ControlLeft_左控制桿.name = carLight.NormalControlLeft_左控制桿Name;
 
         ironPipe.goodObj.SetActive(true);
+        ironPipe.badObj.SetActive(false);
         Fork_固定銷Good();
     }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TESTW : MonoBehaviour
+public class JoyController : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,11 +14,5 @@ public class TESTW : MonoBehaviour
     void Update()
     {
         JoyStickHelper.UpdateInfoEx();
-
-        if (JoyStickHelper.GetButton(JoyStickHelper.JoyStickButtonCode.Button05))
-        {
-            Debug.Log("===Button05");
-        }
-        Debug.Log("============");
     }
 }

@@ -325,7 +325,7 @@ public class ScoreManager : MonoBehaviour
     /// <param name="tiltRotate"></param>
     void ForkMastTiltRotate(float speed, float tiltRotate, int score)
     {
-        Debug.Log("_CurrentMastTilt" + _forkliftController.CurrentMastTilt);
+        //Debug.Log("_CurrentMastTilt" + _forkliftController.CurrentMastTilt);
 
         if (_wSMVehicleController.CurrentSpeed > speed &&
             _forkliftController.CurrentMastTilt > tiltRotate

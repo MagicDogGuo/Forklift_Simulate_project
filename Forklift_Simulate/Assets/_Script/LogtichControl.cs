@@ -29,10 +29,20 @@ public class LogtichControl : MonoBehaviour
 
 
     private string actualState;
+    private void Awake()
+    {
+        LogitchGasRotation = 0;
+        LogitchBreakRotation = 0;
+        LogitchCluthRotation = 0;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        LogitchGasRotation = 0;
+        LogitchBreakRotation = 0;
+        LogitchCluthRotation = 0;
+
         LogitechGSDK.LogiSteeringInitialize(false);
         Debug.Log("SteeringInit:" + LogitechGSDK.LogiSteeringInitialize(false));
     }
@@ -48,13 +58,15 @@ public class LogtichControl : MonoBehaviour
             actualState += "x-axis position :" + rec.lX + "\n";
 
             float actualState_450 = rec.lX * 0.01373f;
-            Debug.Log("actualState_450:" + actualState_450);
+            //Debug.Log("actualState_450:" + actualState_450);
 
             LogitchSteelRotation = actualState_450;
 
             LogitchGasRotation = MapValue(32767, -32767, 0, 25, rec.lY);
             LogitchBreakRotation = MapValue(32767, -32767, 0, 25, rec.lRz);
             LogitchCluthRotation = MapValue(32767, -32767, 0, 25, rec.rglSlider[0]);
+
+            //Debug.Log("LogitchCluthRotation" + LogitchCluthRotation);
 
             //Button status :
             string buttonStatus = "Button pressed : ";

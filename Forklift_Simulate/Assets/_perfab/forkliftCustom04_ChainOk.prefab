@@ -5107,6 +5107,7 @@ GameObject:
   - component: {fileID: 3448198479682059647}
   - component: {fileID: 3448198479682059646}
   - component: {fileID: 3448198479682059644}
+  - component: {fileID: 7076060159919113904}
   m_Layer: 0
   m_Name: forkliftCustom04_ChainOk
   m_TagString: Forkleft
@@ -5201,7 +5202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 539a45800f715c24abc17a983a0cb088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forksVerticalSpeed: 0.15
+  forksVerticalSpeed: 0.1
   forksHorizontalSpeed: 0.5
   mastTiltSpeed: 0.3
   _isEngineOn: 1
@@ -5358,6 +5359,18 @@ MonoBehaviour:
   MastTiltBackwards: 0
   FrontMove: 0
   BackMove: 0
+--- !u!114 &7076060159919113904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3448198479682059642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee71eacc3a34ea47927461cb32dceae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3448198479686309070
 GameObject:
   m_ObjectHideFlags: 0

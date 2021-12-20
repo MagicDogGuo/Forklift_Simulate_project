@@ -47,7 +47,6 @@ namespace WSMGameStudio.Vehicles
             _maxSpeed = _vehicleController.MaxSpeed;
 
             logtichControl = GetComponent<LogtichControl>();
-
         }
 
         /// <summary>
@@ -85,11 +84,18 @@ namespace WSMGameStudio.Vehicles
 
             //前進後退檔控制+-
             //Debug.Log("logtichControl.BackMove" + logtichControl.BackMove);
-            if (logtichControl.BackMove) _backFront = -1;
-            if (!logtichControl.FrontMove && !logtichControl.BackMove) _backFront = 0;
-            if (logtichControl.FrontMove) _backFront = 1;
-            _vehicleController.BackFrontInput = _backFront;
+            //if (logtichControl.BackMove) _backFront = -1;
+            //if (!logtichControl.FrontMove && !logtichControl.BackMove) _backFront = 0;
+            //if (logtichControl.FrontMove) _backFront = 1;
+            //if (Input.GetKey(inputSettings.backMove)) _backFront = -1;
+            //if (Input.GetKey(inputSettings.nullMove)) _backFront = 0;
+            //if (Input.GetKey(inputSettings.frontMove)) _backFront = 1;
+            if (GetAllJoysEvent.FrontBar_btn6) _backFront = -1;
+            if (!GetAllJoysEvent.FrontBar_btn5 && !GetAllJoysEvent.FrontBar_btn6) _backFront = 0;
+            if (GetAllJoysEvent.FrontBar_btn5) _backFront = 1;
 
+
+            _vehicleController.BackFrontInput = _backFront;
 
             //方向
             _steering = 0f;
@@ -98,8 +104,13 @@ namespace WSMGameStudio.Vehicles
             //煞車
             _vehicleController.BrakesInput = logtichControl.LogitchBreakRotation;
 
-            if (Input.GetKey(inputSettings.handbrakeOn)) _vehicleController.HandBrakeInput = 1;
-            if (Input.GetKey(inputSettings.handbrakeOff)) _vehicleController.HandBrakeInput = 0;
+            //手煞車
+            //if (Input.GetKey(inputSettings.handbrakeOn)) _vehicleController.HandBrakeInput = 1;
+            //if (Input.GetKey(inputSettings.handbrakeOff)) _vehicleController.HandBrakeInput = 0;
+            if (GetAllJoysEvent.HandBrake_btn4) _vehicleController.HandBrakeInput = 0;
+            else if (!GetAllJoysEvent.HandBrake_btn4) _vehicleController.HandBrakeInput = 1;
+
+
 
 
             //控制油門
@@ -155,13 +166,15 @@ namespace WSMGameStudio.Vehicles
 
 
             //吋動踏板(煞車連動)
+            //Debug.Log("logtichControl.LogitchGasRotation:" + logtichControl.LogitchCluthRotation);
+
             _vehicleController.ClutchInput = logtichControl.LogitchCluthRotation;
-            if (logtichControl.LogitchCluthRotation>5)
+            if (logtichControl.LogitchCluthRotation > 5)
             {
                 _vehicleController.BrakesInput = logtichControl.LogitchCluthRotation;
 
                 //採吋動+踩油門
-                if (logtichControl.LogitchGasRotation>10)
+                if (logtichControl.LogitchGasRotation > 10)
                 {
                     _forkliftController.forksVerticalSpeed = _forksVerticalSpeed * 2;
                     _forkliftController.forksHorizontalSpeed = _forksHorizontalSpeed * 2;
@@ -172,8 +185,15 @@ namespace WSMGameStudio.Vehicles
                     _forkliftController.forksVerticalSpeed = _forksVerticalSpeed;
                     _forkliftController.forksHorizontalSpeed = _forksHorizontalSpeed;
                     _forkliftController.mastTiltSpeed = _mastTiltSpeed;
-
                 }
+
+            }
+            else
+            {
+                _forkliftController.forksVerticalSpeed = _forksVerticalSpeed;
+                _forkliftController.forksHorizontalSpeed = _forksHorizontalSpeed;
+                _forkliftController.mastTiltSpeed = _mastTiltSpeed;
+
             }
 
 
@@ -252,6 +272,7 @@ namespace WSMGameStudio.Vehicles
             //煞車
             _vehicleController.BrakesInput = Input.GetKey(inputSettings.brakes) ? 25f : 0f;
 
+            //手煞車
             if (Input.GetKey(inputSettings.handbrakeOn)) _vehicleController.HandBrakeInput = 1;
             if (Input.GetKey(inputSettings.handbrakeOff)) _vehicleController.HandBrakeInput = 0;
 

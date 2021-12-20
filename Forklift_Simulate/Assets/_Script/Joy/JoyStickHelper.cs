@@ -111,6 +111,7 @@ public static class JoyStickHelper
         int result = joyGetPosEx(0, ref infoEx);
 
         ButtonState = infoEx.dwButtons;
+        Debug.Log("JoyStickHelperUpdate， infoEx.dwButtons" + infoEx.dwButtons);
 
         ButtonUpState = beforeBtnState & (beforeBtnState ^ ButtonState);
 

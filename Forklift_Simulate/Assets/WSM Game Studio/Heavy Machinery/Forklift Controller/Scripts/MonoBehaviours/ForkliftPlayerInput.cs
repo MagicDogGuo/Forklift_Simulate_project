@@ -71,18 +71,35 @@ namespace WSMGameStudio.HeavyMachinery
             if (Input.GetKeyDown(inputSettings.toggleEngine))
                 _forkliftController.IsEngineOn = !_forkliftController.IsEngineOn;
 
-            _mastTilt = logtichControl.MastTiltForwards ? 1 : logtichControl.MastTiltBackwards ? -1 : 0;
+            ////////////////////////////////////X Y 軸
+            if (JoyStickHelper.GetAxisPosition(JoyStickHelper.ControlDirection.X)>-0.3f)
+            {
+            }
+        
 
-            _forksVertical = logtichControl.ForkUp ? 1 : logtichControl.ForkDown ? -1 : 0;
+            //貨插
+            //_mastTilt = logtichControl.MastTiltForwards ? 1 : logtichControl.MastTiltBackwards ? -1 : 0;
+            //_forksVertical = logtichControl.ForkUp ? 1 : logtichControl.ForkDown ? -1 : 0;
+            if (GetAllJoysEvent.DegreeBar_Rz_傾斜 < -0.8f) _mastTilt = 1;
+            if (GetAllJoysEvent.DegreeBar_Rz_傾斜 < 0.8f&& GetAllJoysEvent.DegreeBar_Rz_傾斜 > -0.8f) _mastTilt =0;
+            if (GetAllJoysEvent.DegreeBar_Rz_傾斜 > 0.8f) _mastTilt = -1;
+
+            if (GetAllJoysEvent.UpDownBar_Ry_升降 < -0.8f) _forksVertical = -1;
+            if (GetAllJoysEvent.UpDownBar_Ry_升降 < 0.8f && GetAllJoysEvent.UpDownBar_Ry_升降 > -0.8f) _forksVertical = 0;
+            if (GetAllJoysEvent.UpDownBar_Ry_升降 > 0.8f) _forksVertical = 1;
 
 
             //改羅技
-            if (logtichControl.BackMove) _backFront = 1;
-            if (!logtichControl.FrontMove && !logtichControl.BackMove) _backFront = 0;
-            if (logtichControl.FrontMove) _backFront = -1;
+            //if (logtichControl.BackMove) _backFront = 1;
+            //if (!logtichControl.FrontMove && !logtichControl.BackMove) _backFront = 0;
+            //if (logtichControl.FrontMove) _backFront = -1;
             //if (Input.GetKey(inputSettings.backMove)) _backFront = -1;
             //if (Input.GetKey(inputSettings.nullMove)) _backFront = 0;
             //if (Input.GetKey(inputSettings.frontMove)) _backFront = 1;
+            if (GetAllJoysEvent.FrontBar_btn6) _backFront = -1;
+            if (!GetAllJoysEvent.FrontBar_btn5 && !GetAllJoysEvent.FrontBar_btn6) _backFront = 0;
+            if (GetAllJoysEvent.FrontBar_btn5) _backFront = 1;
+
 
 
             if (Input.GetKey(inputSettings.rightLight) && _changeLight != 1) _changeLight = 1;
@@ -90,9 +107,9 @@ namespace WSMGameStudio.HeavyMachinery
             if (Input.GetKey(inputSettings.leftLight) && _changeLight != -1) _changeLight = -1;
 
 
-            _forkliftController.RotateMast(_mastTilt);//貨插旋轉
-            _forkliftController.MoveTilt(_mastTilt);//液壓白鐵前後
-            _forkliftController.MoveForksVertically(_forksVertical);//貨插升降
+            _forkliftController.RotateMast(-_mastTilt);//貨插旋轉
+            _forkliftController.MoveTilt(-_mastTilt);//液壓白鐵前後
+            _forkliftController.MoveForksVertically(-_forksVertical);//貨插升降
                                                                     //更換燈
             _WSMVehicleController.CurrenLightControl(_changeLight);
 
