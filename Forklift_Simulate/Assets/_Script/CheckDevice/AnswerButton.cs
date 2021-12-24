@@ -92,12 +92,17 @@ public class AnswerButton : MonoBehaviour
     {
         IsCheck = true;
         this.GetComponentInChildren<Image>().sprite = IsCheckSprite;
+        this.GetComponentInChildren<Image>().SetNativeSize();
+        this.GetComponentInChildren<Image>().GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(70, -45);
     }
 
     void IsNoSelectAction()
     {
         IsCheck = false;
         this.GetComponentInChildren<Image>().sprite = IsNoCheckSprite;
+        this.GetComponentInChildren<Image>().SetNativeSize();
+        this.GetComponentInChildren<Image>().GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(50, -50);
+
 
     }
 }

@@ -10,7 +10,6 @@ public class MainGameStateControl {
         DriveForkKit,
         CompleteTest,
         CompletePrictice,
-
     }
 
     public GameFlowState GameState { get; private set; }

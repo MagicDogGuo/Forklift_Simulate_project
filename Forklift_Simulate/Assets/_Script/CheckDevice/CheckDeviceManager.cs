@@ -333,7 +333,7 @@ public class CheckDeviceManager : MonoBehaviour
                 break;
             case DevicePart.Dashbroad:
                 breakDashBoradNumber = Random.Range(1, 3);//1=充電燈 , 2=油燈
-                tempBreakpartNumber.Add(breakDashBoradNumber);
+                tempBreakpartNumber.Add(breakDashBoradNumber+2); //2開始，因為1=正常,2=異常
                 dashbroad.OnKeyPlugIn = null;
                 dashbroad.OnKeyPlugIn += DashBoardRandomBreak_key;
                 break;
@@ -415,7 +415,7 @@ public class CheckDeviceManager : MonoBehaviour
         for (int i = 0; i < devicePartArray.Length;)
         {
             bool iS_i = true;
-            DevicePart devicePart = (DevicePart)Random.Range(3, 8);
+            DevicePart devicePart = (DevicePart)Random.Range(9, 14);//一定要5個以上
 
             for (int j = 0; j < i; ++j)
             {
@@ -551,44 +551,75 @@ public class CheckDeviceManager : MonoBehaviour
         {
             if (LighType == "R_On")
             {
+                carLight.ControlRight_右控制桿.transform.GetChild(0).localEulerAngles = new Vector3(-11, 185, -62);
                 _wSMVehicleController.RightSinalLightsOn = true;
                 _wSMVehicleController.CurrenLightControl(1);
             }
             if (LighType == "L_On")
             {
+                carLight.ControlRight_右控制桿.transform.GetChild(0).localEulerAngles = new Vector3(11, 142, -62);
+
                 _wSMVehicleController.LeftSinalLightsOn = true;
                 _wSMVehicleController.CurrenLightControl(-1);
             }
             if (LighType == "Dirct_Off")
             {
+                carLight.ControlRight_右控制桿.transform.GetChild(0).localEulerAngles = new Vector3(0, 165, -60);
+
                 _wSMVehicleController.RightSinalLightsOn = false;
                 _wSMVehicleController.LeftSinalLightsOn = false;
                 _wSMVehicleController.CurrenLightControl(0);
             }
             if (LighType == "Big_On")
             {
+                carLight.ControlRight_右控制桿.transform.GetChild(0).GetChild(0).localEulerAngles = new Vector3(0, 0, -42);
+
                 _wSMVehicleController.HeadlightsOn = true;
             }
             if (LighType == "Big_Off")
             {
+                carLight.ControlRight_右控制桿.transform.GetChild(0).GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
+
                 _wSMVehicleController.HeadlightsOn = false;
             }
             if (LighType == "Brake_On")
             {
+                carLight.Light_右剎車燈_Object008.SetActive(true);
+                carLight.Light_左剎車燈_Object008.SetActive(true);
+                carLight.unLight_右剎車燈_Object008.SetActive(false);
+                carLight.unLight_左剎車燈_Object008.SetActive(false);
+
+
                 _wSMVehicleController._brakes = 2;    //沒有指定燈
                 //_wSMVehicleController._movingBackwards = true;
             }
             if (LighType == "Brake_Off")
             {
+                carLight.Light_右剎車燈_Object008.SetActive(false);
+                carLight.Light_左剎車燈_Object008.SetActive(false);
+                carLight.unLight_右剎車燈_Object008.SetActive(true);
+                carLight.unLight_左剎車燈_Object008.SetActive(true);
+
+
                 _wSMVehicleController._brakes = 0;    //沒有指定燈
                 // _wSMVehicleController._movingBackwards = false;
             }
             if (LighType == "RevLight_On")
             {
+                carLight.Light_右倒車燈_Box076.SetActive(true);
+                carLight.Light_左倒車燈_Box076.SetActive(true);
+                carLight.unLight_右倒車燈_Box076.SetActive(false);
+                carLight.unLight_左倒車燈_Box076.SetActive(false);
+
                 _wSMVehicleController._movingBackwards = true;
             }
             if (LighType == "RevLight_On_BreakLight")
             {
+                carLight.Light_右倒車燈_Box076.SetActive(true);
+                carLight.Light_左倒車燈_Box076.SetActive(true);
+                carLight.unLight_右倒車燈_Box076.SetActive(false);
+                carLight.unLight_左倒車燈_Box076.SetActive(false);
+
                 _wSMVehicleController._movingBackwards = true;
                 _wSMVehicleController.reverseAlarmLights[0].intensity = 0;//關閉燈號，可以設定成固定壞某邊
                 _wSMVehicleController.reverseAlarmLights[1].intensity = 0;//關閉燈號，可以設定成固定壞某邊
@@ -604,6 +635,11 @@ public class CheckDeviceManager : MonoBehaviour
             }
             if (LighType == "RevLight_Off")
             {
+                carLight.Light_右倒車燈_Box076.SetActive(false);
+                carLight.Light_左倒車燈_Box076.SetActive(false);
+                carLight.unLight_右倒車燈_Box076.SetActive(true);
+                carLight.unLight_左倒車燈_Box076.SetActive(true);
+
                 _wSMVehicleController._movingBackwards = false;
             }
         }
@@ -780,6 +816,21 @@ public class CarLight
     public string ControlLeft_左控制桿_ab_LightName = "ControlLeft_左控制桿_ab_Light";
     [SerializeField]
     public string ControlLeft_左控制桿_ab_SoundName = "ControlLeft_左控制桿_ab_Sound";
+
+    [Header("有/無發光燈泡")]
+    public GameObject unLight_左方向燈_Object005;
+    public GameObject unLight_右方向燈_Object005;
+    public GameObject unLight_左剎車燈_Object008;
+    public GameObject unLight_右剎車燈_Object008;
+    public GameObject unLight_左倒車燈_Box076;
+    public GameObject unLight_右倒車燈_Box076;
+
+    public GameObject Light_左方向燈_Object005;
+    public GameObject Light_右方向燈_Object005;
+    public GameObject Light_左剎車燈_Object008;
+    public GameObject Light_右剎車燈_Object008;
+    public GameObject Light_左倒車燈_Box076;
+    public GameObject Light_右倒車燈_Box076;
 
     //[SerializeField]
     //public GameObject goodObj_BigLight;

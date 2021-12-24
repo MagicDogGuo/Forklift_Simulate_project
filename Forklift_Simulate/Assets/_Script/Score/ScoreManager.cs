@@ -72,6 +72,8 @@ public class ScoreManager : MonoBehaviour
     bool isCheckBackFront = false;
     bool isCheckOnRoadNotEngine = false;
 
+    LogtichControl logtichControl;
+    bool startTime = false;
     //private void OnGUI()
     //{
     //    GUI.color = Color.black;
@@ -126,6 +128,9 @@ public class ScoreManager : MonoBehaviour
         isCheckForkCluth = false;
         isCheckBackFront = false;
         isCheckOnRoadNotEngine = false;
+
+        logtichControl = GameObject.FindObjectOfType<LogtichControl>();
+
     }
 
     public void ScoreUpdate()
@@ -141,7 +146,8 @@ public class ScoreManager : MonoBehaviour
             //行駛時突然變換前後檔
             //行駛時熄火
 
-            CountTime(480,20);
+            if (logtichControl.CheckEnterUI) startTime = true;
+            if (startTime) CountTime(480,20);
             PipeFall(10);
             ForkitOnRoad(10);
             OnStopTooLong(2, 20);

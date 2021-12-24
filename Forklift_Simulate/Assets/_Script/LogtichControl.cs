@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LogtichControl : MonoBehaviour
 {
@@ -14,13 +15,20 @@ public class LogtichControl : MonoBehaviour
     public float LogitchCluthRotation;
 
     [HideInInspector]
-    public bool ForkUp;
+    public bool CameraFront;
     [HideInInspector]
-    public bool ForkDown;
+    public bool CameraBack;
     [HideInInspector]
-    public bool MastTiltForwards;
+    public bool CameraLeft;
     [HideInInspector]
-    public bool MastTiltBackwards;
+    public bool CameraRight;
+
+    [HideInInspector]
+    public bool CheckSeatBelt;
+    [HideInInspector]
+    public bool CheckEnterUI;
+
+
 
     [HideInInspector]
     public bool FrontMove;
@@ -77,17 +85,24 @@ public class LogtichControl : MonoBehaviour
                     buttonStatus += "Button " + i + " pressed\n";
                     Debug.Log(" buttonStatus: " + buttonStatus);
                 }
-                if (rec.rgbButtons[3] == 128) ForkUp = true;
-                else if (rec.rgbButtons[3] != 128) ForkUp = false;
+                if (rec.rgbButtons[3] == 128) CameraFront = true;
+                else if (rec.rgbButtons[3] != 128) CameraFront = false;
 
-                if (rec.rgbButtons[0] == 128) ForkDown = true;
-                else if (rec.rgbButtons[0] != 128) ForkDown = false;
+                if (rec.rgbButtons[0] == 128) CameraBack = true;
+                else if (rec.rgbButtons[0] != 128) CameraBack = false;
 
-                if (rec.rgbButtons[1] == 128) MastTiltForwards = true;
-                else if (rec.rgbButtons[1] != 128) MastTiltForwards = false;
+                if (rec.rgbButtons[1] == 128) CameraLeft = true;
+                else if (rec.rgbButtons[1] != 128) CameraLeft = false;
 
-                if (rec.rgbButtons[2] == 128) MastTiltBackwards = true;
-                else if (rec.rgbButtons[2] != 128) MastTiltBackwards = false;
+                if (rec.rgbButtons[2] == 128) CameraRight = true;
+                else if (rec.rgbButtons[2] != 128) CameraRight = false;
+
+                if (rec.rgbButtons[10] == 128) CheckSeatBelt = true;
+                else if (rec.rgbButtons[10] != 128) CheckSeatBelt = false;
+
+                if (rec.rgbButtons[23] == 128) CheckEnterUI = true;
+                else if (rec.rgbButtons[23] != 128) CheckEnterUI = false;
+
 
 
                 if (rec.rgbButtons[14] == 128) FrontMove = true;

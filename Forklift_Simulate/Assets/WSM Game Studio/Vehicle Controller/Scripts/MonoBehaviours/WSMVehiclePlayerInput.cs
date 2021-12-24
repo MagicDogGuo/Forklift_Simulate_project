@@ -29,6 +29,9 @@ namespace WSMGameStudio.Vehicles
 
         bool isChageControlMode = false;
 
+
+        bool _CheckSeatBeltBool = false;
+
         /// <summary>
         /// Initializing references
         /// </summary>
@@ -47,6 +50,11 @@ namespace WSMGameStudio.Vehicles
             _maxSpeed = _vehicleController.MaxSpeed;
 
             logtichControl = GetComponent<LogtichControl>();
+
+            //安全帶
+            _vehicleController.seatBelts[0].SetActive(true);
+            _vehicleController.seatBelts[1].SetActive(false);
+
         }
 
         /// <summary>
@@ -92,7 +100,7 @@ namespace WSMGameStudio.Vehicles
             //if (Input.GetKey(inputSettings.frontMove)) _backFront = 1;
             if (GetAllJoysEvent.FrontBar_btn6) _backFront = -1;
             if (!GetAllJoysEvent.FrontBar_btn5 && !GetAllJoysEvent.FrontBar_btn6) _backFront = 0;
-            if (GetAllJoysEvent.FrontBar_btn5) _backFront = 1;
+            if (GetAllJoysEvent.FrontBar_btn5) _backFront = 1;/////////////////////////////////
 
 
             _vehicleController.BackFrontInput = _backFront;
@@ -232,6 +240,22 @@ namespace WSMGameStudio.Vehicles
             if (Input.GetKeyDown(inputSettings.toggleCamera))
                 _vehicleController.CameraToggleRequested = true;
 
+
+            if (logtichControl.CheckSeatBelt && _CheckSeatBeltBool == false)
+            {
+                _CheckSeatBeltBool = true;
+
+                _vehicleController.seatBelts[0].SetActive(!_vehicleController.seatBelts[0].active);
+                _vehicleController.seatBelts[1].SetActive(!_vehicleController.seatBelts[1].active);
+
+            }
+
+            if (!logtichControl.CheckSeatBelt)
+            {
+                _CheckSeatBeltBool = false;
+
+            }
+
             #endregion
 
             #region Player Custom Events
@@ -248,6 +272,8 @@ namespace WSMGameStudio.Vehicles
             #endregion
         }
 
+
+      
 
         void OnEditTest()
         {

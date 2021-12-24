@@ -128,6 +128,7 @@ public class QuestionUIManager : MonoBehaviour
     }
     void OnPushLastQuestionBtn()
     {
+        _QuestionUIComp.ConfirmBtn.gameObject.SetActive(false);
         _QuestionUIComp.ChooseZone01.SetActive(false);
         _QuestionUIComp.InfoTxt.gameObject.SetActive(true);
     }
@@ -306,6 +307,9 @@ public class QuestionUIManager : MonoBehaviour
 
     void OnPushQuestionChooseButtons(int i)
     {
+        _QuestionUIComp.ConfirmBtn.gameObject.SetActive(true);
+
+
         _QuestionUIComp.ChooseZone01.SetActive(true);
         _QuestionUIComp.InfoTxt.gameObject.SetActive(false);
 

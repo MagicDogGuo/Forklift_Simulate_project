@@ -74,7 +74,7 @@ public class Chain : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(forkliftPlayerInput.inputSettings.forksUp) || forkliftPlayerInput.logtichControl.ForkUp)
+        if (Input.GetKey(forkliftPlayerInput.inputSettings.forksUp))//|| forkliftPlayerInput.logtichControl.ForkUp
         {
             countTime += Time.deltaTime;
 
@@ -87,7 +87,7 @@ public class Chain : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(forkliftPlayerInput.inputSettings.forksDown) || forkliftPlayerInput.logtichControl.ForkDown)
+        if (Input.GetKey(forkliftPlayerInput.inputSettings.forksDown))//|| forkliftPlayerInput.logtichControl.ForkDown
         {
             countTime += Time.deltaTime;
 

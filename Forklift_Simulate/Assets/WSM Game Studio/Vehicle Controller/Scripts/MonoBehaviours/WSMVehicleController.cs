@@ -58,6 +58,7 @@ namespace WSMGameStudio.Vehicles
         [SerializeField] public Transform alarmLightsPivot;
         [SerializeField] public WSMVehicleDoor driverDoor;
         [SerializeField] public WSMVehicleDoor[] passengersDoors;
+        [SerializeField] public GameObject[] seatBelts;
 
         // Local only
         private Rigidbody _rigidbody;

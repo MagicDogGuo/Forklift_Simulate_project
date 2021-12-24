@@ -68,6 +68,13 @@ public class DriveForkleftState : IMainGameState
     }
     public override void StateUpdate()
     {
+        string t = "_startPoint.isOnStartPoint_Forkit: " + _startPoint.isOnStartPoint_Forkit
+          + "\n _endPoint.isAllreadyArraivalEndPoint: " + _endPoint.isAllreadyArraivalEndPoint
+          + "\n _wSMVehicleController.CurrentHandbrake == 1: " + (_wSMVehicleController.CurrentHandbrake == 1)
+          + "\n _wSMVehicleController.CurrentBackFront == 0: " + (_wSMVehicleController.CurrentBackFront == 0)
+          + "\n _forkliftController.CurrentForksVertical <= 0.02f: " + (_forkliftController.CurrentForksVertical <= 0.02f)
+          + "\n _forkliftController.CurrentMastTilt > 0.6f: " + (_forkliftController.CurrentMastTilt > 0.6f);
+        MainGameManager.Instance.TestText.GetComponent<Text>().text = t;
 
         //延遲出現分數版
         delayScoreCount += Time.deltaTime;
@@ -116,6 +123,7 @@ public class DriveForkleftState : IMainGameState
 
     void OnPractice()
     {
+   
         //Debug.Log("_______forkliftController.CurrentMastTilt: "+ _forkliftController.CurrentMastTilt);
         if (_startPoint.isOnStartPoint_Forkit
              && _endPoint.isAllreadyArraivalEndPoint
@@ -125,7 +133,6 @@ public class DriveForkleftState : IMainGameState
              && _forkliftController.CurrentMastTilt > 0.6f)//傾斜
         {
             m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompletePrictice, m_Conrtoller);
-
             MainGameManager.Instance.IsSussuesPassTest = 1;
         }
         else
@@ -137,9 +144,7 @@ public class DriveForkleftState : IMainGameState
         //壓線出UI
         if (MainGameManager.Instance.IsForkitOnRoad == false)
         {
-            if (WarningUI == null) WarningUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
-
-       
+            if (WarningUI == null) WarningUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);     
         }
 
 
@@ -158,7 +163,12 @@ public class DriveForkleftState : IMainGameState
             m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompleteTest, m_Conrtoller);
         }
 
-        if (_startPoint.isOnStartPoint_Forkit && _endPoint.isAllreadyArraivalEndPoint)
+        if (_startPoint.isOnStartPoint_Forkit 
+            && _endPoint.isAllreadyArraivalEndPoint
+            && _wSMVehicleController.CurrentHandbrake == 1
+            && _wSMVehicleController.CurrentBackFront == 0
+            && _forkliftController.CurrentForksVertical <= 0.02f//高度
+            && _forkliftController.CurrentMastTilt > 0.6f)//傾斜
         {
             MainGameManager.Instance.IsSussuesPassTest = 1;
             m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompleteTest, m_Conrtoller);

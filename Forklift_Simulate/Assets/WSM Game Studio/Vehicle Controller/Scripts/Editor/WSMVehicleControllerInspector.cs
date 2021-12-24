@@ -46,6 +46,8 @@ namespace WSMGameStudio.Vehicles
         protected SerializedProperty _alarmLightsPivot;
         protected SerializedProperty _driverDoor;
         protected SerializedProperty _passengersDoors;
+        protected SerializedProperty _seatBelts;
+
 
         private int _selectedMenuIndex = 0;
         private string[] _toolbarMenuOptions = new[] { "Settings", "Wheels", "Parts", "SFX", "Lights", "UI" };
@@ -337,6 +339,8 @@ namespace WSMGameStudio.Vehicles
                 //_articulatedVehiclePivot = serializedObject.FindProperty("articulatedVehiclePivot");
                 _driverDoor = serializedObject.FindProperty("driverDoor");
                 _passengersDoors = serializedObject.FindProperty("passengersDoors");
+                _seatBelts = serializedObject.FindProperty("seatBelts");
+
 
                 GUILayout.Label("VEHICLE PARTS", EditorStyles.boldLabel);
                 EditorGUILayout.PropertyField(_steeringWheel);
@@ -348,6 +352,8 @@ namespace WSMGameStudio.Vehicles
                 //EditorGUILayout.PropertyField(_articulatedVehiclePivot);
                 EditorGUILayout.PropertyField(_driverDoor);
                 EditorGUILayout.PropertyField(_passengersDoors, true);
+                EditorGUILayout.PropertyField(_seatBelts, true);
+
 
                 serializedObject.ApplyModifiedProperties();
             }

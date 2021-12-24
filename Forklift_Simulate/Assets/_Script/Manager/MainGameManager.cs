@@ -30,6 +30,9 @@ public class MainGameManager : MonoBehaviour
     }
 
     [SerializeField]
+    public GameObject TestText;
+
+    [SerializeField]
     GameObject EndPointObj;
 
     [SerializeField]
@@ -210,6 +213,11 @@ public class MainGameManager : MonoBehaviour
         if (Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            TestText.SetActive(!TestText.active);
         }
     }
 

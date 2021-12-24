@@ -341,10 +341,16 @@ public class HandelContorller : MonoBehaviour
         {
             if (isInPadel_Nor && isPushHandTrig)
             {
+                //手煞紅點
+                padel_Nor.transform.GetChild(0).transform.localPosition = new Vector3(0.0043f, 0, 0.2819f);
+
                 oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, pushDegree, 70f * Time.deltaTime);
             }
             else
             {
+                //手煞紅點
+                padel_Nor.transform.GetChild(0).transform.localPosition = new Vector3(0.004561948f, 0, 0.2845623f);
+
                 oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, 0, 70f * Time.deltaTime);
             }
             padel_Nor.transform.localEulerAngles = new Vector3(0, -oriTemp_HandBrake, 180);
@@ -571,8 +577,8 @@ public class HandelContorller : MonoBehaviour
                 btn[0].GetComponentInChildren<Text>().text = "右方向燈開";
                 btn[1].GetComponentInChildren<Text>().text = "左方向燈開";
                 btn[2].GetComponentInChildren<Text>().text = "方向燈關";
-                btn[3].GetComponentInChildren<Text>().text = "大燈開";
-                btn[4].GetComponentInChildren<Text>().text = "大燈關";
+                btn[3].GetComponentInChildren<Text>().text = "前燈開";
+                btn[4].GetComponentInChildren<Text>().text = "前燈關";
 
                 //正常
                 
@@ -750,14 +756,22 @@ public class HandelContorller : MonoBehaviour
     {
         if (isInBeTakeObj == true && isPushHandTrig)
         {
-            Debug.Log("==============sss=");
-            BeTakingObj.transform.position = this.transform.position + BeTakingObj.GetComponent<CanBeHandTakeObj>().OffsetPos;
+            Debug.Log("==============引擎機油尺=");
+           // BeTakingObj.transform.position = this.transform.position + BeTakingObj.GetComponent<CanBeHandTakeObj>().OffsetPos;
+            //BeTakingObj.transform.localEulerAngles = new Vector3(BeTakingObj.GetComponent<CanBeHandTakeObj>().oriRota.x, 
+            //BeTakingObj.GetComponent<CanBeHandTakeObj>().oriRota.y,
+            //this.transform.localEulerAngles.z);
+            BeTakingObj.transform.SetParent(this.transform.gameObject.transform);
         }
         else
         {
             if (BeTakingObj != null)
             {
+                isInBeTakeObj = false;/////////////////////////////////////
+                BeTakingObj.transform.SetParent(BeTakingObj.GetComponent<CanBeHandTakeObj>().oriPareant.transform);
                 BeTakingObj.transform.localPosition = BeTakingObj.GetComponent<CanBeHandTakeObj>().oriPos;
+                BeTakingObj.transform.localEulerAngles = BeTakingObj.GetComponent<CanBeHandTakeObj>().oriRota;
+
             }
         }
     }

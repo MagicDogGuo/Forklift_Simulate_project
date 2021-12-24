@@ -66,6 +66,8 @@ public class ScoreGroupComp : MonoBehaviour
 
     MainGameManager.GameMode GameMode;
 
+
+
     void Start()
     {
         scoreManager = MainGameManager.Instance.ScoreManagers;
@@ -91,6 +93,7 @@ public class ScoreGroupComp : MonoBehaviour
             OnTestMode();
            
         }
+
     }
 
     void Update()

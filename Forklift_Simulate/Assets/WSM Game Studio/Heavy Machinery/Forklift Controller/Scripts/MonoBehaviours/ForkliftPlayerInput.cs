@@ -95,7 +95,7 @@ namespace WSMGameStudio.HeavyMachinery
             //if (logtichControl.FrontMove) _backFront = -1;
             //if (Input.GetKey(inputSettings.backMove)) _backFront = -1;
             //if (Input.GetKey(inputSettings.nullMove)) _backFront = 0;
-            //if (Input.GetKey(inputSettings.frontMove)) _backFront = 1;
+            //if (Input.GetKey(inputSettings.frontMove)) _backFront = 1;////////////////////////////
             if (GetAllJoysEvent.FrontBar_btn6) _backFront = -1;
             if (!GetAllJoysEvent.FrontBar_btn5 && !GetAllJoysEvent.FrontBar_btn6) _backFront = 0;
             if (GetAllJoysEvent.FrontBar_btn5) _backFront = 1;
