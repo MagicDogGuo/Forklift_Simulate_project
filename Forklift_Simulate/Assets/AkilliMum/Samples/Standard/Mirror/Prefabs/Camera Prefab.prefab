@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1600529276325086
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4638224664852462}
+  - component: {fileID: 20636957038633158}
+  - component: {fileID: 124303661358328610}
+  - component: {fileID: 81657726782268702}
+  - component: {fileID: 114554676274693164}
+  - component: {fileID: 114398622338469428}
+  m_Layer: 0
+  m_Name: Camera Prefab
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4638224664852462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600529276325086}
+  m_LocalRotation: {x: -0.027646018, y: -0.9538066, z: 0.09271284, w: -0.28441712}
+  m_LocalPosition: {x: -2.387168, y: 2.0724914, z: 5.734152}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 7.15, y: 90, z: 0}
+--- !u!20 &20636957038633158
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600529276325086}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: 3
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 0
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!124 &124303661358328610
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600529276325086}
+  m_Enabled: 1
+--- !u!81 &81657726782268702
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600529276325086}
+  m_Enabled: 1
+--- !u!114 &114554676274693164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600529276325086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 392aa140e18ba4dee8cc00d1368c24c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsEnabled: 0
+  IsMirrorInMirror: 0
+  MirrorInMirrorId: 
+  TurnOffOcclusion: 0
+  DeviceType: 0
+  WorkType: 1
+  UpVector: 2
+  Intensity: 1
+  DisableGBuffer: 1
+  DisableRProbes: 1
+  RunForEveryXthFrame: 1
+  CameraLODLevel: 0
+  TextureLODLevel: 0
+  HDR: 1
+  MSAA: 0
+  DisablePixelLights: 0
+  Shadow: 0
+  ShadowDistance: 0
+  Cull: 0
+  CullDistance: 0
+  TextureSize: 1
+  ManualSize: 1238
+  UseCameraClipPlane: 0
+  ClipPlaneOffset: 0
+  ReflectLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  MixBlackColor: 0
+  EnableDepthBlur: 0
+  DepthBlurShader: {fileID: 0}
+  DepthBlurCutoff: 0.8
+  DepthBlurIterations: 3
+  DepthBlurSurfacePower: 1
+  DepthBlurHorizontalMultiplier: 1
+  DepthBlurVerticalMultiplier: 1
+  EnableSimpleDepth: 0
+  SimpleDepthCutoff: 0.8
+  Shades: []
+  EnableFinalShader: 0
+  FinalShader: {fileID: 0}
+  EnableARMode: 0
+  Iterations: 3
+  NeighbourPixels: 5
+  BlockSize: 8
+  RefractionTexture: {fileID: 0}
+  Refraction: 0
+  EnableWaves: 0
+  WaveNoiseTexture: {fileID: 0}
+  WaveSize: 15
+  WaveDistortion: 0.02
+  WaveSpeed: 0.005
+  EnableRipples: 0
+  RippleTexture: {fileID: 0}
+  RippleSize: 2
+  RippleRefraction: 0.02
+  RippleDensity: 1
+  RippleSpeed: 0.3
+  EnableMask: 0
+  MaskTexture: {fileID: 0}
+  MaskTiling: {x: 1, y: 1}
+  MaskCutoff: 0.5
+  MaskEdgeDarkness: 1
+--- !u!114 &114398622338469428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600529276325086}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40472aec757584fdf8ab37516de51319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookSpeed: 2
+  moveSpeed: 1

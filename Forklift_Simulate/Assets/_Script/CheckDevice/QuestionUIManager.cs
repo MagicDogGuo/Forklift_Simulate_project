@@ -597,11 +597,53 @@ public class QuestionUIManager : MonoBehaviour
                 }
             }
         }
-   
+        if (buttonSelectType == AnswerButton.ButtonSelectType.SigleSelect_btn)
+        {
+            if (currentAnwerList.Count < 1)
+            {//沒作答過
+                currentAnwerList.Add(j);
+            }
+            else
+            {//有作答過
+                if (currentAnwerList.Contains(j))
+                {
+                    Debug.Log("======================Clear");
+                    currentAnwerList.Clear();
+                }
+                else
+                {
+                    currentAnwerList.Clear();
+                    currentAnwerList.Add(j);
+                }
+
+
+            }
+        }
     }
 
     void OnPushYesNoQuestion(int j , AnswerButton.ButtonSelectType buttonSelectType )
     {
+        if (buttonSelectType == AnswerButton.ButtonSelectType.MultiSelect_btn)
+        {
+            if (currentAnwerList.Count < 1)
+            {
+                currentAnwerList.Add(j);
+
+            }
+            else
+            {
+                if (currentAnwerList.Contains(j))
+                {
+                    Debug.Log("======================Remove:" + j + currentAnwerList.Remove(j));
+                    currentAnwerList.Remove(j);
+
+                }
+                else
+                {
+                    currentAnwerList.Add(j);
+                }
+            }
+        }
         if (buttonSelectType == AnswerButton.ButtonSelectType.SigleSelect_btn)
         {
             if (currentAnwerList.Count < 1)

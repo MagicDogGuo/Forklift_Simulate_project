@@ -71,6 +71,18 @@ public class HandelContorller : MonoBehaviour
     GameObject TipObj_NormalHandBrakePadel;
     GameObject TipObj_abNormalHandBrakePadel;
 
+    //安全帶
+    string SafeBaltName_good;
+    string SafeBaltName_bad;
+    bool isInSafeBalt_Nor;
+    bool isInSafeBalt_abNor;
+    GameObject SafeBalt_Nor;
+    GameObject SafeBalt_abNor;
+    GameObject TipObj_NormalSafeBalt;
+    GameObject TipObj_abNormalSafeBalt;
+
+
+
     //螺絲
     string ScrewBreakKeyWord;
     string ScrewNormalWord;
@@ -166,6 +178,9 @@ public class HandelContorller : MonoBehaviour
         HandBrakePadelName_good = checkDeviceManager.handBrake.goodObjName;
         HandBrakePadelName_bad = checkDeviceManager.handBrake.badObjName;
 
+        SafeBaltName_good = checkDeviceManager.safeBalt.goodObjName;
+        SafeBaltName_bad = checkDeviceManager.safeBalt.badObjName;
+
         ScrewBreakKeyWord = checkDeviceManager.tire.BreakScrewName;
         ScrewNormalWord = checkDeviceManager.tire.NormalScrewName;
 
@@ -235,13 +250,14 @@ public class HandelContorller : MonoBehaviour
             }
         }
 
-        Debug.Log(this.name + " isInGasPade:" + isInGasPadel);
+        //Debug.Log(this.name + " isInGasPade:" + isInGasPadel);
 
         PadelControl(CluthPadel_Nor, CluthPadel_abNor,isInCluthPadel_Nor, isInCluthPadel_abNor, "C");
         PadelControl(BrakePadel_Nor, BrakePadel_abNor, isInBrakePadel_Nor, isInBrakePadel_abNor, "B");
         PadelControl(HandBrakePadel_Nor, HandBrakePadel_abNor, isInHandBrakePadel_Nor, isInHandBrakePadel_abNor, "H");
         PadelControl(GasPadel_Nor, null, isInGasPadel, false, "G");//額外油門
         WheelControl();
+        SafeBaltControl();
         ScrewControl();
         HornControl();
         ControlRight_右控制桿Control();
@@ -478,6 +494,38 @@ public class HandelContorller : MonoBehaviour
             }
         }
     }
+    //安全帶
+    void SafeBaltControl()
+    {
+        if (isInSafeBalt_Nor && isPushHandTrig)
+        {
+            SafeBalt_Nor.SetActive(false);
+            GameObject.Find("seat belt_belt").GetComponent<MeshRenderer>().enabled = true;
+        }
+        if (isInSafeBalt_abNor && isPushHandTrig)
+        {
+            if (TipObj_abNormalSafeBalt == null)
+            {
+                SafeBalt_abNor.transform.localPosition = new Vector3(-0.003849184f, 0.1943655f,-0.05f);
+                TipObj_abNormalSafeBalt = Instantiate(TipUIObj, this.transform);
+                TipObj_abNormalSafeBalt.GetComponentInChildren<Text>().text = "安全帶卡住!";
+                TipObj_abNormalSafeBalt.transform.localPosition = TipUIOffset;//new Vector3(0.04f, 0.05f, 0.4f);
+                                                                                    //TipObj_abNormalHandBrakePadel.transform.localEulerAngles = new Vector3(0, 0, 130);
+            }
+            if (TipObj_abNormalSafeBalt != null)
+            {
+
+                if (GameObject.Find("TipUILookTraget")!=null) TipObj_abNormalSafeBalt.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
+            }
+            //Debug.Log("ssssssssssssssssssssssssssssssssssssss");
+
+        }
+        else
+        {
+           if(SafeBalt_abNor!=null) SafeBalt_abNor.transform.localPosition = new Vector3(-0.003849184f, 0.1943655f, -0.0797f);
+            Destroy(TipObj_abNormalSafeBalt);
+        }
+    }
 
     void ScrewControl()
     {
@@ -656,6 +704,9 @@ public class HandelContorller : MonoBehaviour
             //倒車燈異常
             if (ControlLeft_左控制桿.name.Contains( ControlLeft_左控制桿Name_ab_Light))
             {
+                //Debug.Log("sssssssssssssssssssssssssssssssssssssss   "  + ControlLeft_左控制桿TriggerCount);
+                //Debug.Log("ControlLeft_左控制桿" + ControlLeft_左控制桿);
+
                 checkDeviceManager.ControlLight(true, "RevLight_On_BreakLight");//////////////////////
             }
             //倒車警示異常
@@ -828,6 +879,18 @@ public class HandelContorller : MonoBehaviour
             isInHandBrakePadel_abNor = true;
             HandBrakePadel_abNor = other.gameObject;
         }
+        //安全帶
+        if (other.name == SafeBaltName_good)
+        {
+            isInSafeBalt_Nor = true;
+            SafeBalt_Nor = other.gameObject;
+        }
+        if (other.name == SafeBaltName_bad)
+        {
+            isInSafeBalt_abNor = true;
+            SafeBalt_abNor = other.gameObject;
+        }
+
         //螺絲
         if (other.name.Contains(ScrewBreakKeyWord))
         {
@@ -951,6 +1014,15 @@ public class HandelContorller : MonoBehaviour
         if (other.name == HandBrakePadelName_bad)
         {
             isInHandBrakePadel_abNor = false;
+        }
+        //安全帶
+        if (other.name == SafeBaltName_good)
+        {
+            isInSafeBalt_Nor = false;
+        }
+        if (other.name == SafeBaltName_bad)
+        {
+            isInSafeBalt_abNor = false;
         }
         //螺絲
         if (other.name.Contains(ScrewBreakKeyWord))

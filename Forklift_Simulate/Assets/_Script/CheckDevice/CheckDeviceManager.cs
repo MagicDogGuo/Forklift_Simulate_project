@@ -40,6 +40,10 @@ public class CheckDeviceManager : MonoBehaviour
     public HandBrake handBrake;
 
     [SerializeField]
+    public SafeBalt safeBalt;
+
+
+    [SerializeField]
     public Tire tire;
 
     [SerializeField]
@@ -47,6 +51,9 @@ public class CheckDeviceManager : MonoBehaviour
 
     [SerializeField]
     public CarLight carLight;
+
+    [SerializeField]
+    public AlertLight_工作警示燈 alertLight_工作警示燈;
 
     [SerializeField]
     public IronPipe_白鐵蕊 ironPipe;
@@ -79,8 +86,8 @@ public class CheckDeviceManager : MonoBehaviour
         WaterOil_液壓油 = 5,
         Clutch = 6,
         Brake = 7,
-        Wheels = 8,
-        HandBrake = 9,
+        HandBrake = 8,
+        SafeBalt = 9,
         Tire = 10,
         Screw = 11,
         Horn = 12,
@@ -88,8 +95,8 @@ public class CheckDeviceManager : MonoBehaviour
         CarLight_BigLight = 14,
         CarLight_DirctLight = 15,
         CarLight_BrakeLight = 16,
-        CarLight_RearLight = 17,
-        RearMoveAlert = 18,
+        CarLight_RearLight_Alert = 17,
+        AlertLight_工作警示燈 = 18,
         ironPipe = 19,
         fork_固定銷 = 20
     }
@@ -175,7 +182,6 @@ public class CheckDeviceManager : MonoBehaviour
     {
         int tmep = 0;
 
-
         cold_冷卻液.goodObj.SetActive(false);
         cold_冷卻液.badObj.SetActive(true);
 
@@ -194,9 +200,10 @@ public class CheckDeviceManager : MonoBehaviour
         clutch.Obj.name = clutch.badObjName;
 
         brake.Obj.name = brake.goodObjName;
-        //brake.Obj.name = brake.badObjName;
 
         handBrake.Obj.name = handBrake.badObjName;
+
+        safeBalt.Obj.name = safeBalt.badObjName;
 
         TireRandomBreak(out tmep);
 
@@ -217,11 +224,13 @@ public class CheckDeviceManager : MonoBehaviour
         carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_LightName;
         carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_SoundName;
 
+        alertLight_工作警示燈.goodObj.SetActive(false);
+        alertLight_工作警示燈.badObj.SetActive(true);
+
         ironPipe.goodObj.SetActive(false);
         ironPipe.badObj.SetActive(true);
 
         Fork_固定銷Bad();
-
     }
 
     /// <summary>
@@ -239,6 +248,7 @@ public class CheckDeviceManager : MonoBehaviour
         brake.Obj.name = brake.goodObjName;
         WheelGood();
         handBrake.Obj.name = handBrake.goodObjName;
+        safeBalt.Obj.name = safeBalt.goodObjName;
         TireGood();
         ScrewGood();
         HronGood();
@@ -247,6 +257,9 @@ public class CheckDeviceManager : MonoBehaviour
 
         carLight.ControlRight_右控制桿.name = carLight.NormalControlRight_右控制桿Name;
         carLight.ControlLeft_左控制桿.name = carLight.NormalControlLeft_左控制桿Name;
+
+        alertLight_工作警示燈.goodObj.SetActive(true);
+        alertLight_工作警示燈.badObj.SetActive(false);
 
         ironPipe.goodObj.SetActive(true);
         ironPipe.badObj.SetActive(false);
@@ -275,12 +288,12 @@ public class CheckDeviceManager : MonoBehaviour
         switch (devicePart)
         {
             case DevicePart.Cold_冷卻液:
-                tempBreakpartNumber.Add(2);
+                tempBreakpartNumber.Add(4);//過低
                 cold_冷卻液.goodObj.SetActive(false);
                 cold_冷卻液.badObj.SetActive(true);
                 break;
             case DevicePart.EngineOil:
-                tempBreakpartNumber.Add(2);
+                tempBreakpartNumber.Add(4);//過低
                 engineOil.goodObj.SetActive(false);
                 engineOil.badObj.SetActive(true);
                 break;
@@ -291,12 +304,12 @@ public class CheckDeviceManager : MonoBehaviour
                 batteryWater.badObj.SetActive(true);
                 break;
             case DevicePart.BrakeOil:
-                tempBreakpartNumber.Add(3);//只有剎車油
+                tempBreakpartNumber.Add(4);//過低
                 brakeOil.goodObj.SetActive(false);
                 brakeOil.badObj.SetActive(true);
                 break;
             case DevicePart.WaterOil_液壓油:
-                tempBreakpartNumber.Add(2);
+                tempBreakpartNumber.Add(4);//過低
                 waterOil_液壓油.goodObj.SetActive(false);
                 waterOil_液壓油.badObj.SetActive(true);
                 break;
@@ -308,13 +321,14 @@ public class CheckDeviceManager : MonoBehaviour
                 tempBreakpartNumber.Add(2);
                 brake.Obj.name = brake.badObjName;
                 break;
-            case DevicePart.Wheels:
-                tempBreakpartNumber.Add(2);
-                WheelBreak();
-                break;
             case DevicePart.HandBrake:
                 tempBreakpartNumber.Add(2);
+                //WheelBreak();
                 handBrake.Obj.name = handBrake.badObjName;
+                break;
+            case DevicePart.SafeBalt:
+                tempBreakpartNumber.Add(2);
+                safeBalt.Obj.name = safeBalt.badObjName;
                 break;
             case DevicePart.Tire:
                 int temp1 = 0;
@@ -353,14 +367,16 @@ public class CheckDeviceManager : MonoBehaviour
                 tempBreakpartNumber.AddRange(input3);//左右一起壞
                 brake.Obj.name += brake.breakRearLightName;
                 break;
-            case DevicePart.CarLight_RearLight:
+            case DevicePart.CarLight_RearLight_Alert:
                 int[] input4 = { 3, 4 };
                 tempBreakpartNumber.AddRange(input4);//左右一起壞
                 carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_LightName;
+                //carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_SoundName;
                 break;
-            case DevicePart.RearMoveAlert:
+            case DevicePart.AlertLight_工作警示燈:
                 tempBreakpartNumber.Add(2);
-                carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_SoundName;
+                alertLight_工作警示燈.goodObj.SetActive(false);
+                alertLight_工作警示燈.badObj.SetActive(true);
                 break;
 
             case DevicePart.ironPipe:
@@ -415,7 +431,7 @@ public class CheckDeviceManager : MonoBehaviour
         for (int i = 0; i < devicePartArray.Length;)
         {
             bool iS_i = true;
-            DevicePart devicePart = (DevicePart)Random.Range(9, 14);//一定要5個以上
+            DevicePart devicePart = (DevicePart)Random.Range(16, 21);//一定要5個以上
 
             for (int j = 0; j < i; ++j)
             {
@@ -615,18 +631,18 @@ public class CheckDeviceManager : MonoBehaviour
             }
             if (LighType == "RevLight_On_BreakLight")
             {
-                carLight.Light_右倒車燈_Box076.SetActive(true);
-                carLight.Light_左倒車燈_Box076.SetActive(true);
-                carLight.unLight_右倒車燈_Box076.SetActive(false);
-                carLight.unLight_左倒車燈_Box076.SetActive(false);
+                carLight.Light_右倒車燈_Box076.SetActive(false);
+                carLight.Light_左倒車燈_Box076.SetActive(false);
+                carLight.unLight_右倒車燈_Box076.SetActive(true);
+                carLight.unLight_左倒車燈_Box076.SetActive(true);
 
                 _wSMVehicleController._movingBackwards = true;
                 _wSMVehicleController.reverseAlarmLights[0].intensity = 0;//關閉燈號，可以設定成固定壞某邊
                 _wSMVehicleController.reverseAlarmLights[1].intensity = 0;//關閉燈號，可以設定成固定壞某邊
-                _wSMVehicleController.reverseAlarmLights_Materials[0].DisableKeyword("_EMISSION");// = Color.black;//關閉燈號
-                _wSMVehicleController.reverseAlarmLights_Materials[1].DisableKeyword("_EMISSION");//.color = Color.black;//關閉燈號
-                _wSMVehicleController.reverseAlarmLights_Materials[2].DisableKeyword("_EMISSION");// = Color.black;//關閉燈號
-                _wSMVehicleController.reverseAlarmLights_Materials[3].DisableKeyword("_EMISSION");//.color = Color.black;//關閉燈號
+                //_wSMVehicleController.reverseAlarmLights_Materials[0].DisableKeyword("_EMISSION");// = Color.black;//關閉燈號
+                //_wSMVehicleController.reverseAlarmLights_Materials[1].DisableKeyword("_EMISSION");//.color = Color.black;//關閉燈號
+                //_wSMVehicleController.reverseAlarmLights_Materials[2].DisableKeyword("_EMISSION");// = Color.black;//關閉燈號
+                //_wSMVehicleController.reverseAlarmLights_Materials[3].DisableKeyword("_EMISSION");//.color = Color.black;//關閉燈號
             }
             if (LighType == "RevLight_On_BreakSound")
             {
@@ -757,6 +773,19 @@ public class HandBrake
 }
 
 [System.Serializable]
+public class SafeBalt
+{
+    [SerializeField]
+    public GameObject Obj;
+    [SerializeField]
+    public string goodObjName = "SafeBalt_nor";
+    [SerializeField]
+    public string badObjName = "SafeBalt_ab";
+}
+
+
+
+[System.Serializable]
 public class Tire
 {
     [SerializeField]
@@ -861,6 +890,16 @@ public class WarmingSound
     [SerializeField]
     public GameObject badObj;
 }
+
+[System.Serializable]
+public class AlertLight_工作警示燈
+{
+    [SerializeField]
+    public GameObject goodObj;
+    [SerializeField]
+    public GameObject badObj;
+}
+
 
 [System.Serializable]
 public class IronPipe_白鐵蕊

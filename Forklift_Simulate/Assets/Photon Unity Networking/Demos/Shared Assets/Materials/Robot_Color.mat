@@ -8,9 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Robot_Color
-  m_Shader: {fileID: 2, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 390f9bd3aa99d4bcbafb9d22e55c4da7, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 4
+  m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -20,13 +20,24 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: a1454d7237641fa49a7f66d6bee624ad, type: 3}
+        m_Texture: {fileID: 2800000, guid: 94c473c9137744d7eabd829f1150da8d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 1fbb41709a1d9334696860db720026e5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0a0e8af2869fa45f78e25460db578482, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Floats: []
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 524f825a31a4bf04db832318ea10c982, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _ReflAmount: 0.91
+    - _ReflDistort: 0.02
+    - _Speed: 0.02
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

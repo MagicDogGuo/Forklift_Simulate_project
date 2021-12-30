@@ -1,0 +1,36 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Bold;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww12880\viewh10300\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf2 \uc0\u8232 PLEASE write me if you have any trouble: akillimum@gmail.com\
+\
+
+\f1\b Documentation:\
+\
+
+\f0\b0 Sample scenes folder has every available options for shaders. Please use them as reference.\
+\uc0\u8232 
+\f1\b "Directional Only"
+\f0\b0  scene has a shader that only receives directional shadow.\
+\
+
+\f1\b "Point-Spot Only" 
+\f0\b0 scene has a shader that only receives point-spot lights and shadow.\uc0\u8232 \u8232 So if you want to receive only directional shadows or point-spot shadows u can use separate shaders in the scenes for performance reasons.\u8232 \u8232 
+\f1\b "All"
+\f0\b0  scene has a shader that both receive directional, point-spot lights. So u can use that shader if you want to use only one plane (floor) in the scene which receives all lights and shadows.\uc0\u8232 \
+
+\f1\b Sprites:
+\f0\b0 \uc0\u8232 \u8232 Shaders works with sprites too. But you have to create a new sprite material and decrease it's "Render Queue" until you get the transparency. Please write me if you have trouble :)\u8232 \u8232 
+\f1\b AR-VR:
+\f0\b0 \uc0\u8232 These shaders for AR and works fine with ARKit and Vuforia. Also should work with other AR SDK's. If you want to use it for VR or Desktop, please see the video to how to fake a skybox. If you look into the scenes there is a big cube for skybox to achieve that. So that skybox cube is only necessary for VR or Desktop.\u8232 Video for VR or Desktop: https://www.youtube.com/watch?v=Ft3q1qmrlOI\u8232 \
+AllStereo scene is for vr stereo cube maps\
+AllStereoEquirectangular is for vr Equirectangular panoramas\uc0\u8232 \u8232 
+\f1\b Dark Shaders:
+\f0\b0 \uc0\u8232 !!!Dark shaders are 
+\f1\b deprecated
+\f0\b0  and no longer supported. But if you want to investigate the previous codes you can download the samples from:\uc0\u8232 https://drive.google.com/open?id=1Mt8534mE-iQfQfkO04caxKSlZNO2WZ7w\u8232 which are written with 2018.2.4f1 \u8232 And please watch the videos on download page to understand the usage of them!\u8232 U can also watch them here:\u8232 For Dark-ARKit:     https://www.youtube.com/watch?v=H1DVjSaJBc0\u8232 For Dark-Vuforia:   https://www.youtube.com/watch?v=si0327SBFtQ\
+Vuforia dark scene needs a projection setter for cameras. Please open the dark samples and look into \'93CameraSync.cs\'94\uc0\u8232 }

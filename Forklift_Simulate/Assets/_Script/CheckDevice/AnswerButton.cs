@@ -45,6 +45,10 @@ public class AnswerButton : MonoBehaviour
         IsNoSelectAction();
         SelectCount = 0;
         this.GetComponentInChildren<Button>().onClick.AddListener(OnPushThisButton);
+        this.GetComponentInChildren<Text>().fontSize = 80;
+        this.GetComponentInChildren<Text>().horizontalOverflow = HorizontalWrapMode.Overflow;
+        this.GetComponentInChildren<Text>().verticalOverflow = VerticalWrapMode.Overflow;
+
     }
 
 
