@@ -274,6 +274,7 @@ public class HandelContorller : MonoBehaviour
     [SerializeField]
     Vector3 offsetTip = new Vector3(1, 1, 0);
 
+    bool ischeckHandBrakeTouch=false;
 
     void PadelControl(GameObject padel_Nor, GameObject padel_abNor, bool isInPadel_Nor, bool isInPadel_abNor, string type)
     {
@@ -355,21 +356,38 @@ public class HandelContorller : MonoBehaviour
 
         void HandBrakeMove()
         {
+            if (!isPushHandTrig)
+            {
+                ischeckHandBrakeTouch = false;
+            }
+
             if (isInPadel_Nor && isPushHandTrig)
             {
                 //手煞紅點
                 padel_Nor.transform.GetChild(0).transform.localPosition = new Vector3(0.0043f, 0, 0.2819f);
 
-                oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, pushDegree, 70f * Time.deltaTime);
+                //oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, pushDegree, 70f * Time.deltaTime);
+
+                if (padel_Nor.transform.localEulerAngles.y >= 350&& ischeckHandBrakeTouch==false)
+                {
+                    padel_Nor.transform.localEulerAngles = new Vector3(0, 20, 180);
+                    ischeckHandBrakeTouch = true;
+                }
+                else if(padel_Nor.transform.localEulerAngles.y <= 25 && ischeckHandBrakeTouch == false)
+                {
+                    padel_Nor.transform.localEulerAngles = new Vector3(0,355,180);
+                    ischeckHandBrakeTouch = true;
+
+                }
             }
             else
             {
                 //手煞紅點
                 padel_Nor.transform.GetChild(0).transform.localPosition = new Vector3(0.004561948f, 0, 0.2845623f);
 
-                oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, 0, 70f * Time.deltaTime);
+                //oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, 0, 70f * Time.deltaTime);
             }
-            padel_Nor.transform.localEulerAngles = new Vector3(0, -oriTemp_HandBrake, 180);
+            //padel_Nor.transform.localEulerAngles = new Vector3(0, -oriTemp_HandBrake, 180);
 
         }
 
@@ -383,7 +401,8 @@ public class HandelContorller : MonoBehaviour
             {
                 oriTemp_GasPadel = Mathf.MoveTowards(oriTemp_GasPadel, 0, 70f * Time.deltaTime);
             }
-            padel_Nor.transform.localEulerAngles = new Vector3(0, -oriTemp_GasPadel+30, 90);
+            padel_Nor.transform.localEulerAngles = new Vector3(0, (-oriTemp_GasPadel*1.8f)+30, 90);
+            padel_Nor.transform.parent.localEulerAngles = new Vector3(0, oriTemp_GasPadel*0.8f, 0);
         }
 
         //異常
@@ -391,8 +410,11 @@ public class HandelContorller : MonoBehaviour
         {       
             if (isInPadel_abNor && isPushHandTrig)
             {
+                oriTemp_Cluth = Mathf.MoveTowards(oriTemp_Cluth, -5, 70f * Time.deltaTime);
+
                 if (TipObj_abNormalCluthPadel == null)
                 {
+
                     //TipObj_abNormalCluthPadel = Instantiate(TipUIObj, padel_abNor.transform);
                     TipObj_abNormalCluthPadel = Instantiate(TipUIObj, this.transform);
                     TipObj_abNormalCluthPadel.GetComponentInChildren<Text>().text = "離合器踏板卡住!";
@@ -401,21 +423,29 @@ public class HandelContorller : MonoBehaviour
                 }
                 if (TipObj_abNormalCluthPadel != null)
                 {
+
                     TipObj_abNormalCluthPadel.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
                 }
 
             }
             else
             {
+                oriTemp_Cluth = Mathf.MoveTowards(oriTemp_Cluth, 0, 70f * Time.deltaTime);
+
                 Destroy(TipObj_abNormalCluthPadel);
-            }        
+            }
+            padel_abNor.transform.localEulerAngles = new Vector3(oriTemp_Cluth, 0, 0);
+
         }
         void BrakeTip()
         {
             if (isInPadel_abNor && isPushHandTrig)
-            {
+            {   
+                //小移動
+                oriTemp_Brake = Mathf.MoveTowards(oriTemp_Brake, -5, 70f * Time.deltaTime);
                 if (TipObj_abNormalBrakePadel == null)
                 {
+                 
                     //TipObj_abNormalBrakePadel = Instantiate(TipUIObj, padel_abNor.transform);
                     TipObj_abNormalBrakePadel = Instantiate(TipUIObj, this.transform);
                     TipObj_abNormalBrakePadel.GetComponentInChildren<Text>().text = "煞車踏板卡住!";
@@ -431,8 +461,12 @@ public class HandelContorller : MonoBehaviour
             }
             else
             {
+                oriTemp_Brake = Mathf.MoveTowards(oriTemp_Brake, 0, 70f * Time.deltaTime);
+
                 Destroy(TipObj_abNormalBrakePadel);
             }
+            padel_abNor.transform.localEulerAngles = new Vector3(oriTemp_Brake, 0, 0);
+
         }
         void HandBrakeBreakTip()
         {

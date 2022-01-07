@@ -142,6 +142,16 @@ public class CheckDeviceManager : MonoBehaviour
             }
               
         }
+
+        //方向燈閃爍
+        if (isTiggerR_Light)
+        {
+            DircLightToggle("R");
+        }
+        if (isTriggerL_Light)
+        {
+            DircLightToggle("L");
+        }
     }
 
     void InitDeviceDict()
@@ -431,7 +441,7 @@ public class CheckDeviceManager : MonoBehaviour
         for (int i = 0; i < devicePartArray.Length;)
         {
             bool iS_i = true;
-            DevicePart devicePart = (DevicePart)Random.Range(16, 21);//一定要5個以上
+            DevicePart devicePart = (DevicePart)Random.Range(11, 16);//一定要5個以上
 
             for (int j = 0; j < i; ++j)
             {
@@ -561,22 +571,85 @@ public class CheckDeviceManager : MonoBehaviour
     }
 
 
+    bool isTiggerR_Light = false;
+    bool isTriggerL_Light = false;
+
+    float countTime = 0;
+    void DircLightToggle(string DirectWay)
+    {
+        float lightBlinkSpeed = 0.5f;
+
+        countTime += 1 * Time.deltaTime;
+        if (countTime >= lightBlinkSpeed)
+        {
+            countTime = 0;
+            if (DirectWay == "R")
+            {
+                carLight.Light_右方向燈_Object005.SetActive(!carLight.Light_右方向燈_Object005.active);
+                carLight.Light_右前方向燈_Object005.SetActive(!carLight.Light_右前方向燈_Object005.active);
+                carLight.unLight_右方向燈_Object005.SetActive(!carLight.unLight_右方向燈_Object005.active);
+                carLight.unLight_右前方向燈_Object005.SetActive(!carLight.unLight_右前方向燈_Object005.active);
+
+                carLight.Light_左方向燈_Object005.SetActive(false);
+                carLight.Light_左前方向燈_Object005.SetActive(false);
+                carLight.unLight_左方向燈_Object005.SetActive(true);
+                carLight.unLight_左前方向燈_Object005.SetActive(true);
+
+            }
+            if(DirectWay == "L")
+            {
+                carLight.Light_左方向燈_Object005.SetActive(!carLight.Light_左方向燈_Object005.active);
+                carLight.Light_左前方向燈_Object005.SetActive(!carLight.Light_左前方向燈_Object005.active);
+                carLight.unLight_左方向燈_Object005.SetActive(!carLight.unLight_左方向燈_Object005.active);
+                carLight.unLight_左前方向燈_Object005.SetActive(!carLight.unLight_左前方向燈_Object005.active);
+
+                carLight.Light_右方向燈_Object005.SetActive(false);
+                carLight.Light_右前方向燈_Object005.SetActive(false);
+                carLight.unLight_右方向燈_Object005.SetActive(true);
+                carLight.unLight_右前方向燈_Object005.SetActive(true);
+            }
+
+        }  
+        
+        if(DirectWay == "Stop")
+        {
+            carLight.Light_左方向燈_Object005.SetActive(false);
+            carLight.Light_左前方向燈_Object005.SetActive(false);
+            carLight.unLight_左方向燈_Object005.SetActive(true);
+            carLight.unLight_左前方向燈_Object005.SetActive(true);
+
+            carLight.Light_右方向燈_Object005.SetActive(false);
+            carLight.Light_右前方向燈_Object005.SetActive(false);
+            carLight.unLight_右方向燈_Object005.SetActive(true);
+            carLight.unLight_右前方向燈_Object005.SetActive(true);
+
+        }
+    }
+
     public void ControlLight(bool isGood, string LighType)
     {
-        if (isGood)
+        Debug.Log(_wSMVehicleController.CurrentEngineOn + "333333ssssssssssssssssssssss");
+        if (isGood)//引擎要開才有燈
         {
             if (LighType == "R_On")
             {
                 carLight.ControlRight_右控制桿.transform.GetChild(0).localEulerAngles = new Vector3(-11, 185, -62);
                 _wSMVehicleController.RightSinalLightsOn = true;
                 _wSMVehicleController.CurrenLightControl(1);
+
+                isTriggerL_Light = false;
+                isTiggerR_Light = true;
+    
             }
             if (LighType == "L_On")
             {
                 carLight.ControlRight_右控制桿.transform.GetChild(0).localEulerAngles = new Vector3(11, 142, -62);
-
                 _wSMVehicleController.LeftSinalLightsOn = true;
                 _wSMVehicleController.CurrenLightControl(-1);
+
+                isTiggerR_Light = false;
+                isTriggerL_Light = true;
+
             }
             if (LighType == "Dirct_Off")
             {
@@ -585,6 +658,9 @@ public class CheckDeviceManager : MonoBehaviour
                 _wSMVehicleController.RightSinalLightsOn = false;
                 _wSMVehicleController.LeftSinalLightsOn = false;
                 _wSMVehicleController.CurrenLightControl(0);
+                isTiggerR_Light = false;
+                isTriggerL_Light = false;
+                DircLightToggle("Stop");
             }
             if (LighType == "Big_On")
             {
@@ -849,6 +925,8 @@ public class CarLight
     [Header("有/無發光燈泡")]
     public GameObject unLight_左方向燈_Object005;
     public GameObject unLight_右方向燈_Object005;
+    public GameObject unLight_左前方向燈_Object005;
+    public GameObject unLight_右前方向燈_Object005;
     public GameObject unLight_左剎車燈_Object008;
     public GameObject unLight_右剎車燈_Object008;
     public GameObject unLight_左倒車燈_Box076;
@@ -856,6 +934,8 @@ public class CarLight
 
     public GameObject Light_左方向燈_Object005;
     public GameObject Light_右方向燈_Object005;
+    public GameObject Light_左前方向燈_Object005;
+    public GameObject Light_右前方向燈_Object005;
     public GameObject Light_左剎車燈_Object008;
     public GameObject Light_右剎車燈_Object008;
     public GameObject Light_左倒車燈_Box076;

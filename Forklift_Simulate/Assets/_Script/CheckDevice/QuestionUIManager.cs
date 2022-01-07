@@ -51,9 +51,12 @@ public class QuestionUIManager : MonoBehaviour
 
     Dictionary<int, List<int>> AnswerQuestionDict;
 
+    AudioSource DiscribeAudioSouce;
 
     void Start()
     {
+        DiscribeAudioSouce = this.GetComponent<AudioSource>();
+
         currentAnwerList = new List<int>();
 
 
@@ -69,7 +72,6 @@ public class QuestionUIManager : MonoBehaviour
 
         AnswerQuestionDict = new Dictionary<int, List<int>>();
 
-        _QuestionUIComp.QuestionNumberButtons[0].QuestionChooseButton.onClick.Invoke();
 
         RestartBtn.onClick.AddListener(OnPushRestartBtn);
         checkAnswerBtn.onClick.AddListener(OnPushCheckAnswerBtn);
@@ -118,9 +120,19 @@ public class QuestionUIManager : MonoBehaviour
             {
                 if (j+1 == kvp.Key && kvp.Value.Count > 0 )//////////////////////有答題且數量大於0(有答完整) ，J+1因為Question由1開始
                 {
-                    //更換作答的按鈕
-                    _QuestionUIComp.QuestionNumberButtons[j].QuestionChooseButton.GetComponent<Image>().sprite =
+                    if (kvp.Value.Contains(1))
+                    {//作答是正常
+                     //更換作答的按鈕
+                        _QuestionUIComp.QuestionNumberButtons[j].QuestionChooseButton.GetComponent<Image>().sprite =
                         _QuestionUIComp.QuestionNumberButtons[j].QuestionIsAnswerSprite;
+                    }
+                    else
+                    {//作答是異常
+                     //更換作答的按鈕
+                        _QuestionUIComp.QuestionNumberButtons[j].QuestionChooseButton.GetComponent<Image>().color = Color.red;
+                    }
+
+                
                 }
             }
         }
@@ -159,6 +171,9 @@ public class QuestionUIManager : MonoBehaviour
 
     void OnPushStartInfoConfirmBtn()
     {
+        //第一題開始
+        _QuestionUIComp.QuestionNumberButtons[0].QuestionChooseButton.onClick.Invoke();
+
         UseTipImage.SetActive(false);
         StartInfoImage.SetActive(false);
         AnswerBackImage.SetActive(true);
@@ -317,6 +332,9 @@ public class QuestionUIManager : MonoBehaviour
         currentQuestion = i;
         _QuestionUIComp.IconImg.sprite = questionContent[i].IconSprtie;
         _QuestionUIComp.TitleTxt.text = questionContent[i].TitleTxt;
+        DiscribeAudioSouce.clip = questionContent[i].DiscririonAuioClip;
+        DiscribeAudioSouce.Stop();
+        DiscribeAudioSouce.Play();
 
         ////////////////////////選題目區/////////////////////////////        
         //所有按鈕外框刪除
@@ -731,6 +749,9 @@ public class QuestionContent
 
     [SerializeField]
     public string TitleTxt;
+
+    [SerializeField]
+    public AudioClip DiscririonAuioClip;
 
     [SerializeField]
     public GameObject[] SubQuestChooseBtnObj;
