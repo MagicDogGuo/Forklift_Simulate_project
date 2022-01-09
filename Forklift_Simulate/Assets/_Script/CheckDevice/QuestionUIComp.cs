@@ -17,6 +17,7 @@ public class QuestionUIComp : MonoBehaviour
 
     public Text InfoTxt;
 
+    public Image AnswerBackImage;
 
     [Header("AllChoose")]
     public GameObject OutlineUIObj;
@@ -29,7 +30,6 @@ public class QuestionUIComp : MonoBehaviour
     {
         
     }
-
   
 }
 

@@ -51,9 +51,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   answerNumber: 4
   ButtonType: 1
-  IsCheckSprite: {fileID: 21300000, guid: 537e42a02b6a01c429222b279eef71a8, type: 3}
-  IsNoCheckSprite: {fileID: 21300000, guid: 1c96226c11671154abb4ec22a7346963, type: 3}
-  AnswerDiscribe: ' '
+  IsCheckSprite: {fileID: 21300000, guid: f91ae64664beec447ade01d8aa0bd916, type: 3}
+  IsNoCheckSprite: {fileID: 21300000, guid: 75877e3de4e40af44a9d1ad98d1fc9a8, type: 3}
+  AnswerDiscribe: 2
   IsCheck: 0
   SelectCount: 0
 --- !u!1 &8915935842386872962

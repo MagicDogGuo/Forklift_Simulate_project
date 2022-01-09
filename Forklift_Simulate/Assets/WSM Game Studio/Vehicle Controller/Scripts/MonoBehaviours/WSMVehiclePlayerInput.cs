@@ -98,9 +98,9 @@ namespace WSMGameStudio.Vehicles
             //if (Input.GetKey(inputSettings.backMove)) _backFront = -1;
             //if (Input.GetKey(inputSettings.nullMove)) _backFront = 0;
             //if (Input.GetKey(inputSettings.frontMove)) _backFront = 1;
-            if (GetAllJoysEvent.FrontBar_btn6) _backFront = -1;
+            if (GetAllJoysEvent.FrontBar_btn6 ||Input.GetKey(inputSettings.backMove)) _backFront = -1;
             if (!GetAllJoysEvent.FrontBar_btn5 && !GetAllJoysEvent.FrontBar_btn6) _backFront = 0;
-            if (GetAllJoysEvent.FrontBar_btn5) _backFront = 1;/////////////////////////////////
+            if (GetAllJoysEvent.FrontBar_btn5|| Input.GetKey(inputSettings.frontMove)) _backFront = 1;/////////////////////////////////
 
 
             _vehicleController.BackFrontInput = _backFront;
@@ -121,7 +121,7 @@ namespace WSMGameStudio.Vehicles
 
 
 
-            //控制油門
+            //控制油門(前進檔自動滑動)
             if (_backFront == 1 || _backFront == -1)
             {
                 //是否踩油門
@@ -141,7 +141,7 @@ namespace WSMGameStudio.Vehicles
                     }
                     else
                     {
-                        //沒踩油門時由這來控致剎車
+                        //沒踩油門時由這來控致剎車，踩煞車不同角度有不同的加速度
                         if (logtichControl.LogitchBreakRotation < 5)
                         {
                             _vehicleController.BrakesInput = 0;
@@ -284,10 +284,10 @@ namespace WSMGameStudio.Vehicles
             if (Input.GetKey(inputSettings.frontMove)) _backFront = -1;
             _vehicleController.BackFrontInput = _backFront;
 
-            //控制油門
-            _acceleration = Input.GetKey(inputSettings.acceleration) ? 25f : 0;
-            _acceleration = Input.GetKey(inputSettings.reverse) ? _acceleration - 1 : _acceleration; //倒退改打檔
-            _vehicleController.AccelerationInput = _acceleration;
+            ////控制油門
+            //_acceleration = Input.GetKey(inputSettings.acceleration) ? 25f : 0;
+            //_acceleration = Input.GetKey(inputSettings.reverse) ? _acceleration - 1 : _acceleration; //倒退改打檔
+            //_vehicleController.AccelerationInput = _acceleration;
 
             //方向
             _steering = 0f;
@@ -325,6 +325,34 @@ namespace WSMGameStudio.Vehicles
 
 
 
+            //控制油門(前進檔自動滑動)
+            if (_backFront == 1 || _backFront == -1)
+            {
+                //沒踩油門且沒踩煞車時由這來控致剎車
+                if (!Input.GetKey(inputSettings.acceleration))
+                {
+                    if (!Input.GetKey(inputSettings.brakes))
+                    {
+                        _vehicleController.BrakesInput = 0;
+                        _vehicleController.AccelerationInput = 0.3f;
+                        //入檔時的速度
+                        if (_vehicleController.CurrentSpeed > onGasOnlyInFrontBackSpeedLimit)
+                        {
+                            Debug.Log("=========_vehicleController.CurrentSpeed" + _vehicleController.CurrentSpeed);
+                            _vehicleController.AccelerationInput = 0f;
+                        }
+
+                    }
+                }
+                else
+                {
+                    //控制油門
+                    _acceleration = Input.GetKey(inputSettings.acceleration) ? 25f : 0;
+                    _acceleration = Input.GetKey(inputSettings.reverse) ? _acceleration - 1 : _acceleration; //倒退改打檔
+                    _vehicleController.AccelerationInput = _acceleration;
+                }
+            }
+          
 
 
             if (Input.GetKeyDown(inputSettings.toggleEngine))

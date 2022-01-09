@@ -35,7 +35,7 @@ public class ForkUI : MonoBehaviour
         GearTxt.text = "Gear: " + _WSMVehicleController.CurrentGear;
         SpeedTxt.text = "Speed" + (int)_WSMVehicleController.CurrentSpeed;
 
-        if (logtichControl.CheckEnterUI)
+        if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return))
         {
             Destroy(startTipUI);
         }

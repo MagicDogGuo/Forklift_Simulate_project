@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class QuestionUIManager : MonoBehaviour
 {
     [SerializeField]
+    GameObject CameraRigObj;
+
+    [SerializeField]
     GameObject UseTipImage;
     [SerializeField]
     GameObject StartInfoImage;
@@ -53,6 +56,11 @@ public class QuestionUIManager : MonoBehaviour
 
     AudioSource DiscribeAudioSouce;
 
+
+    Vector3 CanvasRightPos = new Vector3(2.63f,1.94f,2.3f);
+    Vector3 CanvasLeftPos = new Vector3(-2.63f, 1.94f, 2.3f);
+
+
     void Start()
     {
         DiscribeAudioSouce = this.GetComponent<AudioSource>();
@@ -89,8 +97,20 @@ public class QuestionUIManager : MonoBehaviour
 
     private void Update()
     {
+
+        //UI移動
+        if (CameraRigObj.transform.localPosition.x < -1)
+        {
+            this.GetComponent<RectTransform>().anchoredPosition = CanvasLeftPos;
+        }
+        else if (CameraRigObj.transform.localPosition.x >= -1)
+        {
+            this.GetComponent<RectTransform>().anchoredPosition = CanvasRightPos;
+
+        }
+
         //計時
-        if(AnswerBackImage.active == true && AllChoosBackImage.active == true)
+        if (AnswerBackImage.active == true && AllChoosBackImage.active == true)
         {
             CountTime(900);
         }
@@ -299,29 +319,110 @@ public class QuestionUIManager : MonoBehaviour
             }
 
         }
-        ResultContentText.text = resultContent;
+
+
+        //ResultContentText.text = resultContent;
 
 
         //判斷有無通過
-        string unPassNO ="\n總共錯誤:"+ _UnMatchCorrectAnswerDict.Count + "題\n答錯的題目:";
+        string unPassNO ="\n總共錯誤:"+ _UnMatchCorrectAnswerDict.Count + "題\n答錯的題目:\n";
+        //判斷有無讓鑰匙轉90度啟動引擎
+        if (checkDeviceManager.IsKeyRot90Degree)
+        {//未通過
+            unPassNO += "0.誤觸引擎\n";
+        }
+      
+
         foreach (KeyValuePair<int, List<int>> kvp in _UnMatchCorrectAnswerDict)
         {//與正解不合的題目
-            unPassNO += kvp.Key + ",";
-        }
+            
+            string userAns = "";
+            string currnetAns = "";
 
-        if (_UnMatchCorrectAnswerDict.Count < 3)//與答案不符合的題目數量
+            for (int i = 0; i < _UnMatchCorrectAnswerDict.Count; i++)
+            {
+                //user的答案
+                userAns = "";
+                if (_UnMatchCorrectAnswerDict[kvp.Key].Count < 1)
+                {
+                    userAns += "未作答";
+                }
+                else
+                {
+                    if (_UnMatchCorrectAnswerDict[kvp.Key][0] == 1)
+                    {
+                        userAns += "正常";
+                    }
+                    else if(_UnMatchCorrectAnswerDict[kvp.Key][0] == 2)
+                    {
+                        userAns += "異常";
+                    }
+                    else
+                    {                        
+                        foreach(var j in _UnMatchCorrectAnswerDict[kvp.Key])
+                        {
+                            int subAnswerNo = j - 3;
+                            string subAnswerDiscript = 
+                                questionContent[kvp.Key - 1].SubQuestChooseBtnObj[subAnswerNo].GetComponent<AnswerButton>().AnswerDiscribe;
+
+                            if (_UnMatchCorrectAnswerDict[kvp.Key].Count > 1) {
+                                if (_UnMatchCorrectAnswerDict[kvp.Key].IndexOf(j) == (_UnMatchCorrectAnswerDict[kvp.Key].Count - 1)) userAns += subAnswerDiscript;
+                                else userAns += subAnswerDiscript + ",";
+                            } 
+                            else userAns += subAnswerDiscript;
+                        }
+                    }
+                }
+                //正確的答案
+                currnetAns = ""; 
+                if (_CorrectAnswerDict[kvp.Key][0] == 1)
+                {
+                    currnetAns += "正常";
+                }
+                else if (_CorrectAnswerDict[kvp.Key][0] == 2)
+                {
+                    currnetAns += "異常";
+                }
+                else
+                {
+                    foreach (var j in _CorrectAnswerDict[kvp.Key])
+                    {
+                        int subAnswerNo = j - 3;
+                        string subAnswerDiscript =
+                            questionContent[kvp.Key - 1].SubQuestChooseBtnObj[subAnswerNo].GetComponent<AnswerButton>().AnswerDiscribe;
+
+                        if (_CorrectAnswerDict[kvp.Key].Count > 1) {
+                            if(_CorrectAnswerDict[kvp.Key].IndexOf(j) == (_CorrectAnswerDict[kvp.Key].Count-1)) currnetAns += subAnswerDiscript;
+                            else currnetAns += subAnswerDiscript + ",";
+                        } 
+                        else currnetAns += subAnswerDiscript;
+                    }
+                }
+                             
+            }
+
+
+            unPassNO += kvp.Key+"."+ questionContent[kvp.Key-1].TitleTxt + "，<color=red>您的答案:" + userAns + "</color> / <color=green>正確答案:" + currnetAns+ "</color>\n";
+        }
+        //調整文字框大小
+        ResultContentText.GetComponent<RectTransform>().sizeDelta = new Vector2(1481.89f, 86 * (_UnMatchCorrectAnswerDict.Count + 4));
+
+       
+        if (_UnMatchCorrectAnswerDict.Count < 3 && !checkDeviceManager.IsKeyRot90Degree)//與答案不符合的題目數量
         {
-            PassOFailText.text = "<color=green>通過!</color>" + unPassNO;
+            //PassOFailText.text = "<color=green>通過!</color>" + unPassNO;
+            ResultContentText.text = "<color=green>通過!</color>" + unPassNO;
         }
         else
-        {             
-            PassOFailText.text = "<color=red>未通過!</color> " + unPassNO;
+        {
+            //PassOFailText.text = "<color=red>未通過!</color> " + unPassNO;
+            ResultContentText.text = "<color=red>未通過!</color> " + unPassNO;
         }
-
     }
 
-    void OnPushQuestionChooseButtons(int i)
+    void OnPushQuestionChooseButtons(int i)////////////////////////////////////////////////////////////
     {
+     
         _QuestionUIComp.ConfirmBtn.gameObject.SetActive(true);
 
 
@@ -377,7 +478,8 @@ public class QuestionUIManager : MonoBehaviour
         //已作答過的選項
         StartCoroutine(IEDelayDoAnsweredQuestion(i));
 
-        
+        //動畫
+        StartCoroutine(ChangeAnim());
     }
 
     /// <summary>
@@ -446,6 +548,21 @@ public class QuestionUIManager : MonoBehaviour
             
             }
         }
+    }
+
+    IEnumerator ChangeAnim()
+    {
+        yield return new WaitForEndOfFrame();
+        float scale = 1;
+        while (scale > 0.01)
+        {
+            scale -= 0.1f;
+            yield return new WaitForSeconds(0.01f);
+            _QuestionUIComp.AnswerBackImage.GetComponent<RectTransform>().localScale = new Vector3(scale, scale, 1);
+        }
+        yield return new WaitForSeconds(0.4f);
+        _QuestionUIComp.AnswerBackImage.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+
     }
 
     void OnPushConfirmBtn()

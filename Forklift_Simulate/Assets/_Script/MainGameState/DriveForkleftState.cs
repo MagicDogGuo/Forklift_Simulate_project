@@ -25,8 +25,11 @@ public class DriveForkleftState : IMainGameState
     bool _isCountScore_ScoreManager = false;
     bool isStopNow = false;
 
+    LogtichControl logtichControl;
     public override void StateBegin()
-    {
+    {   //wheel歸位
+        WheelBackPos();
+
         delayScoreCount = 0;
         MainGameManager.Instance.CreateForkkit();
         MainGameManager.Instance.ScoreManagers.Init();
@@ -61,6 +64,10 @@ public class DriveForkleftState : IMainGameState
 
         _startPoint = MainGameManager.Instance.StartPointObjs.GetComponent<StartPoint>();
         _endPoint = MainGameManager.Instance.EndPointObjs.GetComponent<EndPoint>();
+
+
+        logtichControl = GameObject.FindObjectOfType<LogtichControl>();
+
 
         //測驗中
         MainGameManager.Instance.IsSussuesPassTest = 2;
@@ -97,28 +104,39 @@ public class DriveForkleftState : IMainGameState
             OnTest();
         }
 
-
         //隨時歸位
-        if (Input.GetKeyDown(KeyCode.O))
+        if ( logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return))
         {
-            //堆高機回原點
-            MainGameManager.Instance.ForkleftObj.transform.position
+            BackToOri();
+        }
+    }
+
+    void BackToOri()
+    {
+        MainGameManager.Instance.ForkleftObj.transform.position
                 = MainGameManager.Instance.ForkitOriPoss.position;
 
-            MainGameManager.Instance.ForkleftObj.transform.localRotation
-                = MainGameManager.Instance.ForkitOriPoss.localRotation;
+        MainGameManager.Instance.ForkleftObj.transform.localRotation
+            = MainGameManager.Instance.ForkitOriPoss.localRotation;
 
-            //pipe歸位
-            MainGameManager.Instance.PipeGroupObjs.GetComponent<PipeDetectControl>().PipeBackToOri();
+        //pipe歸位
+        MainGameManager.Instance.PipeGroupObjs.GetComponent<PipeDetectControl>().PipeBackToOri();
 
+        //wheel歸位
+        WheelBackPos();
 
-            if(WarningUI!=null) GameObject.Destroy(WarningUI);
-        }
+        if (WarningUI != null) GameObject.Destroy(WarningUI);
     }
 
     public override void StateEnd()
     {
 
+    }
+
+
+    void WheelBackPos()
+    {
+        MainGameManager.Instance.WheelBackPos();
     }
 
     void OnPractice()
@@ -144,7 +162,9 @@ public class DriveForkleftState : IMainGameState
         //壓線出UI
         if (MainGameManager.Instance.IsForkitOnRoad == false)
         {
-            if (WarningUI == null) WarningUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);     
+            if (WarningUI == null) WarningUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+            WarningUI.GetComponentInChildren<Text>().text = "超出車道範圍，請採煞車並按下確認按鈕回到出發點";
+
         }
 
 
@@ -182,9 +202,9 @@ public class DriveForkleftState : IMainGameState
             StopDrive();
 
             if (WarningUI == null) WarningUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
-            WarningUI.GetComponentInChildren<Text>().text = "壓線醜一，按下'O'回原點";
+            WarningUI.GetComponentInChildren<Text>().text = "超出車道範圍，請採煞車並按下確認按鈕回到出發點";
 
-            if (Input.GetKeyDown(KeyCode.O))
+            if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return))
             {
                 MainGameManager.Instance.ForkleftObj.transform.position
                     = MainGameManager.Instance.ForkitOriPoss.position;
@@ -198,7 +218,9 @@ public class DriveForkleftState : IMainGameState
                 isStopNow = false;
 
                 _isCountScore_ScoreManager = true;
-
+                
+                //回原位
+                WheelBackPos();
             }
         }
         else if (!isStopNow)

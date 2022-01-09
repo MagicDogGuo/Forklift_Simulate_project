@@ -10,7 +10,7 @@ public class TipChooseUI_CheckDevice : MonoBehaviour
     public Text TitleTxt;
 
     [SerializeField]
-    Button closeBtn;
+    public  Button closeBtn;
 
     // Start is called before the first frame update
     void Start()

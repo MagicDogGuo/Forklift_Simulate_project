@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using WSMGameStudio.Vehicles;
 public class MainGameManager : MonoBehaviour
 {
 
@@ -189,6 +190,8 @@ public class MainGameManager : MonoBehaviour
     }
 
 
+    WSMVehicleController _wSMVehicleController;
+
     public void MainGameBegin()
     {
         _isSussuesPassTest = 2;
@@ -254,5 +257,24 @@ public class MainGameManager : MonoBehaviour
         Destroy(_startPointObj);
         Destroy(_endPointObj);
     }
+
+
+    public void  WheelBackPos()
+    {
+        StartCoroutine(DelayWheelBack());
+    }
+
+    IEnumerator DelayWheelBack()
+    {
+        _wSMVehicleController = GameObject.FindObjectOfType<WSMVehicleController>();
+        _wSMVehicleController.backUpBeeperSFX.enabled = false;
+        LogitechGSDK.LogiPlaySpringForce(0, 0, 50, 50);
+        yield return new WaitForSeconds(1.5f);
+        _wSMVehicleController.backUpBeeperSFX.enabled = true;
+
+        LogitechGSDK.LogiStopSpringForce(0);
+
+    }
+
 
 }

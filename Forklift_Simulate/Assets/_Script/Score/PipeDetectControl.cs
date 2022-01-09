@@ -19,8 +19,10 @@ public class PipeDetectControl : MonoBehaviour
     void Start()
     {
         pipes = PipeGroup.GetComponentsInChildren<Pipe>();
-
+     
         Init();
+
+        StartCoroutine(DalayBack());
     }
 
     void Update()
@@ -50,7 +52,7 @@ public class PipeDetectControl : MonoBehaviour
         {
             pipes[i].gameObject.transform.localPosition = pipes[i].oriPos;
             pipes[i].gameObject.transform.localRotation = pipes[i].oriRote;
-            pipes[i].gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            StartCoroutine(DalayBack());
             pipes[i].IsStopCollDetect = false;
             if (i == 74)
             {
@@ -61,4 +63,18 @@ public class PipeDetectControl : MonoBehaviour
     }
 
    
+    IEnumerator DalayBack()
+    {
+        for (int i = 0; i < pipes.Length; i++)
+        {
+            pipes[i].gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        }
+        yield return new WaitForEndOfFrame();
+        for (int i = 0; i < pipes.Length; i++)
+        {
+            pipes[i].gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        }
+    }
+
+
 }

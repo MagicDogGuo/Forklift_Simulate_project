@@ -108,6 +108,8 @@ public class HandelContorller : MonoBehaviour
     bool isKey_onTable = false;
     bool isKey_onCar = false;
     GameObject Key_onCar;
+    GameObject TipObj_KeyRotateTooMuch;
+
 
     //右控制桿
     string ControlRight_右控制桿Name_Nor;
@@ -561,18 +563,28 @@ public class HandelContorller : MonoBehaviour
         }
     }
 
+
+    float tempScrewRot=0;
     void ScrewControl()
     {
         if (BrakeScrew != null)
         {
             if (isInScrewBreak && isPushHandTrig)
             {
+                Debug.Log("============tempScrewRot:" + tempScrewRot);
+
+                //螺絲鬆動
+                tempScrewRot += 45 * Time.deltaTime;
+                BrakeScrew.transform.GetChild(3).transform.localEulerAngles = new Vector3(90, 0, tempScrewRot);
+                BrakeScrew.transform.GetChild(7).transform.localEulerAngles = new Vector3(90, 0, tempScrewRot*0.9f);
+
                 if (TipObj_BrakeScrew == null)
                 {
                     //TipObj_BrakeScrew = Instantiate(TipUIObj, BrakeScrew.transform);
                     TipObj_BrakeScrew = Instantiate(TipUIObj, this.transform);
-                    TipObj_BrakeScrew.GetComponentInChildren<Text>().text = "螺絲鬆脫!";
+                    TipObj_BrakeScrew.GetComponentInChildren<Text>().text = "螺絲未鎖緊!";
                     TipObj_BrakeScrew.transform.localPosition = TipUIOffset;// new Vector3(-0.05f, -.25f, 0);
+                 
                 }
                 if (TipObj_BrakeScrew != null)
                     TipObj_BrakeScrew.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
@@ -580,6 +592,7 @@ public class HandelContorller : MonoBehaviour
             }
             else 
             {
+                tempScrewRot = 0;
                 Destroy(TipObj_BrakeScrew);
             }
         }
@@ -656,36 +669,40 @@ public class HandelContorller : MonoBehaviour
                 TipChooseCnavasObj.transform.localRotation = new Quaternion(0, 180, 0, 0);
                 TipChooseCnavasObj.transform.localPosition = new Vector3(0, 0.06f, 0.04f);
                 Button[] btn = TipChooseCnavasObj.GetComponent<TipChooseUI_CheckDevice>().stateBtn;
-                btn[0].GetComponentInChildren<Text>().text = "右方向燈開";
-                btn[1].GetComponentInChildren<Text>().text = "左方向燈開";
-                btn[2].GetComponentInChildren<Text>().text = "方向燈關";
-                btn[3].GetComponentInChildren<Text>().text = "前燈開";
-                btn[4].GetComponentInChildren<Text>().text = "前燈關";
+                btn[0].GetComponentInChildren<Text>().text = "後推";
+                btn[1].GetComponentInChildren<Text>().text = "前推";
+                btn[2].GetComponentInChildren<Text>().text = "旋轉";
+                btn[3].GetComponentInChildren<Text>().text = "回歸";
+                //btn[4].GetComponentInChildren<Text>().text = "旋轉回歸";
 
                 //正常
                 
-                btn[0].onClick.AddListener(() => checkDeviceManager.ControlLight(true, "R_On"));
-                btn[1].onClick.AddListener(() => checkDeviceManager.ControlLight(true, "L_On"));
-                btn[2].onClick.AddListener(() => checkDeviceManager.ControlLight(true, "Dirct_Off"));
-                btn[3].onClick.AddListener(() => checkDeviceManager.ControlLight(true, "Big_On"));
-                btn[4].onClick.AddListener(() => checkDeviceManager.ControlLight(true, "Big_Off"));
+                btn[0].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "R_On");Destroy(TipChooseCnavasObj); });
+                btn[1].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "L_On"); Destroy(TipChooseCnavasObj); });
+                btn[2].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "Big_On"); Destroy(TipChooseCnavasObj); });
+                btn[3].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "Dirct_Off"); checkDeviceManager.ControlLight(true, "Big_Off"); });
+                //btn[4].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "Big_Off");  });
                 
                 //大燈異常
                 if (ControlRight_右控制桿.name.Contains(ControlRight_右控制桿Name_ab_BigLight))
                 {
-                    btn[3].onClick.RemoveAllListeners();
-                    btn[4].onClick.RemoveAllListeners();
+                    btn[2].onClick.RemoveAllListeners();
+                    //btn[4].onClick.RemoveAllListeners();
+                    btn[2].onClick.AddListener(() => { checkDeviceManager.ControlLight(false, "Big_On"); Destroy(TipChooseCnavasObj); });
+
                 }
                 //右燈異常
                 if (ControlRight_右控制桿.name.Contains(ControlRight_右控制桿Name_ab_DirtLight_R))
                 {
                     btn[0].onClick.RemoveAllListeners();
+                    btn[0].onClick.AddListener(() => { checkDeviceManager.ControlLight(false, "R_On"); Destroy(TipChooseCnavasObj); });
 
                 }
                 //左燈異常
                 if (ControlRight_右控制桿.name.Contains(ControlRight_右控制桿Name_ab_DirtLight_L))
                 {
                     btn[1].onClick.RemoveAllListeners();
+                    btn[1].onClick.AddListener(() => { checkDeviceManager.ControlLight(false, "L_On"); Destroy(TipChooseCnavasObj); });
 
                 }
             }
@@ -820,7 +837,7 @@ public class HandelContorller : MonoBehaviour
     }
     void GiveKeyToCar()
     {
-        if (isInKey_onCar && isPushHandTrig && isKey_onHand == true)
+        if (isInKey_onCar && isPushHandTrig)
         {
             isKey_onTable = false;
             isKey_onHand = false;
@@ -829,11 +846,73 @@ public class HandelContorller : MonoBehaviour
             Key_onCar.GetComponent<MeshRenderer>().enabled = true;
 
 
-            if (checkDeviceManager.dashbroad.OnKeyPlugIn != null)
+
+            if (TipChooseCnavasObj == null)
             {
-                checkDeviceManager.dashbroad.OnKeyPlugIn();
-                Key_onHand.SetActive(false);
+                TipChooseCnavasObj = Instantiate(TipChooseUIObj, Key_onCar.transform.parent.transform);
+                TipChooseCnavasObj.transform.localEulerAngles = new Vector3(28, 90, 92);
+                TipChooseCnavasObj.transform.localPosition = new Vector3(-0.16f, -0.02f, -0.15f);
+                Button[] btn = TipChooseCnavasObj.GetComponent<TipChooseUI_CheckDevice>().stateBtn;
+                btn[0].transform.parent.GetComponent<GridLayoutGroup>().cellSize = new Vector2(180, 120);
+                btn[0].GetComponentInChildren<Text>().text = "轉動1階（約45°）";
+                btn[1].GetComponentInChildren<Text>().text = "轉動2階（約90°）";
+                btn[2].gameObject.SetActive(false);
+                btn[3].gameObject.SetActive(false);
+
+                //正常
+                btn[0].onClick.AddListener(() => {
+                    if (checkDeviceManager.dashbroad.OnKeyPlugIn_NoSound != null)
+                    {
+                        checkDeviceManager.dashbroad.OnKeyPlugIn_NoSound();
+                        Key_onHand.SetActive(false);
+                    }
+
+                    if (TipObj_KeyRotateTooMuch != null)
+                    {
+                        Destroy(TipObj_KeyRotateTooMuch);
+                    }
+
+                    Key_onCar.transform.localEulerAngles = new Vector3(-45, -27.31f, -90);
+                    Destroy(TipChooseCnavasObj);
+                });
+                btn[1].onClick.AddListener(() => {
+                    if (checkDeviceManager.dashbroad.OnKeyPlugIn_HaveSound != null)
+                    {
+                        checkDeviceManager.dashbroad.OnKeyPlugIn_HaveSound();
+                        Key_onHand.SetActive(false);
+                    }
+
+                    if (TipObj_KeyRotateTooMuch == null)
+                    {
+                        TipObj_KeyRotateTooMuch = Instantiate(TipUIObj, this.transform);
+                        TipObj_KeyRotateTooMuch.GetComponentInChildren<Text>().text = "危險：你已發動引擎，請切換階級";
+                        TipObj_KeyRotateTooMuch.transform.localPosition = TipUIOffset;
+                    }
+
+                    Key_onCar.transform.localEulerAngles = new Vector3(-90, -27.31f, -90);
+                    Destroy(TipChooseCnavasObj);
+
+                });                        
             }
+
+
+
+
+            //if (checkDeviceManager.dashbroad.OnKeyPlugIn_NoSound != null)
+            //{
+            //    checkDeviceManager.dashbroad.OnKeyPlugIn_NoSound();
+            //    Key_onHand.SetActive(false);
+            //}
+
+            //if (checkDeviceManager.dashbroad.OnKeyPlugIn_HaveSound != null)
+            //{
+            //    checkDeviceManager.dashbroad.OnKeyPlugIn_HaveSound();
+            //    Key_onHand.SetActive(false);
+            //}
+        }
+        if (TipObj_KeyRotateTooMuch != null)
+        {
+            TipObj_KeyRotateTooMuch.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
         }
     }
 

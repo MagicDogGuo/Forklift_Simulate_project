@@ -77,6 +77,12 @@ public class CheckDeviceManager : MonoBehaviour
         get { return _BreakDeviceInCorrectAnswerDict; }
     }
 
+    bool _isKeyRot90Degree;
+    public bool IsKeyRot90Degree
+    {
+        get {return _isKeyRot90Degree; }
+    }
+
     public enum DevicePart
     {
         Cold_冷卻液 = 1,
@@ -98,7 +104,8 @@ public class CheckDeviceManager : MonoBehaviour
         CarLight_RearLight_Alert = 17,
         AlertLight_工作警示燈 = 18,
         ironPipe = 19,
-        fork_固定銷 = 20
+        fork_固定銷 = 20,
+        鑰匙轉90度 = 99//直接失敗
     }
 
     private void Awake()
@@ -118,10 +125,14 @@ public class CheckDeviceManager : MonoBehaviour
         DecideObjectState();
 
         //BrakeALL();
+
+        _isKeyRot90Degree = false;
     }
 
     private void Update()
     {
+
+
         if (Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
@@ -221,8 +232,11 @@ public class CheckDeviceManager : MonoBehaviour
 
         HronBreak();
 
-        dashbroad.OnKeyPlugIn = null;
-        dashbroad.OnKeyPlugIn += DashBoardRandomBreak_key;
+        dashbroad.OnKeyPlugIn_NoSound = null;
+        dashbroad.OnKeyPlugIn_NoSound += DashBoardRandomBreak_key_NoSound;
+
+        dashbroad.OnKeyPlugIn_HaveSound = null;
+        dashbroad.OnKeyPlugIn_HaveSound += DashBoardRandomBreak_key_HaveSound;
 
         carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_BigLightName;
         carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_LName;
@@ -263,7 +277,8 @@ public class CheckDeviceManager : MonoBehaviour
         ScrewGood();
         HronGood();
         dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = false;
-        dashbroad.OnKeyPlugIn += DashBoardGood_key;
+        dashbroad.OnKeyPlugIn_NoSound += DashBoardGood_key_NoSound;
+        dashbroad.OnKeyPlugIn_HaveSound += DashBoardGood_key_HaveSound;
 
         carLight.ControlRight_右控制桿.name = carLight.NormalControlRight_右控制桿Name;
         carLight.ControlLeft_左控制桿.name = carLight.NormalControlLeft_左控制桿Name;
@@ -358,8 +373,11 @@ public class CheckDeviceManager : MonoBehaviour
             case DevicePart.Dashbroad:
                 breakDashBoradNumber = Random.Range(1, 3);//1=充電燈 , 2=油燈
                 tempBreakpartNumber.Add(breakDashBoradNumber+2); //2開始，因為1=正常,2=異常
-                dashbroad.OnKeyPlugIn = null;
-                dashbroad.OnKeyPlugIn += DashBoardRandomBreak_key;
+                dashbroad.OnKeyPlugIn_NoSound = null;
+                dashbroad.OnKeyPlugIn_NoSound += DashBoardRandomBreak_key_NoSound;
+                dashbroad.OnKeyPlugIn_HaveSound = null;
+                dashbroad.OnKeyPlugIn_HaveSound += DashBoardRandomBreak_key_HaveSound;
+
                 break;
             case DevicePart.CarLight_BigLight:
                 int[] input2 = {3, 4};
@@ -441,7 +459,7 @@ public class CheckDeviceManager : MonoBehaviour
         for (int i = 0; i < devicePartArray.Length;)
         {
             bool iS_i = true;
-            DevicePart devicePart = (DevicePart)Random.Range(11, 16);//一定要5個以上
+            DevicePart devicePart = (DevicePart)Random.Range(1, 6);//一定要5個以上
 
             for (int j = 0; j < i; ++j)
             {
@@ -507,7 +525,7 @@ public class CheckDeviceManager : MonoBehaviour
     }
     void ScrewRandomBreak(out int breakPart)
     {
-        int brakeScrew = Random.Range(0, 4);
+        int brakeScrew = Random.Range(0, 4);////////////////////////////
         breakPart = brakeScrew + 3;//+3是因為第二階段由3開始
 
         //好壞輪胎裡的螺絲都換成壞的
@@ -527,9 +545,12 @@ public class CheckDeviceManager : MonoBehaviour
         wheels.Horn.name = wheels.BreakHronName;
     }
 
-    void DashBoardGood_key()
+    void DashBoardGood_key_NoSound()
     {
         _wSMVehicleController.IsEngineOn = true;
+        _wSMVehicleController.engineStartSFX.volume = 0;
+        _wSMVehicleController.engineSFX.volume = 0;
+
         dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = true;
         dashbroad.OffDashBoard.SetActive(false);
         dashbroad.goodObj.SetActive(true);
@@ -538,9 +559,56 @@ public class CheckDeviceManager : MonoBehaviour
         dashbroad.badObj_WaterLight.SetActive(false);
     }
 
-    void DashBoardRandomBreak_key()
+    void DashBoardGood_key_HaveSound()
+    {
+        _isKeyRot90Degree = true;
+        _wSMVehicleController.IsEngineOn = true;
+        _wSMVehicleController.engineStartSFX.Play();
+        _wSMVehicleController.engineStartSFX.volume = 1;
+        _wSMVehicleController.engineSFX.volume = 0.2f;
+
+        dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = true;
+        dashbroad.OffDashBoard.SetActive(false);
+        dashbroad.goodObj.SetActive(true);
+        dashbroad.badObj_ChargeLight.SetActive(false);
+        dashbroad.badObj_EngineOilLight.SetActive(false);
+        dashbroad.badObj_WaterLight.SetActive(false);
+    }
+
+    void DashBoardRandomBreak_key_NoSound()
     {
         _wSMVehicleController.IsEngineOn = true;
+        _wSMVehicleController.engineStartSFX.volume = 0;
+        _wSMVehicleController.engineSFX.volume = 0;
+
+
+        dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = true;
+        dashbroad.OffDashBoard.SetActive(false);
+        dashbroad.goodObj.SetActive(false);
+
+        switch (breakDashBoradNumber)
+        {
+            case 1:
+                dashbroad.badObj_ChargeLight.SetActive(true);
+                break;
+            case 2:
+                dashbroad.badObj_EngineOilLight.SetActive(true);
+                break;
+                //case 3: //答案裡沒有可以選他的
+                //    dashbroad.badObj_WaterLight.SetActive(true);
+                //    break;
+        }
+    }
+
+    void DashBoardRandomBreak_key_HaveSound()
+    {
+        _isKeyRot90Degree = true;
+        _wSMVehicleController.IsEngineOn = true;
+        _wSMVehicleController.engineStartSFX.Play();
+        _wSMVehicleController.engineStartSFX.volume = 1;
+        _wSMVehicleController.engineSFX.volume = 0.2f;
+
+
         dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = true;
         dashbroad.OffDashBoard.SetActive(false);
         dashbroad.goodObj.SetActive(false);
@@ -558,10 +626,13 @@ public class CheckDeviceManager : MonoBehaviour
             //    break;
         }
     }
+
+
     void OffDashBoard_Key()
     {
         _wSMVehicleController.IsEngineOn = false;
-        dashbroad.OnKeyPlugIn = null;
+        dashbroad.OnKeyPlugIn_HaveSound = null;
+        dashbroad.OnKeyPlugIn_NoSound = null;
         dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = false;
         dashbroad.OffDashBoard.SetActive(true);
         dashbroad.goodObj.SetActive(false);
@@ -628,7 +699,6 @@ public class CheckDeviceManager : MonoBehaviour
 
     public void ControlLight(bool isGood, string LighType)
     {
-        Debug.Log(_wSMVehicleController.CurrentEngineOn + "333333ssssssssssssssssssssss");
         if (isGood)//引擎要開才有燈
         {
             if (LighType == "R_On")
@@ -637,6 +707,7 @@ public class CheckDeviceManager : MonoBehaviour
                 _wSMVehicleController.RightSinalLightsOn = true;
                 _wSMVehicleController.CurrenLightControl(1);
 
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 isTriggerL_Light = false;
                 isTiggerR_Light = true;
     
@@ -647,6 +718,7 @@ public class CheckDeviceManager : MonoBehaviour
                 _wSMVehicleController.LeftSinalLightsOn = true;
                 _wSMVehicleController.CurrenLightControl(-1);
 
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 isTiggerR_Light = false;
                 isTriggerL_Light = true;
 
@@ -658,6 +730,8 @@ public class CheckDeviceManager : MonoBehaviour
                 _wSMVehicleController.RightSinalLightsOn = false;
                 _wSMVehicleController.LeftSinalLightsOn = false;
                 _wSMVehicleController.CurrenLightControl(0);
+
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 isTiggerR_Light = false;
                 isTriggerL_Light = false;
                 DircLightToggle("Stop");
@@ -666,16 +740,19 @@ public class CheckDeviceManager : MonoBehaviour
             {
                 carLight.ControlRight_右控制桿.transform.GetChild(0).GetChild(0).localEulerAngles = new Vector3(0, 0, -42);
 
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 _wSMVehicleController.HeadlightsOn = true;
             }
             if (LighType == "Big_Off")
             {
                 carLight.ControlRight_右控制桿.transform.GetChild(0).GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
 
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 _wSMVehicleController.HeadlightsOn = false;
             }
             if (LighType == "Brake_On")
             {
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 carLight.Light_右剎車燈_Object008.SetActive(true);
                 carLight.Light_左剎車燈_Object008.SetActive(true);
                 carLight.unLight_右剎車燈_Object008.SetActive(false);
@@ -687,6 +764,7 @@ public class CheckDeviceManager : MonoBehaviour
             }
             if (LighType == "Brake_Off")
             {
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 carLight.Light_右剎車燈_Object008.SetActive(false);
                 carLight.Light_左剎車燈_Object008.SetActive(false);
                 carLight.unLight_右剎車燈_Object008.SetActive(true);
@@ -698,6 +776,7 @@ public class CheckDeviceManager : MonoBehaviour
             }
             if (LighType == "RevLight_On")
             {
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 carLight.Light_右倒車燈_Box076.SetActive(true);
                 carLight.Light_左倒車燈_Box076.SetActive(true);
                 carLight.unLight_右倒車燈_Box076.SetActive(false);
@@ -707,6 +786,7 @@ public class CheckDeviceManager : MonoBehaviour
             }
             if (LighType == "RevLight_On_BreakLight")
             {
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 carLight.Light_右倒車燈_Box076.SetActive(false);
                 carLight.Light_左倒車燈_Box076.SetActive(false);
                 carLight.unLight_右倒車燈_Box076.SetActive(true);
@@ -722,17 +802,34 @@ public class CheckDeviceManager : MonoBehaviour
             }
             if (LighType == "RevLight_On_BreakSound")
             {
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 _wSMVehicleController._movingBackwards = true;
                 _wSMVehicleController.backUpBeeperSFX = null;//關閉聲音
             }
             if (LighType == "RevLight_Off")
             {
+                if (!_wSMVehicleController.CurrentEngineOn) return;//要開引擎
                 carLight.Light_右倒車燈_Box076.SetActive(false);
                 carLight.Light_左倒車燈_Box076.SetActive(false);
                 carLight.unLight_右倒車燈_Box076.SetActive(true);
                 carLight.unLight_左倒車燈_Box076.SetActive(true);
 
                 _wSMVehicleController._movingBackwards = false;
+            }
+        }
+        if (!isGood)
+        {
+            if (LighType == "R_On")
+            {
+                carLight.ControlRight_右控制桿.transform.GetChild(0).localEulerAngles = new Vector3(-11, 185, -62);
+            }
+            if (LighType == "L_On")
+            {
+                carLight.ControlRight_右控制桿.transform.GetChild(0).localEulerAngles = new Vector3(11, 142, -62);
+            }
+            if (LighType == "Big_On")
+            {
+                carLight.ControlRight_右控制桿.transform.GetChild(0).GetChild(0).localEulerAngles = new Vector3(0, 0, -42);
             }
         }
     }
@@ -884,7 +981,9 @@ public class Dashbroad
 {
     public GameObject key_onCar;
     [HideInInspector]
-    public UnityAction OnKeyPlugIn;
+    public UnityAction OnKeyPlugIn_NoSound;
+    [HideInInspector]
+    public UnityAction OnKeyPlugIn_HaveSound;
 
     [SerializeField]
     public GameObject OffDashBoard;
