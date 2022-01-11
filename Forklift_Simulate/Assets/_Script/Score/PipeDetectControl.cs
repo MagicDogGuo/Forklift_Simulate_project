@@ -34,7 +34,6 @@ public class PipeDetectControl : MonoBehaviour
             {
                 _beColliderTotalAmount += 1;
                 //Debug.Log("BeColliderTotalAmount: " + BeColliderTotalAmount);
-
             }
 
         }
@@ -52,6 +51,9 @@ public class PipeDetectControl : MonoBehaviour
         {
             pipes[i].gameObject.transform.localPosition = pipes[i].oriPos;
             pipes[i].gameObject.transform.localRotation = pipes[i].oriRote;
+
+            pipes[i].GetComponent<Pipe>().isCanUIRed = true;
+
             StartCoroutine(DalayBack());
             pipes[i].IsStopCollDetect = false;
             if (i == 74)

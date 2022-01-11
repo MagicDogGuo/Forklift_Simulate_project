@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 265901420335710070}
   - component: {fileID: 1769365121312918666}
   - component: {fileID: 809443992901266715}
+  - component: {fileID: 265533676778504855}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -238,6 +239,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &265533676778504855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223336679930695264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50fa73feb2955b409970835e08a8c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2483354567881484778
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +688,7 @@ GameObject:
   - component: {fileID: 6959816778215586818}
   - component: {fileID: 2386261060742008234}
   - component: {fileID: 7204477723070969280}
+  - component: {fileID: 2524802951504915773}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -782,6 +796,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2524802951504915773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3965107030579684030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50fa73feb2955b409970835e08a8c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4420625972736285298
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,6 +820,7 @@ GameObject:
   - component: {fileID: 6803741396963222325}
   - component: {fileID: 4110004200182889598}
   - component: {fileID: 6547552332921065741}
+  - component: {fileID: 6560759973210561152}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
@@ -901,6 +928,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6560759973210561152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4420625972736285298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50fa73feb2955b409970835e08a8c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4545077133515256647
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,6 +1173,7 @@ GameObject:
   - component: {fileID: 3250856180605542108}
   - component: {fileID: 6323166794299448183}
   - component: {fileID: 7132273731318728982}
+  - component: {fileID: 4925356801870458098}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1241,6 +1281,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4925356801870458098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6081443528959656740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50fa73feb2955b409970835e08a8c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7553376190783679885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,6 +1305,7 @@ GameObject:
   - component: {fileID: 2194330064051483735}
   - component: {fileID: 4598870988274686119}
   - component: {fileID: 5159406168296844603}
+  - component: {fileID: 541434384488574332}
   m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
@@ -1360,6 +1413,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &541434384488574332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553376190783679885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50fa73feb2955b409970835e08a8c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8139345892556045902
 GameObject:
   m_ObjectHideFlags: 0

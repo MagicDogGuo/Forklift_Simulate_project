@@ -215,6 +215,7 @@ public class HandelContorller : MonoBehaviour
 
     }
 
+
     void Update()
     {
         //連動指定把手
@@ -920,12 +921,20 @@ public class HandelContorller : MonoBehaviour
     {
         if (isInBeTakeObj == true && isPushHandTrig)
         {
-            Debug.Log("==============引擎機油尺=");
+            //Debug.Log("==============引擎機油尺=");
            // BeTakingObj.transform.position = this.transform.position + BeTakingObj.GetComponent<CanBeHandTakeObj>().OffsetPos;
             //BeTakingObj.transform.localEulerAngles = new Vector3(BeTakingObj.GetComponent<CanBeHandTakeObj>().oriRota.x, 
             //BeTakingObj.GetComponent<CanBeHandTakeObj>().oriRota.y,
             //this.transform.localEulerAngles.z);
             BeTakingObj.transform.SetParent(this.transform.gameObject.transform);
+
+            //Debug.Log("------------------'" + GameObject.FindObjectOfType<VRTK_TransformFollow>().transform.GetChild(0).name);
+            if (GameObject.Find("[VRTK][AUTOGEN][RightControllerScriptAlias][BasePointerRenderer_Origin_Smoothed]") != null)
+                GameObject.Find("[VRTK][AUTOGEN][RightControllerScriptAlias][BasePointerRenderer_Origin_Smoothed]").transform.GetChild(0).gameObject.SetActive(false);
+            
+            if (GameObject.Find("[VRTK][AUTOGEN][LeftControllerScriptAlias][BasePointerRenderer_Origin_Smoothed]") != null)
+                GameObject.Find("[VRTK][AUTOGEN][LeftControllerScriptAlias][BasePointerRenderer_Origin_Smoothed]").transform.GetChild(0).gameObject.SetActive(false);
+
         }
         else
         {
@@ -935,6 +944,10 @@ public class HandelContorller : MonoBehaviour
                 BeTakingObj.transform.SetParent(BeTakingObj.GetComponent<CanBeHandTakeObj>().oriPareant.transform);
                 BeTakingObj.transform.localPosition = BeTakingObj.GetComponent<CanBeHandTakeObj>().oriPos;
                 BeTakingObj.transform.localEulerAngles = BeTakingObj.GetComponent<CanBeHandTakeObj>().oriRota;
+                if (GameObject.Find("[VRTK][AUTOGEN][RightControllerScriptAlias][BasePointerRenderer_Origin_Smoothed]") != null)
+                    GameObject.Find("[VRTK][AUTOGEN][RightControllerScriptAlias][BasePointerRenderer_Origin_Smoothed]").transform.GetChild(0).gameObject.SetActive(true);
+                if (GameObject.Find("[VRTK][AUTOGEN][LeftControllerScriptAlias][BasePointerRenderer_Origin_Smoothed]") != null)
+                    GameObject.Find("[VRTK][AUTOGEN][LeftControllerScriptAlias][BasePointerRenderer_Origin_Smoothed]").transform.GetChild(0).gameObject.SetActive(true);
 
             }
         }

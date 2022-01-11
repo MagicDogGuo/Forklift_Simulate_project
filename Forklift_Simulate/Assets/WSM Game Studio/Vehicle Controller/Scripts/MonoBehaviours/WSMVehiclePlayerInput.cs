@@ -338,7 +338,7 @@ namespace WSMGameStudio.Vehicles
                         //入檔時的速度
                         if (_vehicleController.CurrentSpeed > onGasOnlyInFrontBackSpeedLimit)
                         {
-                            Debug.Log("=========_vehicleController.CurrentSpeed" + _vehicleController.CurrentSpeed);
+                            //Debug.Log("=========_vehicleController.CurrentSpeed" + _vehicleController.CurrentSpeed);
                             _vehicleController.AccelerationInput = 0f;
                         }
 

@@ -18,8 +18,13 @@ public class Pipe : MonoBehaviour
 
     public bool IsStopCollDetect;
 
+
+    public bool isCanUIRed = true;//撞到紅色提示，給ForkleftBodyTrigger控
+
     private void Start()
     {
+        isCanUIRed = true;
+
         IsStopCollDetect = false;
         _isbeCollider = false;
         oriTras = this.transform;
@@ -28,12 +33,22 @@ public class Pipe : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        //if(this.transform.localPosition == oriPos)
+        //{
+        //    this.GetComponent<Rigidbody>().useGravity = true;
+        //    this.GetComponent<BoxCollider>().isTrigger = false;
+        //}
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (IsStopCollDetect) return;
 
         if(collision.gameObject.tag == "Forkleft")
         {
+           
             _isbeCollider = true;
             IsStopCollDetect = true;
             StartCoroutine(DelayFalse());
@@ -45,6 +60,9 @@ public class Pipe : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         _isbeCollider = false;
+        yield return new WaitForSeconds(1);
+       
+        ////////////////this.GetComponent<BoxCollider>().enabled = false;
 
     }
 }
