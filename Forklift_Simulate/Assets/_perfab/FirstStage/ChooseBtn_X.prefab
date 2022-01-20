@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1442106260128492866}
   - component: {fileID: 7212326785744991755}
-  - component: {fileID: 3595602243746299616}
   m_Layer: 5
   m_Name: ChooseBtn_X
   m_TagString: Untagged
@@ -57,18 +56,6 @@ MonoBehaviour:
   AnswerDiscribe: "\u7570\u5E38"
   IsCheck: 0
   SelectCount: 0
---- !u!114 &3595602243746299616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442106260128492865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e50fa73feb2955b409970835e08a8c4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1442106260899022555
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +146,7 @@ GameObject:
   - component: {fileID: 1442106261116240177}
   - component: {fileID: 1442106261116240176}
   - component: {fileID: 1442106261116240191}
+  - component: {fileID: 5327857628528528911}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -267,3 +255,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5327857628528528911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442106261116240189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50fa73feb2955b409970835e08a8c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -17,6 +17,7 @@ public class CompletePricticeState : IMainGameState
 
         if (WarningUI == null) WarningUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
         WarningUI.GetComponentInChildren<Text>().text = "完成練習!";
+        WarningUI.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
 
     }
     public override void StateUpdate()

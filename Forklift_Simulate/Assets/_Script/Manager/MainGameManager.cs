@@ -43,7 +43,11 @@ public class MainGameManager : MonoBehaviour
     GameObject Forkleft;
 
     [SerializeField]
-    Transform ForkitOriPos;
+    Transform ForkitOriPos_start;
+
+    [SerializeField]
+    Transform ForkitOriPos_end;
+
 
     [SerializeField]
     GameObject PipeGroupPos;
@@ -137,7 +141,12 @@ public class MainGameManager : MonoBehaviour
 
     public Transform ForkitOriPoss
     {
-        get { return ForkitOriPos; }
+        get { return ForkitOriPos_start; }
+    }
+
+    public Transform ForkitOriPoss_End
+    {
+        get { return ForkitOriPos_end; }
     }
 
     GameObject _pipeGroupObj;
@@ -189,6 +198,9 @@ public class MainGameManager : MonoBehaviour
 
     }
 
+    public bool stepIsWrong_倒車 = false;
+   
+
 
     WSMVehicleController _wSMVehicleController;
 
@@ -200,6 +212,7 @@ public class MainGameManager : MonoBehaviour
         _scoreGroupCanvas = ScoreGroupCanvas;
         _warningUI = WarningUI;
         //_forkitCanvasPos = ForkitCanvasPos;
+        stepIsWrong_倒車 = false;
 
         // 設定起始State
         m_MainGameStateController.SetState(MainGameStateControl.GameFlowState.Init, m_MainGameStateController);
@@ -242,7 +255,7 @@ public class MainGameManager : MonoBehaviour
     public void CreateForkkit()
     {
         _isSussuesPassTest = 2;
-        _forkleftObj = GameObject.Instantiate(Forkleft, ForkitOriPos); 
+        _forkleftObj = GameObject.Instantiate(Forkleft, ForkitOriPos_start); 
     }
 
     public void DestoryForkkit()

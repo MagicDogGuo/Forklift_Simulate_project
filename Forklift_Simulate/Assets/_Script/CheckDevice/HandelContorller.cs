@@ -67,9 +67,12 @@ public class HandelContorller : MonoBehaviour
     bool isInHandBrakePadel_abNor;
     GameObject HandBrakePadel_Nor;
     GameObject HandBrakePadel_abNor;
-    float oriTemp_HandBrake = 0;
+    float oriTemp_HandBrake = -5;
     GameObject TipObj_NormalHandBrakePadel;
     GameObject TipObj_abNormalHandBrakePadel;
+    static  bool  isInUnStopBrakeArea=false;
+    bool isPushRedDot = false;
+
 
     //安全帶
     string SafeBaltName_good;
@@ -154,6 +157,8 @@ public class HandelContorller : MonoBehaviour
 
     void Start()
     {
+        ControlLeft_左控制桿TriggerCount = 0;
+
         handelContorllers = GameObject.FindObjectsOfType<HandelContorller>();
 
         isKey_onTable = true;
@@ -364,33 +369,85 @@ public class HandelContorller : MonoBehaviour
                 ischeckHandBrakeTouch = false;
             }
 
-            if (isInPadel_Nor && isPushHandTrig)
+            if (isInPadel_Nor)
             {
-                //手煞紅點
-                padel_Nor.transform.GetChild(0).transform.localPosition = new Vector3(0.0043f, 0, 0.2819f);
-
-                //oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, pushDegree, 70f * Time.deltaTime);
-
-                if (padel_Nor.transform.localEulerAngles.y >= 350&& ischeckHandBrakeTouch==false)
+                //先判斷是在哪裡，沒按下紅點的情況
+                if (!isPushRedDot)
                 {
-                    padel_Nor.transform.localEulerAngles = new Vector3(0, 20, 180);
-                    ischeckHandBrakeTouch = true;
-                }
-                else if(padel_Nor.transform.localEulerAngles.y <= 25 && ischeckHandBrakeTouch == false)
-                {
-                    padel_Nor.transform.localEulerAngles = new Vector3(0,355,180);
-                    ischeckHandBrakeTouch = true;
+                    if ((padel_Nor.transform.localEulerAngles.y - 360) >= -342 &&
+                  (padel_Nor.transform.localEulerAngles.y - 360) <= -338)
+                    {
+                        isInUnStopBrakeArea = true;
+                    }
+                    else
+                    {
+                        isInUnStopBrakeArea = false;
+                    }
 
                 }
+
+                //判斷有無按下紅點
+                if (isPushHandTrig)
+                {
+                    //手煞紅點
+                    padel_Nor.transform.GetChild(0).transform.localPosition = new Vector3(0.0043f, 0, 0.2819f);
+                    isPushRedDot = true;
+                }
+                else
+                {
+                    //手煞紅點 原位
+                    padel_Nor.transform.GetChild(0).transform.localPosition = new Vector3(0.004561948f, 0, 0.2845623f);
+                    isPushRedDot = false;
+                }
+
+                //在移動把手
+                if (!isInUnStopBrakeArea)//在原位
+                {
+                 
+                    if (isPushRedDot )
+                    {
+                        oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, 20, 70f * Time.deltaTime);
+                    }
+                }
+                else//在解煞車點
+                {
+                    if (isPushRedDot)
+                    {
+                        oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, -5, 70f * Time.deltaTime);
+
+                        //oriTemp_HandBrake = -5;
+                   
+                    }
+                }
+
+
+            
+                //
+                //if (padel_Nor.transform.localEulerAngles.y >= 350 && isPushRedDot)//&& ischeckHandBrakeTouch == false)
+                //{
+                //    oriTemp_HandBrake = 25;
+                //    //padel_Nor.transform.localEulerAngles = new Vector3(0, 20, 180);
+                //   // ischeckHandBrakeTouch = true;
+                //}
+
+                //if ((padel_Nor.transform.localEulerAngles.y - 360) >= -342 &&
+                //    (padel_Nor.transform.localEulerAngles.y - 360) <= -338 )
+                //{
+                //    isInUnStopBrakeArea = true;
+                //}
+
+         
             }
             else
             {
-                //手煞紅點
-                padel_Nor.transform.GetChild(0).transform.localPosition = new Vector3(0.004561948f, 0, 0.2845623f);
+                ////手煞紅點
+                //padel_Nor.transform.GetChild(0).transform.localPosition = new Vector3(0.004561948f, 0, 0.2845623f);
 
-                //oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, 0, 70f * Time.deltaTime);
+               // oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, 0, 70f * Time.deltaTime);
+
+                isPushRedDot = false;
             }
-            //padel_Nor.transform.localEulerAngles = new Vector3(0, -oriTemp_HandBrake, 180);
+            padel_Nor.transform.localEulerAngles = new Vector3(0, oriTemp_HandBrake, 180);
 
         }
 
@@ -638,7 +695,7 @@ public class HandelContorller : MonoBehaviour
             if (isInHorn_nor && isPushHandTrig&& !isSound)
             {
                 _audioSourse.clip = HornSound;
-                Hron.transform.localPosition = new Vector3(0, 0, 0.0085f);
+                Hron.transform.localPosition = new Vector3(0.0048f, 0, 0.0086f);
                 if (!_audioSourse.isPlaying)
                 {
                     _audioSourse.Stop();
@@ -649,12 +706,12 @@ public class HandelContorller : MonoBehaviour
             //異常
             if(isInHorn_ab && isPushHandTrig)
             {
-                Hron.transform.localPosition = new Vector3(0, 0, 0.0085f);
+                Hron.transform.localPosition = new Vector3(0.0048f, 0, 0.0086f);
             }
 
             if(isPushHandTrig == false)
             {
-                Hron.transform.localPosition = new Vector3(0, 0, 0.0112192f);
+                Hron.transform.localPosition = new Vector3(0.0048f, 0, 0.0112f);
                 isSound = false;
             }
         }
@@ -710,7 +767,7 @@ public class HandelContorller : MonoBehaviour
         }
     }
 
-    public int ControlLeft_左控制桿TriggerCount=0;
+    public static int ControlLeft_左控制桿TriggerCount=0;//只會算這個(獨一無二)
     public bool isCount_左控制桿 = false;
     void ControlLeft_左控制桿Control()
     {
@@ -719,14 +776,14 @@ public class HandelContorller : MonoBehaviour
             isCount_左控制桿 = false;
 
             //其他把手同步
-            foreach (var handCon in handelContorllers)
-            {
-                if (handCon.gameObject != this.gameObject)
-                {
-                    handCon.ControlLeft_左控制桿TriggerCount = ControlLeft_左控制桿TriggerCount;
-                    handCon.isCount_左控制桿 = isCount_左控制桿;
-                }
-            }
+            //foreach (var handCon in handelContorllers)
+            //{
+            //    if (handCon.gameObject != this.gameObject)
+            //    {
+            //        handCon.ControlLeft_左控制桿TriggerCount = ControlLeft_左控制桿TriggerCount;
+            //        handCon.isCount_左控制桿 = isCount_左控制桿;
+            //    }
+            //}
         }
         if (isInControlLeft_左控制桿 && isPushHandTrig && isCount_左控制桿==false)
         {
@@ -734,14 +791,14 @@ public class HandelContorller : MonoBehaviour
             isCount_左控制桿 = true; 
             
             //其他把手同步
-            foreach (var handCon in handelContorllers)
-            {
-                if (handCon.gameObject != this.gameObject)
-                {
-                    handCon.ControlLeft_左控制桿TriggerCount = ControlLeft_左控制桿TriggerCount;
-                    handCon.isCount_左控制桿 = isCount_左控制桿;
-                }
-            }
+            //foreach (var handCon in handelContorllers)
+            //{
+            //    if (handCon.gameObject != this.gameObject)
+            //    {
+            //        handCon.ControlLeft_左控制桿TriggerCount = ControlLeft_左控制桿TriggerCount;
+            //        handCon.isCount_左控制桿 = isCount_左控制桿;
+            //    }
+            //}
         }
 
 
@@ -859,9 +916,12 @@ public class HandelContorller : MonoBehaviour
                 btn[1].GetComponentInChildren<Text>().text = "轉動2階（約90°）";
                 btn[2].gameObject.SetActive(false);
                 btn[3].gameObject.SetActive(false);
+                
+                TipChooseCnavasObj.GetComponent<TipChooseUI_CheckDevice>().closeBtn.onClick.AddListener(() => { isInKey_onCar = false; });
 
                 //正常
                 btn[0].onClick.AddListener(() => {
+                    isInKey_onCar = false;
                     if (checkDeviceManager.dashbroad.OnKeyPlugIn_NoSound != null)
                     {
                         checkDeviceManager.dashbroad.OnKeyPlugIn_NoSound();
@@ -877,6 +937,7 @@ public class HandelContorller : MonoBehaviour
                     Destroy(TipChooseCnavasObj);
                 });
                 btn[1].onClick.AddListener(() => {
+                    isInKey_onCar = false;
                     if (checkDeviceManager.dashbroad.OnKeyPlugIn_HaveSound != null)
                     {
                         checkDeviceManager.dashbroad.OnKeyPlugIn_HaveSound();
@@ -1171,9 +1232,7 @@ public class HandelContorller : MonoBehaviour
         //鑰匙
         if (other.name == Key_onCar.name)
         {
-            //isKey_onTable = false;
-            //isKey_onHand = false;
-            //isKey_onCar = false;
+            isKey_onCar = false;
         }
         if (other.name == ControlRight_右控制桿.name)
         {

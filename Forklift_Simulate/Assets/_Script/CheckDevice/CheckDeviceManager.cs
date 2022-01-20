@@ -6,9 +6,9 @@ using WSMGameStudio.Vehicles;
 using VRTK.Controllables.ArtificialBased;
 using VRTK.GrabAttachMechanics;
 using VRTK;
+using UnityEngine.UI;
 public class CheckDeviceManager : MonoBehaviour
 {
-
     [SerializeField]
     WSMVehicleController _wSMVehicleController;
 
@@ -61,9 +61,20 @@ public class CheckDeviceManager : MonoBehaviour
     [SerializeField]
     public Fork_固定銷 fork_固定銷;
 
+    [Header("損壞部位隨機範圍")]
+    [SerializeField]
+    int MaxPart = 21;
+    [SerializeField]
+    int MinPart = 1;
+    
     [Header("額外非測驗題目")]
     [SerializeField]
     public GameObject GasPadel;
+
+    [SerializeField]
+    Text TestTxt;
+
+
 
     Dictionary<int, List<int>> _CorrectAnswerDict;
     public Dictionary<int, List<int>> CorrectAnswerDict
@@ -81,6 +92,14 @@ public class CheckDeviceManager : MonoBehaviour
     public bool IsKeyRot90Degree
     {
         get {return _isKeyRot90Degree; }
+    }
+
+
+    bool _isOverTime;
+    public bool IsOverTime
+    {
+        set { _isOverTime = value; }
+        get { return _isOverTime; }
     }
 
     public enum DevicePart
@@ -127,6 +146,8 @@ public class CheckDeviceManager : MonoBehaviour
         //BrakeALL();
 
         _isKeyRot90Degree = false;
+
+        Invoke("DelayRigibodyIsKinemect", 2);
     }
 
     private void Update()
@@ -164,6 +185,12 @@ public class CheckDeviceManager : MonoBehaviour
             DircLightToggle("L");
         }
     }
+
+    void DelayRigibodyIsKinemect()
+    {
+        _wSMVehicleController.GetComponent<Rigidbody>().isKinematic = true;
+    }
+
 
     void InitDeviceDict()
     {
@@ -386,7 +413,8 @@ public class CheckDeviceManager : MonoBehaviour
                 break;
             case DevicePart.CarLight_DirctLight:
                 //固定壞左側方向燈(前後)
-                tempBreakpartNumber.Add(3);//左側
+                int[] input5 = { 3, 4 };
+                tempBreakpartNumber.AddRange(input5);//左側
                 carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_LName;
                 //carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_RName;
                 break;
@@ -445,6 +473,7 @@ public class CheckDeviceManager : MonoBehaviour
             ChooseBreakDevice(dv);
         }
         Debug.Log(s);
+        TestTxt.text = s;
     }
 
     /// <summary>
@@ -456,10 +485,21 @@ public class CheckDeviceManager : MonoBehaviour
     {
         DevicePart[] devicePartArray = new DevicePart[breakDeviceAmount]; //生成了5個隨機數
 
+        int brakeNo = (int)DevicePart.Brake;//腳剎車不能壞(才能測倒退檔)
+        int brakepart = 0;
+
         for (int i = 0; i < devicePartArray.Length;)
         {
             bool iS_i = true;
-            DevicePart devicePart = (DevicePart)Random.Range(1, 6);//一定要5個以上
+
+            brakepart = Random.Range(MinPart, MaxPart);
+            while (brakepart == brakeNo)//當是腳剎車時重新random
+            {
+                Debug.Log("===============選到腳剎車，重新選======");
+                brakepart = Random.Range(MinPart, MaxPart);
+            }
+
+            DevicePart devicePart = (DevicePart)brakepart;//一定要5個以上
 
             for (int j = 0; j < i; ++j)
             {
@@ -821,10 +861,14 @@ public class CheckDeviceManager : MonoBehaviour
         {
             if (LighType == "R_On")
             {
+                isTriggerL_Light = false;
+                isTiggerR_Light = false;
                 carLight.ControlRight_右控制桿.transform.GetChild(0).localEulerAngles = new Vector3(-11, 185, -62);
             }
             if (LighType == "L_On")
             {
+                isTriggerL_Light = false;
+                isTiggerR_Light = false;
                 carLight.ControlRight_右控制桿.transform.GetChild(0).localEulerAngles = new Vector3(11, 142, -62);
             }
             if (LighType == "Big_On")

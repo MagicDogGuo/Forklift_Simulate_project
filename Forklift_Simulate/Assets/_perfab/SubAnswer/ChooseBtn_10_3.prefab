@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8318874593158565839}
   - component: {fileID: 8318874593158565838}
   - component: {fileID: 8318874593158565825}
+  - component: {fileID: 6855992820467274739}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -120,6 +121,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6855992820467274739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8318874593158565827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50fa73feb2955b409970835e08a8c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8318874593411368997
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,6 +264,6 @@ MonoBehaviour:
   ButtonType: 1
   IsCheckSprite: {fileID: 21300000, guid: f91ae64664beec447ade01d8aa0bd916, type: 3}
   IsNoCheckSprite: {fileID: 21300000, guid: 75877e3de4e40af44a9d1ad98d1fc9a8, type: 3}
-  AnswerDiscribe: "\u524D\u53F3"
+  AnswerDiscribe: "\u5F8C\u5DE6"
   IsCheck: 0
   SelectCount: 0

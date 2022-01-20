@@ -238,14 +238,20 @@ public class ScoreManager : MonoBehaviour
     /// </summary>
     bool isMove = false;
     float countTime = 0;
-    void OnStopTooLong(int stopSpeed, int score)
+    void OnStopTooLong(float stopSpeed, int score)
     {
-        //在開始點不計算
-        if (!mainGameManager.StartPointObjs.GetComponent<StartPoint>().isOnStartPoint_Forkit)
+        EndPoint _endPoint = MainGameManager.Instance.EndPointObjs.GetComponent<EndPoint>();
+
+        //在開始點與終點不計算
+        if (!mainGameManager.StartPointObjs.GetComponent<StartPoint>().isOnStartPoint_Forkit && !_endPoint.isOnEndPoint_Forkit)
         {
             if (_wSMVehicleController.CurrentSpeed >= stopSpeed)
             {
                 isMove = true;
+            }
+            else
+            {
+                isMove = false;
             }
             if (isMove)
             {

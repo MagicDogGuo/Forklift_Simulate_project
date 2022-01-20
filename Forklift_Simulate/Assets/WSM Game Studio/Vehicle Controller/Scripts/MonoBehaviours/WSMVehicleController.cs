@@ -633,6 +633,11 @@ namespace WSMGameStudio.Vehicles
                 //判斷是否在倒車
                 Vector3 localVelocity = transform.InverseTransformDirection(_rigidbody.velocity);
                 _movingBackwards = localVelocity.z < 0 && Mathf.RoundToInt(_currentSpeed) > 0;
+                
+                //多判斷，如果有打倒車檔一定是倒車
+                if (_backFront == -1) _movingBackwards = true;
+
+
 
                 if (_movingBackwards)
                     _currentGear = -1;

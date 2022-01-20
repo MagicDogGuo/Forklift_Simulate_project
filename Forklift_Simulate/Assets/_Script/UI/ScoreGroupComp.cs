@@ -63,6 +63,8 @@ public class ScoreGroupComp : MonoBehaviour
     string ForkBackFrontNorStopScoreTxt = "堆高機行駛時突然變換前後檔";
     string OnRoadNotEngineScoreTxt = "堆高機行駛時熄火";
 
+    string BackStepWrong = "倒車步驟錯誤\n倒車前需完成以下步驟: 拉起手煞 >> 前後檔回歸 >> 將升降貨插放回 >> 升降貨插上升 >> 開啟手煞 >> 打檔至退後檔 >> 開始向後開";
+
 
     MainGameManager.GameMode GameMode;
 
@@ -134,6 +136,7 @@ public class ScoreGroupComp : MonoBehaviour
 
         }
 
+        IsStepWrong_倒車();
     }
 
     private float m_Timer;
@@ -169,6 +172,20 @@ public class ScoreGroupComp : MonoBehaviour
 
         //測驗模式
         TimeTxt_Test.text = string.Format("經過時間：{0:d2}:{1:d2}:{2:d2}", m_Hour, m_Minute, m_Second);
+    }
+
+    GameObject obj_test_倒車;
+    void IsStepWrong_倒車()
+    {
+
+        //加入判斷倒退錯誤步驟
+        if (MainGameManager.Instance.stepIsWrong_倒車 && obj_test_倒車 ==null)
+        {
+            obj_test_倒車 = Instantiate(StatePerfab, StateTextGroup_Test.transform);
+            obj_test_倒車.GetComponent<StateComp>().Label.text = BackStepWrong;
+            obj_test_倒車.GetComponent<RectTransform>().sizeDelta= new Vector2(1430,470);
+            obj_test_倒車.name = BackStepWrong;
+        }
     }
 
     void OnPracticeMode()
@@ -223,6 +240,7 @@ public class ScoreGroupComp : MonoBehaviour
         GameObject obj_test = Instantiate(StatePerfab, StateTextGroup_Test.transform);
         obj_test.GetComponent<StateComp>().Label.text = s + ": <size=60>" + wrongAmount + "</size>次";
         obj_test.name = s;
+
 
         if (wrongAmount >= 2)
         {

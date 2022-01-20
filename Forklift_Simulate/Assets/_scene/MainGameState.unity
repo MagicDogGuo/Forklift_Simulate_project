@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -273,6 +273,80 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 48.02, y: 0.5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &167271130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 167271131}
+  - component: {fileID: 167271133}
+  m_Layer: 0
+  m_Name: BackIntitCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &167271131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167271130}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 898819798}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!20 &167271133
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167271130}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 1
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &184054280
 GameObject:
   m_ObjectHideFlags: 0
@@ -54570,7 +54644,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 167271131}
   m_Father: {fileID: 1444028619}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -55005,7 +55080,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1444028619
 Transform:
   m_ObjectHideFlags: 0
@@ -55123,7 +55198,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1676477339}
   - component: {fileID: 1676477338}
-  - component: {fileID: 1676477337}
   - component: {fileID: 1676477340}
   m_Layer: 0
   m_Name: Main Camera
@@ -55132,14 +55206,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!81 &1676477337
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1676477336}
-  m_Enabled: 1
 --- !u!20 &1676477338
 Camera:
   m_ObjectHideFlags: 0
@@ -55223,6 +55289,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1809313810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809313811}
+  m_Layer: 0
+  m_Name: ForkitOriPos_end
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1809313811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809313810}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -7.39, y: 0.02, z: 6.27}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1967496197
 GameObject:
   m_ObjectHideFlags: 0
@@ -55236,6 +55332,7 @@ GameObject:
   - component: {fileID: 1967496201}
   - component: {fileID: 1967496198}
   - component: {fileID: 1967496202}
+  - component: {fileID: 1967496203}
   m_Layer: 0
   m_Name: MainGameManager
   m_TagString: Untagged
@@ -55274,7 +55371,8 @@ MonoBehaviour:
     type: 3}
   Forkleft: {fileID: 3448198479682059642, guid: 8bd210217c448054ca3d491d3bf2a5d8,
     type: 3}
-  ForkitOriPos: {fileID: 2011750803}
+  ForkitOriPos_start: {fileID: 2011750803}
+  ForkitOriPos_end: {fileID: 1809313811}
   PipeGroupPos: {fileID: 530131745}
   PipeGroup: {fileID: 7322250035902531499, guid: 231e0dd5d6cfe4146a964cd20204a27a,
     type: 3}
@@ -55288,6 +55386,7 @@ MonoBehaviour:
   IfForkitOnMe_RoadOutLine: {fileID: 530129820}
   WarningUI: {fileID: 7114807915962496860, guid: 9817aa8df7805ba40bd3ddaa07b56a6d,
     type: 3}
+  "stepIsWrong_\u5012\u8ECA": 0
 --- !u!4 &1967496200
 Transform:
   m_ObjectHideFlags: 0
@@ -55434,6 +55533,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1967496203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967496197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13427fcdfbb1d8344ab993c156af703d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1986539950
 GameObject:
   m_ObjectHideFlags: 0
@@ -55522,7 +55633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2011750803}
   m_Layer: 0
-  m_Name: ForkitOriPos
+  m_Name: ForkitOriPos_start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

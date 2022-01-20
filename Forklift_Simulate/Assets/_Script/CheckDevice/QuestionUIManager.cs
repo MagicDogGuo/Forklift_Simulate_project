@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class QuestionUIManager : MonoBehaviour
 {
     [SerializeField]
+    GameObject TestTxtObj;
+
+    [SerializeField]
     GameObject CameraRigObj;
 
     [SerializeField]
@@ -91,12 +94,22 @@ public class QuestionUIManager : MonoBehaviour
         StartInfoImage.SetActive(false);
         AnswerBackImage.SetActive(false);
         AllChoosBackImage.SetActive(false);
-        ResultBackImage.SetActive(false);     
+        ResultBackImage.SetActive(false);
+
+
+
+        isTimeUp = false;
     }
 
 
     private void Update()
     {
+        //測試Debug UI
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            TestTxtObj.SetActive(!TestTxtObj.active);
+        }
+
 
         //UI移動
         if (CameraRigObj.transform.localPosition.x < -1)
@@ -329,9 +342,13 @@ public class QuestionUIManager : MonoBehaviour
         //判斷有無讓鑰匙轉90度啟動引擎
         if (checkDeviceManager.IsKeyRot90Degree)
         {//未通過
-            unPassNO += "0.誤觸引擎\n";
+            unPassNO += "A.誤觸引擎\n";
         }
-      
+
+        if (checkDeviceManager.IsOverTime)
+        {
+            unPassNO += "B.超時\n";
+        }
 
         foreach (KeyValuePair<int, List<int>> kvp in _UnMatchCorrectAnswerDict)
         {//與正解不合的題目
@@ -408,7 +425,7 @@ public class QuestionUIManager : MonoBehaviour
         ResultContentText.GetComponent<RectTransform>().sizeDelta = new Vector2(1481.89f, 86 * (_UnMatchCorrectAnswerDict.Count + 4));
 
        
-        if (_UnMatchCorrectAnswerDict.Count < 3 && !checkDeviceManager.IsKeyRot90Degree)//與答案不符合的題目數量
+        if (_UnMatchCorrectAnswerDict.Count < 3 && !checkDeviceManager.IsKeyRot90Degree && !checkDeviceManager.IsOverTime)//與答案不符合的題目數量
         {
             //PassOFailText.text = "<color=green>通過!</color>" + unPassNO;
             ResultContentText.text = "<color=green>通過!</color>" + unPassNO;
@@ -417,6 +434,8 @@ public class QuestionUIManager : MonoBehaviour
         {
             //PassOFailText.text = "<color=red>未通過!</color> " + unPassNO;
             ResultContentText.text = "<color=red>未通過!</color> " + unPassNO;
+            ResultContentText.GetComponent<RectTransform>().sizeDelta = new Vector2(1481.89f, 86 * (_UnMatchCorrectAnswerDict.Count + 4)+86);
+
         }
     }
 
@@ -826,6 +845,11 @@ public class QuestionUIManager : MonoBehaviour
         if (m_Timer > limitSec && isTimeUp == false)
         {
             isTimeUp = true;
+            checkDeviceManager.IsOverTime = true;
+        }
+        else
+        {
+            checkDeviceManager.IsOverTime = false;
         }
     }
 
