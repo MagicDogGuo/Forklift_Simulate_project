@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Forkleft
   - NoTeleportObj
+  - EndPoint
+  - StartPoint
+  - CurrentPosLimit
   layers:
   - Default
   - TransparentFX

@@ -439,6 +439,13 @@ public class QuestionUIManager : MonoBehaviour
         }
     }
 
+    IEnumerator DalayPlayAS()
+    {
+        DiscribeAudioSouce.Stop();
+        yield return new WaitForSeconds(0.7f);
+        DiscribeAudioSouce.Play();
+    }
+
     void OnPushQuestionChooseButtons(int i)////////////////////////////////////////////////////////////
     {
      
@@ -453,8 +460,7 @@ public class QuestionUIManager : MonoBehaviour
         _QuestionUIComp.IconImg.sprite = questionContent[i].IconSprtie;
         _QuestionUIComp.TitleTxt.text = questionContent[i].TitleTxt;
         DiscribeAudioSouce.clip = questionContent[i].DiscririonAuioClip;
-        DiscribeAudioSouce.Stop();
-        DiscribeAudioSouce.Play();
+        StartCoroutine(DalayPlayAS());
 
         ////////////////////////選題目區/////////////////////////////        
         //所有按鈕外框刪除

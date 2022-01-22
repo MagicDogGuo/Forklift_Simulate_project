@@ -248,6 +248,19 @@ public class DriveForkleftState : IMainGameState
             if (WarningUI_退後 != null) GameObject.Destroy(WarningUI_退後);
         }
 
+        //停車位置
+        if (CurrentPosLimit.isInPosLimit&& _wSMVehicleController.CurrentHandbrake == 1)//剎車且碰到限制區
+        {
+            if (WarningUI_退後 == null) WarningUI_退後 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+            WarningUI_退後.GetComponentInChildren<Text>().text = "堆高機未停好!";
+            WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+        }
+        else
+        {
+            if (WarningUI_退後 != null) GameObject.Destroy(WarningUI_退後);
+
+        }
+
     } 
 
 
