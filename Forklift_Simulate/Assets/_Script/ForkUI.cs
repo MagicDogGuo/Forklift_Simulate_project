@@ -37,6 +37,10 @@ public class ForkUI : MonoBehaviour
 
         startTipUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
         startTipUI.GetComponentInChildren<Text>().text = "時間8分鐘，請按辦理單位所提供之無負載堆高機，於規定時間內依規定路線前進、倒車及停車等動作。";
+        startTipUI.GetComponent<WarningUIAudio>().AS.clip = startTipUI.GetComponent<WarningUIAudio>().StartTipAudioClip;
+        startTipUI.GetComponent<WarningUIAudio>().AS.Stop();
+        startTipUI.GetComponent<WarningUIAudio>().AS.Play();
+
 
         ColliderUI_撞擊漸層R.SetActive(false) ;
         ColliderUI_撞擊漸層L.SetActive(false);

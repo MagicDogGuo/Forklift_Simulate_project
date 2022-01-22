@@ -22,7 +22,7 @@ public class DriveForkleftState : IMainGameState
     GameObject WarningUI;
     ScoreManager _scoreManager;
     GameObject WarningUI_退後;
-
+    GameObject WarningUI_超出格子;
 
 
     bool _isCountScore_ScoreManager = false;
@@ -205,6 +205,11 @@ public class DriveForkleftState : IMainGameState
             if (WarningUI != null) GameObject.Destroy(WarningUI);
         }
 
+        Debug.Log("=========="+ stepIsAllOK
+            + " "+ _endPoint.isAllreadyArraivalEndPoint
+            + " " + _wSMVehicleController.CurrentHandbrake
+            + " " + _wSMVehicleController.CurrentBackFront);
+
         //在倒車點要做到指定動作
         if (_endPoint.isOnEndPoint_Forkit
             &&_wSMVehicleController.CurrentHandbrake == 1
@@ -234,14 +239,20 @@ public class DriveForkleftState : IMainGameState
             && _wSMVehicleController.CurrentHandbrake == 0//放開剎車
             && _wSMVehicleController.CurrentBackFront == -1) //倒車 
         {
-
             MainGameManager.Instance.stepIsWrong_倒車 = true;
 
-            if (WarningUI_退後 == null) WarningUI_退後 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+            if (WarningUI_退後 == null)
+            {
+                WarningUI_退後 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+                WarningUI_退後.GetComponent<WarningUIAudio>().AS.clip = WarningUI_退後.GetComponent<WarningUIAudio>().BackGoTipAudioClip;
+                WarningUI_退後.GetComponent<WarningUIAudio>().AS.Stop();
+                WarningUI_退後.GetComponent<WarningUIAudio>().AS.Play();
+            }
             WarningUI_退後.GetComponentInChildren<Text>().text = "倒車前請完成以下步驟：\n拉起手煞 >> 前後檔回歸 >> 將升降貨插放回 >> 升降貨插上升 >> 開啟手煞 >> 打檔至退後檔 >> 開始向後開";
             WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
             WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
             WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+
         }
         if (stepIsAllOK)
         {
@@ -251,13 +262,13 @@ public class DriveForkleftState : IMainGameState
         //停車位置
         if (CurrentPosLimit.isInPosLimit&& _wSMVehicleController.CurrentHandbrake == 1)//剎車且碰到限制區
         {
-            if (WarningUI_退後 == null) WarningUI_退後 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
-            WarningUI_退後.GetComponentInChildren<Text>().text = "堆高機未停好!";
-            WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+            if (WarningUI_超出格子 == null) WarningUI_超出格子 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+            WarningUI_超出格子.GetComponentInChildren<Text>().text = "堆高機未停好!";
+            WarningUI_超出格子.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
         }
         else
         {
-            if (WarningUI_退後 != null) GameObject.Destroy(WarningUI_退後);
+            if (WarningUI_超出格子 != null) GameObject.Destroy(WarningUI_超出格子);
 
         }
 
