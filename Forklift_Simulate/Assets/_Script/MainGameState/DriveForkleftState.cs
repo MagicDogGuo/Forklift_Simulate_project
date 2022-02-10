@@ -92,6 +92,19 @@ public class DriveForkleftState : IMainGameState
     }
     public override void StateUpdate()
     {
+        //測試記錄用
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompletePrictice, m_Conrtoller);
+
+        }
+
+
+
+
+
+
+
         string t = "_startPoint.isOnStartPoint_Forkit: " + _startPoint.isOnStartPoint_Forkit
           + "\n _endPoint.isAllreadyArraivalEndPoint: " + _endPoint.isAllreadyArraivalEndPoint
           + "\n _wSMVehicleController.CurrentHandbrake == 1: " + (_wSMVehicleController.CurrentHandbrake == 1)

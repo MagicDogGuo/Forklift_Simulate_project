@@ -7,6 +7,8 @@ using VRTK.Controllables.ArtificialBased;
 using VRTK.GrabAttachMechanics;
 using VRTK;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 public class CheckDeviceManager : MonoBehaviour
 {
     [SerializeField]
@@ -152,7 +154,10 @@ public class CheckDeviceManager : MonoBehaviour
 
     private void Update()
     {
-
+        if (Input.GetKey(KeyCode.B))
+        {
+            SceneManager.LoadScene("TitleState");
+        }
 
         if (Input.GetKey(KeyCode.Escape))
         {

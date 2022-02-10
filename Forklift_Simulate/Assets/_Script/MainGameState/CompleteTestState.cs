@@ -11,17 +11,31 @@ public class CompleteTestState : IMainGameState
 
     public override void StateBegin()
     {
+        string PassResult="";
+
+
         Debug.Log("============測驗結束"+ MainGameManager.Instance.TotalWrongScore);
 
         if (MainGameManager.Instance.IsSussuesPassTest == 1)
         {
             Debug.Log("============測驗成功");
+            PassResult = "通過";
         }
         else if ( MainGameManager.Instance.IsSussuesPassTest == 0)
         {
             Debug.Log("============測驗失敗");
+            PassResult = "未通過";
+
         }
 
+
+        //紀錄
+        int WrongAmount;
+        string[] WrongContent;
+
+        WrongAmount = ScoreGroupComp.WrongAmount;
+        WrongContent = ScoreGroupComp.RecoedList.ToArray();
+        RecordUserDate.RecordUserData_SecondState(PassResult, WrongAmount, WrongContent);
 
     }
     public override void StateUpdate()

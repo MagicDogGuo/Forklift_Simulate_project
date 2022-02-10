@@ -19,6 +19,17 @@ public class CompletePricticeState : IMainGameState
         WarningUI.GetComponentInChildren<Text>().text = "完成練習!";
         WarningUI.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
 
+        //紀錄
+        string PassResult;
+        int WrongAmount;
+        string[] WrongContent;
+
+        Debug.Log("============fgfgfgfgfgfgfgfgfg==="+ScoreGroupComp.WrongAmount);
+
+        PassResult = "完成練習!";
+        WrongAmount = ScoreGroupComp.WrongAmount;
+        WrongContent = ScoreGroupComp.RecoedList.ToArray();
+        RecordUserDate.RecordUserData_SecondState(PassResult, WrongAmount, WrongContent);
     }
     public override void StateUpdate()
     {

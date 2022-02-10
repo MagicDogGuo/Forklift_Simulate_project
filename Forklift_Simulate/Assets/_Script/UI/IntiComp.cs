@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class IntiComp : MonoBehaviour
 {
@@ -11,10 +12,13 @@ public class IntiComp : MonoBehaviour
     [SerializeField]
     Button PraticeModeBtn;
 
+    [SerializeField]
+    Button BackTitleBtn;
     void Start()
     {
         TestModeBtn.onClick.AddListener(GameEventSystem.Instance.OnPushTestModeBtn);
         PraticeModeBtn.onClick.AddListener(GameEventSystem.Instance.OnPushPracticeModeBtn);
+        BackTitleBtn.onClick.AddListener(OnPushBackTitleBtn);
 
         GetComponent<Canvas>().worldCamera = GameObject.Find("InitCamera").GetComponent<Camera>();
     }
@@ -29,5 +33,10 @@ public class IntiComp : MonoBehaviour
         {
             GameEventSystem.Instance.OnPushPracticeModeBtn();
         }
+    }
+
+    void OnPushBackTitleBtn()
+    {
+        SceneManager.LoadScene("TitleState");
     }
 }

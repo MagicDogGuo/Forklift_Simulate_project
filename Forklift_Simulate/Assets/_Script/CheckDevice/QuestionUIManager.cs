@@ -243,6 +243,14 @@ public class QuestionUIManager : MonoBehaviour
         //正解有但作答裡沒有的key
         var keys_CorrectAnswerDictHasThat_AnswerQuestionDictDoesNot = _CorrectAnswerDict.Keys.Except(_AnswerQuestionDict.Keys);
 
+
+        //記錄存檔
+        List<string> ss_userDataRowList =new List<string>();
+        string[] ss_userDataRowArray ;
+        string PassResult;
+        int WrongAmount;
+
+
         //Debug.Log("---" + _CorrectAnswerDict.Keys.SequenceEqual(_AnswerQuestionDict.Keys)+"____"+ keys_CorrectAnswerDictHasThat_AnswerQuestionDictDoesNot.GetType());
 
         //foreach(var i in keys_CorrectAnswerDictHasThat_AnswerQuestionDictDoesNot)
@@ -384,7 +392,7 @@ public class QuestionUIManager : MonoBehaviour
 
                             if (_UnMatchCorrectAnswerDict[kvp.Key].Count > 1) {
                                 if (_UnMatchCorrectAnswerDict[kvp.Key].IndexOf(j) == (_UnMatchCorrectAnswerDict[kvp.Key].Count - 1)) userAns += subAnswerDiscript;
-                                else userAns += subAnswerDiscript + ",";
+                                else userAns += subAnswerDiscript + " ";
                             } 
                             else userAns += subAnswerDiscript;
                         }
@@ -410,7 +418,7 @@ public class QuestionUIManager : MonoBehaviour
 
                         if (_CorrectAnswerDict[kvp.Key].Count > 1) {
                             if(_CorrectAnswerDict[kvp.Key].IndexOf(j) == (_CorrectAnswerDict[kvp.Key].Count-1)) currnetAns += subAnswerDiscript;
-                            else currnetAns += subAnswerDiscript + ",";
+                            else currnetAns += subAnswerDiscript + " ";
                         } 
                         else currnetAns += subAnswerDiscript;
                     }
@@ -418,8 +426,12 @@ public class QuestionUIManager : MonoBehaviour
                              
             }
 
+            string wrongRow = kvp.Key + "." + questionContent[kvp.Key - 1].TitleTxt + "，<color=red>您的答案:" + userAns + "</color> / <color=green>正確答案:" + currnetAns + "</color>\n";
+            unPassNO += wrongRow;
+            
+            ss_userDataRowList.Add(wrongRow.Replace("<color=red>","").
+                Replace("</color>","").Replace(" <color=green>","").Replace("\n",""));
 
-            unPassNO += kvp.Key+"."+ questionContent[kvp.Key-1].TitleTxt + "，<color=red>您的答案:" + userAns + "</color> / <color=green>正確答案:" + currnetAns+ "</color>\n";
         }
         //調整文字框大小
         ResultContentText.GetComponent<RectTransform>().sizeDelta = new Vector2(1481.89f, 86 * (_UnMatchCorrectAnswerDict.Count + 4));
@@ -429,14 +441,20 @@ public class QuestionUIManager : MonoBehaviour
         {
             //PassOFailText.text = "<color=green>通過!</color>" + unPassNO;
             ResultContentText.text = "<color=green>通過!</color>" + unPassNO;
+            PassResult = "通過";
         }
         else
         {
             //PassOFailText.text = "<color=red>未通過!</color> " + unPassNO;
             ResultContentText.text = "<color=red>未通過!</color> " + unPassNO;
             ResultContentText.GetComponent<RectTransform>().sizeDelta = new Vector2(1481.89f, 86 * (_UnMatchCorrectAnswerDict.Count + 4)+86);
-
+            PassResult = "未通過";
         }
+
+        //存檔
+        WrongAmount = _UnMatchCorrectAnswerDict.Count;
+        ss_userDataRowArray = ss_userDataRowList.ToArray();
+        RecordUserDate.RecordUserData_FirstState(PassResult, WrongAmount, ss_userDataRowArray);
     }
 
     IEnumerator DalayPlayAS()

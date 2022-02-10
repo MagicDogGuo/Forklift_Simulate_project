@@ -68,7 +68,9 @@ public class ScoreGroupComp : MonoBehaviour
 
     MainGameManager.GameMode GameMode;
 
-
+    //記錄存檔
+    public static List<string> RecoedList = new List<string>();
+    public static int WrongAmount=0;
 
     void Start()
     {
@@ -214,10 +216,14 @@ public class ScoreGroupComp : MonoBehaviour
 
     }
 
+
+
+
     void PracticeModeUI(string s ,int wrongAmount)
     {      
         GameObject obj_practice = Instantiate(StatePerfab, StateTextGroup_Practice.transform);
-        obj_practice.GetComponent<StateComp>().Label.text = s + ": <size=60>" + wrongAmount + "</size>次";
+        string content = s + ": <size=60>" + wrongAmount + "</size>次";
+        obj_practice.GetComponent<StateComp>().Label.text = content;
         obj_practice.name = s;
 
         if (wrongAmount >= 2)
@@ -229,10 +235,17 @@ public class ScoreGroupComp : MonoBehaviour
             }
             else 
             {
-                obj_practice.GetComponent<StateComp>().Label.text = s + ": <size=60>" + wrongAmount + "</size>次";
+                obj_practice.GetComponent<StateComp>().Label.text = content;
             }
         }
-        
+
+        //記錄存檔(全部移除再全部加入)
+        RecoedList.Clear();
+        foreach(var stateTextGroup_Practice_child in StateTextGroup_Practice.GetComponentsInChildren<StateComp>())
+        {
+            RecoedList.Add(stateTextGroup_Practice_child.Label.text.Replace("<size=60>","").Replace("</size>",""));
+        }
+        WrongAmount =  RecoedList.Count;
     }
 
     void TestModeUI(string s, int wrongAmount)
@@ -254,7 +267,19 @@ public class ScoreGroupComp : MonoBehaviour
                 obj_test.GetComponent<StateComp>().Label.text = s + ": <size=60>" + wrongAmount + "</size>次";
             }
         }
+
+        //記錄存檔(全部移除再全部加入)
+        RecoedList.Clear();
+        foreach (var stateTextGroup_Practice_child in StateTextGroup_Test.GetComponentsInChildren<StateComp>())
+        {
+            RecoedList.Add(stateTextGroup_Practice_child.Label.text.Replace("<size=60>", "").Replace("</size>", ""));
+        }
+        WrongAmount = RecoedList.Count;
+
     }
+
+
+
 
     void OnTimeScore(int i)
     {
@@ -290,6 +315,10 @@ public class ScoreGroupComp : MonoBehaviour
         //isPipeAppear = true;
     }
 
+    /// <summary>
+    /// 壓線真的有要計分?
+    /// </summary>
+    /// <param name="i"></param>
     void OnForkitOnLineScore(int i)
     {
         //練習模式
