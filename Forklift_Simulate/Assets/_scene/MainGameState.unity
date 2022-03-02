@@ -17217,7 +17217,7 @@ Transform:
   m_GameObject: {fileID: 530131745}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.19, y: 1.19, z: 1.19}
   m_Children:
   - {fileID: 530482383}
   - {fileID: 530497465}
@@ -17228,7 +17228,7 @@ Transform:
   - {fileID: 1048120259}
   - {fileID: 1329475366}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &530482377
 Transform:
@@ -54898,6 +54898,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WSMVehicleCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 1429378780737606, guid: a7a83665d5f98d045b5701d8498101d6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4292419690388902, guid: a7a83665d5f98d045b5701d8498101d6, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -55641,7 +55645,7 @@ Transform:
   m_GameObject: {fileID: 1517758547}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.19, y: 1.19, z: 1.19}
   m_Children:
   - {fileID: 1500077119}
   - {fileID: 983149505}
@@ -55928,11 +55932,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809313810}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.39, y: 0.02, z: 5.96}
+  m_LocalPosition: {x: -8.7941, y: 0.0238, z: 7.0924006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1967496197
 GameObject:
@@ -55985,6 +55989,8 @@ MonoBehaviour:
   StartPointObj: {fileID: 8782108309830517490, guid: 95fd241a70a92d24082b50c184c2adf0,
     type: 3}
   Forkleft: {fileID: 3448198479682059642, guid: 8bd210217c448054ca3d491d3bf2a5d8,
+    type: 3}
+  Forkleft_VR: {fileID: 6644541865772325853, guid: 870b3dd63c53ff1418c8a417b23f5b1d,
     type: 3}
   ForkitOriPos_start: {fileID: 2011750803}
   ForkitOriPos_end: {fileID: 1809313811}
@@ -56262,7 +56268,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2011750802}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.8, y: 0.02, z: -4.62}
+  m_LocalPosition: {x: 9.282001, y: 0.0238, z: -5.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

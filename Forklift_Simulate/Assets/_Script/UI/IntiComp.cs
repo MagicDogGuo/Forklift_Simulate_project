@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 public class IntiComp : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class IntiComp : MonoBehaviour
     Button BackTitleBtn;
     void Start()
     {
+        //關閉VR模式
+        XRSettings.enabled = false;
+
         TestModeBtn.onClick.AddListener(GameEventSystem.Instance.OnPushTestModeBtn);
         PraticeModeBtn.onClick.AddListener(GameEventSystem.Instance.OnPushPracticeModeBtn);
         BackTitleBtn.onClick.AddListener(OnPushBackTitleBtn);

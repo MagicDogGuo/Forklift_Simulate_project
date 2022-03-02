@@ -15,6 +15,15 @@ public class TipChooseUI_CheckDevice : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(RecordUserDate.modeChoose == RecordUserDate.ModeChoose.VR)
+        {
+            this.GetComponentInChildren<VRTK.VRTK_UICanvas>().enabled = true;
+        }
+        else
+        {
+            this.GetComponentInChildren<VRTK.VRTK_UICanvas>().enabled = false;
+
+        }
 
         GetComponentInChildren<Canvas>().worldCamera =Camera.main;
         closeBtn.onClick.AddListener(OnPushCloseBtn);

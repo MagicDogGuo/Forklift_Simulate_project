@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 using WSMGameStudio.Vehicles;
 public class MainGameManager : MonoBehaviour
 {
-
     static MainGameManager m_Instance;
     public static MainGameManager Instance
     {
@@ -41,6 +40,8 @@ public class MainGameManager : MonoBehaviour
 
     [SerializeField]
     GameObject Forkleft;
+    [SerializeField]
+    GameObject Forkleft_VR;
 
     [SerializeField]
     Transform ForkitOriPos_start;
@@ -245,8 +246,8 @@ public class MainGameManager : MonoBehaviour
     {
         _pipeGroupObj = Instantiate(PipeGroup, PipeGroupPos.transform);
         _initCanvas = Instantiate(InitCancvs, InitCancasPos.transform);
-        _startPointObj = Instantiate(StartPointObj);
-        _endPointObj = Instantiate(EndPointObj);
+        _startPointObj = Instantiate(StartPointObj, PipeGroupPos.transform);
+        _endPointObj = Instantiate(EndPointObj, PipeGroupPos.transform);
 
 
         //mainMenuUICanvases = Instantiate(MainGameUICanvas);
@@ -255,7 +256,22 @@ public class MainGameManager : MonoBehaviour
     public void CreateForkkit()
     {
         _isSussuesPassTest = 2;
-        _forkleftObj = GameObject.Instantiate(Forkleft, ForkitOriPos_start); 
+
+        if(RecordUserDate.modeChoose == RecordUserDate.ModeChoose.PC)
+        {
+            _forkleftObj = GameObject.Instantiate(Forkleft, ForkitOriPos_start);
+
+        }
+        else if(RecordUserDate.modeChoose == RecordUserDate.ModeChoose.VR)
+        {
+            _forkleftObj = GameObject.Instantiate(Forkleft_VR, ForkitOriPos_start);
+
+        }
+        else if (RecordUserDate.modeChoose == RecordUserDate.ModeChoose.Null)
+        {
+            _forkleftObj = GameObject.Instantiate(Forkleft_VR, ForkitOriPos_start);
+
+        }
     }
 
     public void DestoryForkkit()

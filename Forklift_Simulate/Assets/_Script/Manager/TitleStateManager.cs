@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class TitleStateManager : MonoBehaviour
 {
+    [SerializeField]
+    GameObject InitInputObj;
+    [SerializeField]
+    GameObject ModeChooseObj;
+
 
     [SerializeField]
     Button ConfirmBtn;
@@ -16,14 +21,25 @@ public class TitleStateManager : MonoBehaviour
     [SerializeField]
     InputField input_姓名;
 
+
+    [SerializeField]
+    Button VRBtn;
+    [SerializeField]
+    Button PCBtn;
+
     void Start()
     {
+        InitInputObj.SetActive(true);
+        ModeChooseObj.SetActive(false);
+
+
         ConfirmBtn.onClick.AddListener(OnPushConfirmBtn);
 
         input_座號.onEndEdit.AddListener(OnEndinput_座號);
         input_姓名.onEndEdit.AddListener(OnEndinput_姓名);
 
-
+        VRBtn.onClick.AddListener(OnPushVRBtn);
+        PCBtn.onClick.AddListener(OnPushPCBtn);
     }
 
     void Update()
@@ -36,21 +52,30 @@ public class TitleStateManager : MonoBehaviour
 
     void OnPushConfirmBtn()
     {
-        int sceneIndex_FirstStageTest = SceneUtility.GetBuildIndexByScenePath("_scene/FirstStageTest");
-        int sceneIndex_MainGameState = SceneUtility.GetBuildIndexByScenePath("_scene/MainGameState");
+        if (ModeChooseObj.active == true)
+        {
+            int sceneIndex_FirstStageTest = SceneUtility.GetBuildIndexByScenePath("_scene/FirstStageTest");
+            int sceneIndex_MainGameState = SceneUtility.GetBuildIndexByScenePath("_scene/MainGameState");
+            if (sceneIndex_FirstStageTest == -1)//沒有在bulid setting打勾
+            {
+                SceneManager.LoadScene("MainGameState");
+            }
+            else if (sceneIndex_MainGameState == -1)
+            {
+                SceneManager.LoadScene("FirstStageTest");
+            }
+            else
+            {
+                Debug.Log("沒有下一關");
+            }
 
-        if (sceneIndex_FirstStageTest == -1)//沒有在bulid setting打勾
-        {
-            SceneManager.LoadScene("MainGameState");
         }
-        else if (sceneIndex_MainGameState == -1)
+        if (InitInputObj.active == true)
         {
-            SceneManager.LoadScene("FirstStageTest");
+            InitInputObj.SetActive(false);
+            ModeChooseObj.SetActive(true);
         }
-        else
-        {
-            Debug.Log("沒有下一關");
-        }
+      
 
     }
 
@@ -63,5 +88,18 @@ public class TitleStateManager : MonoBehaviour
     void OnEndinput_姓名(string s)
     {
         UserDatabase.Name = s;
+    }
+
+    void OnPushVRBtn()
+    {
+        RecordUserDate.modeChoose = RecordUserDate.ModeChoose.VR;
+        OnPushConfirmBtn();
+    }
+
+    void OnPushPCBtn()
+    {
+        RecordUserDate.modeChoose = RecordUserDate.ModeChoose.PC;
+        OnPushConfirmBtn();
+
     }
 }

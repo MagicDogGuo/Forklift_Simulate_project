@@ -133,11 +133,10 @@ public class DriveForkleftState : IMainGameState
         {
             OnTest();
         }
-
         //隨時歸位
         if ( logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return)||Input.GetKey(KeyCode.O))
         {
-            BackToOri();
+            if(!_startPoint.isOnStartPoint_Forkit && !_endPoint.isOnEndPoint_Forkit)BackToOri();
         }
         //到終點
         if (Input.GetKey(KeyCode.K))

@@ -6,7 +6,17 @@ using UnityEngine;
 
 public class RecordUserDate : MonoBehaviour
 {
-    List<string[]> Testlist = new List<string[]>(); 
+    List<string[]> Testlist = new List<string[]>();
+
+    public static ModeChoose modeChoose;
+
+    public enum ModeChoose
+    {
+        Null,
+        VR,
+        PC
+    }
+
 
     void Start()
     {

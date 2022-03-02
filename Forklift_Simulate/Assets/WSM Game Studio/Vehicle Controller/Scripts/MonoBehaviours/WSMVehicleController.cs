@@ -937,6 +937,24 @@ namespace WSMGameStudio.Vehicles
                 {
                     foreach (var brakeLight in brakeLights)
                         brakeLight.enabled = (_brakes > 0f);
+
+
+                    for (int i = 0; i < 2; i++)//前兩個是剎車燈
+                    {
+                        if (i == 0 || i == 1)
+                        {
+                            if (_brakes > 0f) reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(1, 0, 0));
+                            else reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(0.1f, 0, 0));
+
+                        }
+                        else if (i > 1)
+                        {
+                            if (_brakes > 0f) reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(1, 1, 1));
+                            else reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(0.0f, 0, 0));
+                        }
+
+                    }
+
                 }
             }
         }
