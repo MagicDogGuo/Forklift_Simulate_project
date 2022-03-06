@@ -15,6 +15,16 @@ public class IntiComp : MonoBehaviour
 
     [SerializeField]
     Button BackTitleBtn;
+
+    [SerializeField]
+    InputField SetX;
+    [SerializeField]
+    InputField SetY;
+    [SerializeField]
+    InputField SetZ;
+
+    GameObject VRTK_SDKManagerObj;
+
     void Start()
     {
         //關閉VR模式
@@ -25,15 +35,30 @@ public class IntiComp : MonoBehaviour
         BackTitleBtn.onClick.AddListener(OnPushBackTitleBtn);
 
         GetComponent<Canvas>().worldCamera = GameObject.Find("InitCamera").GetComponent<Camera>();
+
+        VRTK_SDKManagerObj = GameObject.Find("[VRTK_SDKManager]");
+        //SetX.text = VRTK_SDKManagerObj.GetComponent<ResetVRPosition>().OriDriveForkleftPos.x + "";
+        //SetY.text = VRTK_SDKManagerObj.GetComponent<ResetVRPosition>().OriDriveForkleftPos.y + "";
+        //SetZ.text = VRTK_SDKManagerObj.GetComponent<ResetVRPosition>().OriDriveForkleftPos.z + "";
+        SetX.text = ResetVRPosition.OriDriveForkleftPos.x + "";
+        SetY.text = ResetVRPosition.OriDriveForkleftPos.y + "";
+        SetZ.text = ResetVRPosition.OriDriveForkleftPos.z + "";
+
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+      
+        //VRTK_SDKManagerObj.GetComponent<ResetVRPosition>().OriDriveForkleftPos =
+        //    new Vector3(float.Parse(SetX.text), float.Parse(SetY.text), float.Parse(SetZ.text));
+        ResetVRPosition.OriDriveForkleftPos =
+            new Vector3(float.Parse(SetX.text), float.Parse(SetY.text), float.Parse(SetZ.text));
+
+        if (Input.GetKeyDown(KeyCode.N))
         {
             GameEventSystem.Instance.OnPushTestModeBtn();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             GameEventSystem.Instance.OnPushPracticeModeBtn();
         }

@@ -52,6 +52,11 @@ public class ForkUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(RecordUserDate.modeChoose != RecordUserDate.ModeChoose.PC)
+        {
+            return;
+        }
+
         GearTxt.text = "Gear: " + _WSMVehicleController.CurrentGear;
         SpeedTxt.text = "Speed" + (int)_WSMVehicleController.CurrentSpeed;
 

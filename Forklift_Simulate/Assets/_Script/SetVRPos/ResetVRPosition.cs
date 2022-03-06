@@ -13,16 +13,24 @@ public class ResetVRPosition : MonoBehaviour
     [SerializeField]
     GameObject SteamVRObj;
     [SerializeField]
+    GameObject VRTrackerObj_L;
+    [SerializeField]
+    GameObject VRTrackerObj_R;
+    [SerializeField]
     GameObject ResetRotateObj;
 
-    [SerializeField]
-    Vector3 OriDriveForkleftPos = new Vector3(-0.33f,1.74f,-0.1f);
+
+
+
+    //[SerializeField]
+    public static Vector3 OriDriveForkleftPos =  new Vector3(-0.05f, 2.1f, -0.3f);//new Vector3(-0.33f,1.74f,-0.1f);
     [SerializeField]
     Vector3 OriDriveForkleftRot = new Vector3(0f, 0f, 0f);
 
 
     Vector3 VRLookPos;
     Vector3 VRLookRot;
+
 
     Vector3 SteamObjOriPos;
     Vector3 SteamObjOriRot;
@@ -54,6 +62,10 @@ public class ResetVRPosition : MonoBehaviour
         Vector3 moveRot = SteamObjOriRot - VRLookRot + OriDriveForkleftRot;//rotate會有問題因為Eye是子物件且沒有在(0,0,0)  SteamVRObj.transform.eulerAngles
         SteamVRObj.transform.eulerAngles += new Vector3(SteamObjOriRot.x, moveRot.y, SteamObjOriRot.z);//只轉Y就好 所以要水平放置
         VREyeObj.transform.SetParent(SteamVRObj.transform);
+
+        VRTrackerObj_L.transform.SetParent(SteamVRObj.transform);
+        VRTrackerObj_R.transform.SetParent(SteamVRObj.transform);
+
         yield return new WaitForEndOfFrame();
 
         //開啟VR功能
