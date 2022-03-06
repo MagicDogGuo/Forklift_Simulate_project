@@ -16,14 +16,14 @@ public class IntiComp : MonoBehaviour
     [SerializeField]
     Button BackTitleBtn;
 
-    [SerializeField]
-    InputField SetX;
-    [SerializeField]
-    InputField SetY;
-    [SerializeField]
-    InputField SetZ;
+    //[SerializeField]//改到ResetVRPosition
+    //InputField SetX;
+    //[SerializeField]
+    //InputField SetY;
+    //[SerializeField]
+    //InputField SetZ;
 
-    GameObject VRTK_SDKManagerObj;
+    //GameObject VRTK_SDKManagerObj;
 
     void Start()
     {
@@ -36,13 +36,13 @@ public class IntiComp : MonoBehaviour
 
         GetComponent<Canvas>().worldCamera = GameObject.Find("InitCamera").GetComponent<Camera>();
 
-        VRTK_SDKManagerObj = GameObject.Find("[VRTK_SDKManager]");
+        //VRTK_SDKManagerObj = GameObject.Find("[VRTK_SDKManager]");
         //SetX.text = VRTK_SDKManagerObj.GetComponent<ResetVRPosition>().OriDriveForkleftPos.x + "";
         //SetY.text = VRTK_SDKManagerObj.GetComponent<ResetVRPosition>().OriDriveForkleftPos.y + "";
         //SetZ.text = VRTK_SDKManagerObj.GetComponent<ResetVRPosition>().OriDriveForkleftPos.z + "";
-        SetX.text = ResetVRPosition.OriDriveForkleftPos.x + "";
-        SetY.text = ResetVRPosition.OriDriveForkleftPos.y + "";
-        SetZ.text = ResetVRPosition.OriDriveForkleftPos.z + "";
+        //SetX.text = ResetVRPosition.OriDriveForkleftPos.x + "";
+        //SetY.text = ResetVRPosition.OriDriveForkleftPos.y + "";
+        //SetZ.text = ResetVRPosition.OriDriveForkleftPos.z + "";
 
     }
 
@@ -51,8 +51,8 @@ public class IntiComp : MonoBehaviour
       
         //VRTK_SDKManagerObj.GetComponent<ResetVRPosition>().OriDriveForkleftPos =
         //    new Vector3(float.Parse(SetX.text), float.Parse(SetY.text), float.Parse(SetZ.text));
-        ResetVRPosition.OriDriveForkleftPos =
-            new Vector3(float.Parse(SetX.text), float.Parse(SetY.text), float.Parse(SetZ.text));
+        //ResetVRPosition.OriDriveForkleftPos =
+        //    new Vector3(float.Parse(SetX.text), float.Parse(SetY.text), float.Parse(SetZ.text));
 
         if (Input.GetKeyDown(KeyCode.N))
         {

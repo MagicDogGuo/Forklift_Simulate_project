@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.XR;
 
 
 //VR頭盔固定在要駕駛的高度與位置(現實世界)，頭盔需水平放置，此時VR畫面看的位置會是錯誤的，且堆高機需在初始位置
@@ -35,10 +37,30 @@ public class ResetVRPosition : MonoBehaviour
     Vector3 SteamObjOriPos;
     Vector3 SteamObjOriRot;
 
+
+    [SerializeField]
+    InputField SetX;
+    [SerializeField]
+    InputField SetY;
+    [SerializeField]
+    InputField SetZ;
+
+    GameObject VRTK_SDKManagerObj;
+
+
     void Start()
     {
         SteamObjOriPos = new Vector3(SteamVRObj.transform.position.x, SteamVRObj.transform.position.y, SteamVRObj.transform.position.z);
         SteamObjOriRot = new Vector3(SteamVRObj.transform.eulerAngles.x, SteamVRObj.transform.eulerAngles.y, SteamVRObj.transform.eulerAngles.z);
+       
+        
+        
+        VRTK_SDKManagerObj = GameObject.Find("[VRTK_SDKManager]");
+
+        SetX.text = ResetVRPosition.OriDriveForkleftPos.x + "";
+        SetY.text = ResetVRPosition.OriDriveForkleftPos.y + "";
+        SetZ.text = ResetVRPosition.OriDriveForkleftPos.z + "";
+
     }
 
     IEnumerator DalayMove()
@@ -81,7 +103,22 @@ public class ResetVRPosition : MonoBehaviour
 
     void Update()
     {
-     
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SetX.transform.parent.gameObject.SetActive(!SetX.transform.parent.gameObject.active);
+            //關閉VR模式
+            //XRSettings.enabled = false;
+
+        }
+        //if (Input.GetKeyDown(KeyCode.X))
+        //{
+        //    //開啟VR模式
+        //    XRSettings.enabled = true;
+        //}
+        ResetVRPosition.OriDriveForkleftPos =
+                 new Vector3(float.Parse(SetX.text), float.Parse(SetY.text), float.Parse(SetZ.text));
+
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
