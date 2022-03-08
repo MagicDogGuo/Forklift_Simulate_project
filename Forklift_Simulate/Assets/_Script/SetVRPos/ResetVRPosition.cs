@@ -44,8 +44,16 @@ public class ResetVRPosition : MonoBehaviour
     InputField SetY;
     [SerializeField]
     InputField SetZ;
+    [SerializeField]
+    Text RealWorldPos;
 
     GameObject VRTK_SDKManagerObj;
+
+
+    //VR堆高機的數據
+    float A_地板至踏板 = 80;
+    float B_VR原點至方向盤前緣 = 10.5f;
+
 
 
     void Start()
@@ -118,7 +126,15 @@ public class ResetVRPosition : MonoBehaviour
         //}
         ResetVRPosition.OriDriveForkleftPos =
                  new Vector3(float.Parse(SetX.text), float.Parse(SetY.text), float.Parse(SetZ.text));
-
+        float realworldX = 0;
+        float realworldY = float.Parse(SetY.text)*100 - A_地板至踏板;
+        float realworldZ =  B_VR原點至方向盤前緣- float.Parse(SetZ.text)*100;
+        float realworldX_1_19 = 0;
+        float realworldY_1_19 = realworldY/1.19f;
+        float realworldZ_1_19 = realworldZ / 1.19f;
+        RealWorldPos.text = "真實世界VR頭盔:\n高度Y:" + realworldY + "(" + realworldY_1_19 + "),"
+              + "  距離方向盤前緣Z:" + realworldZ + "(" + realworldZ_1_19 + "),"
+              +"   X軸對準方向盤中心";
 
         if (Input.GetKeyDown(KeyCode.Q))
         {

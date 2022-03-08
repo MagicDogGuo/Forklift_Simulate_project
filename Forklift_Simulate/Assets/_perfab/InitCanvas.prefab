@@ -469,7 +469,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6941870532489190340
 RectTransform:
   m_ObjectHideFlags: 0
@@ -767,9 +767,6 @@ MonoBehaviour:
   TestModeBtn: {fileID: 7795530482004512044}
   PraticeModeBtn: {fileID: 7795530482122954831}
   BackTitleBtn: {fileID: 1837055011418264511}
-  SetX: {fileID: 1417086540808280259}
-  SetY: {fileID: 3076029639785460492}
-  SetZ: {fileID: 8288103519493170017}
 --- !u!1 &5480363639374706452
 GameObject:
   m_ObjectHideFlags: 0
