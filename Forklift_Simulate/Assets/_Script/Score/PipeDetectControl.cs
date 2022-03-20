@@ -49,6 +49,7 @@ public class PipeDetectControl : MonoBehaviour
     {
         for (int i = 0; i < pipes.Length; i++)
         {
+            pipes[i].gameObject.layer = LayerMask.NameToLayer("Default");
             pipes[i].gameObject.transform.localPosition = pipes[i].oriPos;
             pipes[i].gameObject.transform.localRotation = pipes[i].oriRote;
 

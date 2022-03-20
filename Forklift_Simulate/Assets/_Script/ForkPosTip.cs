@@ -33,7 +33,7 @@ public class ForkPosTip : MonoBehaviour
 
         if (isTouchOri)
         {
-            Debug.Log("================Green!");
+            //Debug.Log("================Green!");
             OriPoint.GetComponent<Renderer>().material.SetColor("_Color", new Color(0, 1, 0, 0.8f));
         }
         else

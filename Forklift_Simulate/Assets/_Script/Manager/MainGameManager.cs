@@ -296,10 +296,10 @@ public class MainGameManager : MonoBehaviour
     IEnumerator DelayWheelBack()
     {
         _wSMVehicleController = GameObject.FindObjectOfType<WSMVehicleController>();
-        _wSMVehicleController.backUpBeeperSFX.enabled = false;
+        if(_wSMVehicleController!=null)_wSMVehicleController.backUpBeeperSFX.enabled = false;
         LogitechGSDK.LogiPlaySpringForce(0, 0, 50, 50);
         yield return new WaitForSeconds(1.5f);
-        _wSMVehicleController.backUpBeeperSFX.enabled = true;
+        if (_wSMVehicleController != null) _wSMVehicleController.backUpBeeperSFX.enabled = true;
 
         LogitechGSDK.LogiStopSpringForce(0);
 

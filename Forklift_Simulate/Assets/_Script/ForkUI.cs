@@ -41,10 +41,14 @@ public class ForkUI : MonoBehaviour
         startTipUI.GetComponent<WarningUIAudio>().AS.Stop();
         startTipUI.GetComponent<WarningUIAudio>().AS.Play();
 
+        if(RecordUserDate.modeChoose == RecordUserDate.ModeChoose.PC)
+        {
 
-        ColliderUI_撞擊漸層R.SetActive(false) ;
-        ColliderUI_撞擊漸層L.SetActive(false);
-        ColliderUI_撞擊漸層B.SetActive(false);
+            ColliderUI_撞擊漸層R.SetActive(false);
+            ColliderUI_撞擊漸層L.SetActive(false);
+            ColliderUI_撞擊漸層B.SetActive(false);
+        }
+
 
     }
 
@@ -52,21 +56,34 @@ public class ForkUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(RecordUserDate.modeChoose != RecordUserDate.ModeChoose.PC)
+        //VR模式自動關閉
+        if(RecordUserDate.modeChoose == RecordUserDate.ModeChoose.VR || RecordUserDate.modeChoose == RecordUserDate.ModeChoose.Null)
         {
-            return;
+            if (!startTipUI.GetComponent<WarningUIAudio>().AS.isPlaying)
+            {
+                Destroy(startTipUI);
+            }
         }
 
         GearTxt.text = "Gear: " + _WSMVehicleController.CurrentGear;
         SpeedTxt.text = "Speed" + (int)_WSMVehicleController.CurrentSpeed;
 
-        if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return))
+        //PC
+        if (RecordUserDate.modeChoose == RecordUserDate.ModeChoose.PC)
         {
-            Destroy(startTipUI);
+            if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return))
+            {
+                Destroy(startTipUI);
+            }
         }
 
+        if (RecordUserDate.modeChoose != RecordUserDate.ModeChoose.PC)
+        {
+            return;
+        }
 
-        foreach(var triggers in forkleftBodyTrigger)
+        //螢幕撞擊提示
+        foreach (var triggers in forkleftBodyTrigger)
         {
             if (triggers.isTriggerOn)
             {

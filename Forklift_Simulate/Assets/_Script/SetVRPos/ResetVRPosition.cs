@@ -25,17 +25,17 @@ public class ResetVRPosition : MonoBehaviour
 
 
     //[SerializeField]
-    public static Vector3 OriDriveForkleftPos =  new Vector3(-0.05f, 2.1f, -0.3f);//new Vector3(-0.33f,1.74f,-0.1f);
+    public static Vector3 OriDriveForkleftPos =  new Vector3(-0.08f, 2.1f, -0.3f);//new Vector3(-0.33f,1.74f,-0.1f);
     [SerializeField]
     Vector3 OriDriveForkleftRot = new Vector3(0f, 0f, 0f);
 
 
-    Vector3 VRLookPos;
-    Vector3 VRLookRot;
+    static Vector3 VRLookPos;
+    static Vector3 VRLookRot;
 
 
-    Vector3 SteamObjOriPos;
-    Vector3 SteamObjOriRot;
+    static Vector3 SteamObjOriPos;
+    static Vector3 SteamObjOriRot;
 
 
     [SerializeField]
@@ -58,10 +58,7 @@ public class ResetVRPosition : MonoBehaviour
 
     void Start()
     {
-        SteamObjOriPos = new Vector3(SteamVRObj.transform.position.x, SteamVRObj.transform.position.y, SteamVRObj.transform.position.z);
-        SteamObjOriRot = new Vector3(SteamVRObj.transform.eulerAngles.x, SteamVRObj.transform.eulerAngles.y, SteamVRObj.transform.eulerAngles.z);
-       
-        
+      
         
         VRTK_SDKManagerObj = GameObject.Find("[VRTK_SDKManager]");
 
@@ -69,11 +66,27 @@ public class ResetVRPosition : MonoBehaviour
         SetY.text = ResetVRPosition.OriDriveForkleftPos.y + "";
         SetZ.text = ResetVRPosition.OriDriveForkleftPos.z + "";
 
+
+        //己經有校正過
+        if (VRLookPos != Vector3.zero && VRLookRot != Vector3.zero)
+        {
+            StartCoroutine(DalayMove());
+        }
+        else
+        {
+            SteamObjOriPos = new Vector3(SteamVRObj.transform.position.x, SteamVRObj.transform.position.y, SteamVRObj.transform.position.z);
+            SteamObjOriRot = new Vector3(SteamVRObj.transform.eulerAngles.x, SteamVRObj.transform.eulerAngles.y, SteamVRObj.transform.eulerAngles.z);
+        }
+
     }
 
     IEnumerator DalayMove()
     {
- 
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
+
         //讓ResetRotateObj的位置與VR EYE相同
         ResetRotateObj.transform.position = VREyeObj.transform.position;
         yield return new WaitForEndOfFrame();
@@ -87,7 +100,7 @@ public class ResetVRPosition : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         //旋轉SteamVRObj到校正旋轉角度
-        //把VR EYE設定成SteamVRObj的子物件
+        //把VR EYE設定成SteamVRObj的子物件       
         VRLookRot = VREyeObj.transform.eulerAngles;
         Vector3 moveRot = SteamObjOriRot - VRLookRot + OriDriveForkleftRot;//rotate會有問題因為Eye是子物件且沒有在(0,0,0)  SteamVRObj.transform.eulerAngles
         SteamVRObj.transform.eulerAngles += new Vector3(SteamObjOriRot.x, moveRot.y, SteamObjOriRot.z);//只轉Y就好 所以要水平放置

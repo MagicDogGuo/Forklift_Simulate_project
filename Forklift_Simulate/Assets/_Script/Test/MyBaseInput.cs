@@ -11,4 +11,9 @@ public class MyBaseInput : BaseInput
     {
         get { return this.CursorPosition; }
     }
+
+    protected override void Start()
+    {
+        CursorPosition = new Vector2(Screen.width / 2, Screen.height / 2);
+    }
 }

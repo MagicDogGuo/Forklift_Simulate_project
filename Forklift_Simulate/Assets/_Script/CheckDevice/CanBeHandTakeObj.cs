@@ -20,5 +20,10 @@ public class CanBeHandTakeObj : MonoBehaviour
         oriPareant = this.transform.parent.gameObject;
     }
 
- 
+    private void Update()
+    {
+     
+    }
+
+
 }

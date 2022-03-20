@@ -48,7 +48,8 @@ public class Pipe : MonoBehaviour
 
         if(collision.gameObject.tag == "Forkleft")
         {
-           
+            Debug.Log("22222222222222222222222222");
+
             _isbeCollider = true;
             IsStopCollDetect = true;
             StartCoroutine(DelayFalse());
@@ -59,9 +60,16 @@ public class Pipe : MonoBehaviour
     IEnumerator DelayFalse()
     {
         yield return new WaitForEndOfFrame();
+
         _isbeCollider = false;
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
+        this.gameObject.layer = LayerMask.NameToLayer("noCollider");
+
         yield return new WaitForSeconds(1);
-       
+
         ////////////////this.GetComponent<BoxCollider>().enabled = false;
 
     }

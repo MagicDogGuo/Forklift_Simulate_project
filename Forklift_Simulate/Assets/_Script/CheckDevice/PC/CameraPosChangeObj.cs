@@ -6,6 +6,8 @@ public class CameraPosChangeObj : MonoBehaviour
 {
     public Transform CamChangePos;
 
+    public Vector3 OffsetRot;
+
     // Start is called before the first frame update
     void Start()
     {

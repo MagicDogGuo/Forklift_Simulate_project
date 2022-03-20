@@ -23,8 +23,12 @@ public class RayControlHandTrigger : MonoBehaviour
     [SerializeField]
     Text OutsideCarTipTxt;
 
+    [SerializeField]
+    Transform ObjFrontToSeePos;
+
 
     bool isOutsideCar = true;
+    bool isHaveObjInFront = false;
 
     Vector3 cameraPrevirewPos;
 
@@ -48,7 +52,7 @@ public class RayControlHandTrigger : MonoBehaviour
             lineR.SetPosition(1, ray.GetPoint(hit.distance));
 
             //游標變化
-            if (hit.collider.GetComponent<MousePointInteractObj>() != null)
+            if (hit.collider.GetComponent<MousePointInteractObj>() != null&&!isHaveObjInFront)
             {
                 ReticleImg.sprite = crosshairImageChange;
                 ReticleTxt.text = hit.collider.GetComponent<MousePointInteractObj>().ObjName;
@@ -69,8 +73,9 @@ public class RayControlHandTrigger : MonoBehaviour
                     HandCubeObj.transform.position = hit.point;
                 }
 
-               
-                HandCubeObj.GetComponent<HandelContorller>().isPushHandTrig = true;
+                //有物件在前面不執行
+               if(!isHaveObjInFront) HandCubeObj.GetComponent<HandelContorller>().isPushHandTrig = true;
+
             }
             else
             {
@@ -82,7 +87,7 @@ public class RayControlHandTrigger : MonoBehaviour
             //鏡頭切換
             if (hit.collider.GetComponent<CameraPosChangeObj>() != null)
             {
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButton(0) &&  !isHaveObjInFront)
                 {   
                     
                     //紀錄進入前的位置
@@ -97,11 +102,11 @@ public class RayControlHandTrigger : MonoBehaviour
 
                     this.transform.eulerAngles = hit.collider.GetComponent<CameraPosChangeObj>().CamChangePos.eulerAngles;
                     this.transform.position = hit.collider.GetComponent<CameraPosChangeObj>().CamChangePos.position;
+                    this.transform.GetChild(0).eulerAngles = hit.collider.GetComponent<CameraPosChangeObj>().OffsetRot;
+
                     isOutsideCar = false;
 
-                }
-
-        
+                }      
             }
             else
             {
@@ -113,6 +118,8 @@ public class RayControlHandTrigger : MonoBehaviour
             if (isOutsideCar == false)
             {
                 OutsideCarTipTxt.enabled = true;
+                OutsideCarTipTxt.text = "'Z'退出車輛";
+
                 if (Input.GetKeyDown(KeyCode.Z))
                 {
                     isOutsideCar = true;
@@ -121,9 +128,50 @@ public class RayControlHandTrigger : MonoBehaviour
                     this.GetComponent<CapsuleCollider>().isTrigger = false;
                     this.GetComponent<Rigidbody>().useGravity = true;
                     this.GetComponent<FirstPersonController>().playerCanMove = true;
+                    this.transform.GetChild(0).localEulerAngles = Vector3.zero;
+
                 }
             }
 
+            //物品移動至面前
+            if (hit.collider.GetComponent<MoveToFrontToSeeObj>() != null)
+            {
+                if (isHaveObjInFront == false)
+                {
+                    if (Input.GetMouseButton(0) && isOutsideCar)
+                    {
+
+                        hit.collider.gameObject.transform.SetParent(ObjFrontToSeePos);
+                        hit.collider.gameObject.transform.localPosition = Vector3.zero + hit.collider.gameObject.GetComponent<MoveToFrontToSeeObj>().offsetVect;
+                        hit.collider.gameObject.transform.localEulerAngles = Vector3.zero;
+
+                        this.GetComponent<CapsuleCollider>().isTrigger = true;
+                        this.GetComponent<Rigidbody>().useGravity = false;
+                        this.GetComponent<FirstPersonController>().playerCanMove = false;
+
+                        isHaveObjInFront = true;
+                    }
+                } 
+              
+            }
+            if (isHaveObjInFront == true)
+            {
+                OutsideCarTipTxt.enabled = true;
+                OutsideCarTipTxt.text="'Z'放回物件";
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    isHaveObjInFront = false;
+                    OutsideCarTipTxt.enabled = false;
+                    GameObject frontObj = ObjFrontToSeePos.GetChild(0).gameObject;
+                    frontObj.transform.SetParent(frontObj.GetComponent<MoveToFrontToSeeObj>().OriParentTans);
+                    frontObj.transform.localPosition = frontObj.GetComponent<MoveToFrontToSeeObj>().OriLocalPos;
+                    frontObj.transform.localEulerAngles = frontObj.GetComponent<MoveToFrontToSeeObj>().OriLocalRot;
+
+                    this.GetComponent<CapsuleCollider>().isTrigger = false;
+                    this.GetComponent<Rigidbody>().useGravity = true;
+                    this.GetComponent<FirstPersonController>().playerCanMove = true;
+                }
+            }
         }
 
     }

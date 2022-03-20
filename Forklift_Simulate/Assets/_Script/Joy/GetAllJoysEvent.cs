@@ -31,7 +31,7 @@ public class GetAllJoysEvent : MonoBehaviour
             if (Input.GetKeyDown((KeyCode)values.GetValue(x)))
             {
                 currentButton = values.GetValue(x).ToString();
-                Debug.Log("Current Button : " + currentButton);
+                //Debug.Log("Current Button : " + currentButton);
 
             }
         }
