@@ -24,7 +24,7 @@ public class HandelContorller : MonoBehaviour
 
     AudioSource _audioSourse;
 
-    float pushDegree = -20;
+    float pushDegree = -13;///////////-20
     float unPushDegree = 0;
 
     CheckDeviceManager checkDeviceManager;

@@ -26,6 +26,8 @@ public class RayControlHandTrigger : MonoBehaviour
     [SerializeField]
     Transform ObjFrontToSeePos;
 
+    [SerializeField]
+    GameObject 子母畫面Obj;
 
     bool isOutsideCar = true;
     bool isHaveObjInFront = false;
@@ -151,8 +153,7 @@ public class RayControlHandTrigger : MonoBehaviour
 
                         isHaveObjInFront = true;
                     }
-                } 
-              
+                }           
             }
             if (isHaveObjInFront == true)
             {
@@ -172,6 +173,23 @@ public class RayControlHandTrigger : MonoBehaviour
                     this.GetComponent<FirstPersonController>().playerCanMove = true;
                 }
             }
+
+            //開啟子母畫面
+            if (hit.collider.GetComponent<MousePointInteractObj>() != null)
+            {
+                if (hit.collider.GetComponent<MousePointInteractObj>().ObjName == "煞車")
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        子母畫面Obj.SetActive(true);
+                    }
+                    else
+                    {
+                        子母畫面Obj.SetActive(false);
+                    }
+                }
+            }
+          
         }
 
     }
