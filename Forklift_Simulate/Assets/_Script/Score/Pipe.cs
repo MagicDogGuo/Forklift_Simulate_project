@@ -65,8 +65,10 @@ public class Pipe : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(1);
 
-        this.gameObject.layer = LayerMask.NameToLayer("noCollider");
+
+        this.gameObject.layer = LayerMask.NameToLayer("noCollider");//default layer跟noCollider不會有碰撞
 
         yield return new WaitForSeconds(1);
 

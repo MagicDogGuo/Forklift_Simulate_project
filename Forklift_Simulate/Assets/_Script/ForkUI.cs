@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ForkUI : MonoBehaviour
 {
@@ -35,11 +36,23 @@ public class ForkUI : MonoBehaviour
         _WSMVehicleController = GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>();
         logtichControl = GetComponent<LogtichControl>();
 
-        startTipUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
-        startTipUI.GetComponentInChildren<Text>().text = "時間8分鐘，請按辦理單位所提供之無負載堆高機，於規定時間內依規定路線前進、倒車及停車等動作。";
-        startTipUI.GetComponent<WarningUIAudio>().AS.clip = startTipUI.GetComponent<WarningUIAudio>().StartTipAudioClip;
-        startTipUI.GetComponent<WarningUIAudio>().AS.Stop();
-        startTipUI.GetComponent<WarningUIAudio>().AS.Play();
+
+        //判斷現在是在哪一關
+        if(SceneManager.GetActiveScene().name == "MainGameState")
+        {
+            startTipUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+            startTipUI.GetComponentInChildren<Text>().text = "時間8分鐘，請按辦理單位所提供之無負載堆高機，於規定時間內依規定路線前進、倒車及停車等動作。";
+            startTipUI.GetComponent<WarningUIAudio>().AS.clip = startTipUI.GetComponent<WarningUIAudio>().StartTipAudioClip;
+            startTipUI.GetComponent<WarningUIAudio>().AS.Stop();
+            startTipUI.GetComponent<WarningUIAudio>().AS.Play();
+        }
+        else if (SceneManager.GetActiveScene().name == "ThridStage")
+        {
+
+        }
+
+
+       
 
         if(RecordUserDate.modeChoose == RecordUserDate.ModeChoose.PC)
         {
@@ -56,14 +69,18 @@ public class ForkUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //VR模式自動關閉
+        //VR模式自動關閉前述提示
         if(RecordUserDate.modeChoose == RecordUserDate.ModeChoose.VR || RecordUserDate.modeChoose == RecordUserDate.ModeChoose.Null)
         {
-            if (!startTipUI.GetComponent<WarningUIAudio>().AS.isPlaying)
+            if (startTipUI != null)
             {
-                Destroy(startTipUI);
+                if (!startTipUI.GetComponent<WarningUIAudio>().AS.isPlaying)
+                {
+                    Destroy(startTipUI);
+                }
             }
         }
+           
 
         GearTxt.text = "Gear: " + _WSMVehicleController.CurrentGear;
         SpeedTxt.text = "Speed" + (int)_WSMVehicleController.CurrentSpeed;

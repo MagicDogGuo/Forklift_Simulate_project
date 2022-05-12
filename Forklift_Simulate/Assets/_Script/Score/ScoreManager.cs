@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
     MainGameManager mainGameManager;
+    StageThreeGameManager mainGameManager_stageThree;
+
 
     [HideInInspector]
     public int TotalWrongAmount = 0; //以5為一單位
@@ -36,6 +39,11 @@ public class ScoreManager : MonoBehaviour
     public int ForkBackFrontNorStopScore;
     [HideInInspector]
     public int OnRoadNotEngineScore;
+    //=====================第三關=====================
+    [HideInInspector]
+    public int ForkitTouchShelfScore;
+    [HideInInspector]
+    public int ForkitToFarto後扶架Score;
 
 
     public UnityAction<int> OnTimeScore;
@@ -49,6 +57,9 @@ public class ScoreManager : MonoBehaviour
     public UnityAction<int> OnForkCluthScore;
     public UnityAction<int> OnForkBackFrontNorStopScore;
     public UnityAction<int> OnOnRoadNotEngineScore;
+    //=====================第三關=====================
+    public UnityAction<int> OnForkiTouchShelfScore;
+    public UnityAction<int> OnForkitToFarTo後扶架Score;
 
 
     [SerializeField]
@@ -71,6 +82,9 @@ public class ScoreManager : MonoBehaviour
     bool isCheckForkCluth = false;
     bool isCheckBackFront = false;
     bool isCheckOnRoadNotEngine = false;
+    //===========第三關===================
+    bool isCheckTouchShelf = false;
+    bool isCheckToFarTo後扶架 = false;
 
     LogtichControl logtichControl;
     bool startTime = false;
@@ -97,10 +111,26 @@ public class ScoreManager : MonoBehaviour
 
     public void Init()
     {
-        mainGameManager = this.GetComponent<MainGameManager>();
-        _pipeDetectControl = mainGameManager.PipeGroupObjs.GetComponent<PipeDetectControl>();
-        _wSMVehicleController = mainGameManager.ForkleftObj.GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>();
-        _forkliftController = mainGameManager.ForkleftObj.GetComponent<WSMGameStudio.HeavyMachinery.ForkliftController>();
+        switch (SceneManager.GetActiveScene().name) 
+        {
+            case "MainGameState":
+                mainGameManager = this.GetComponent<MainGameManager>();
+                _pipeDetectControl = mainGameManager.PipeGroupObjs.GetComponent<PipeDetectControl>();
+                _wSMVehicleController = mainGameManager.ForkleftObj.GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>();
+                _forkliftController = mainGameManager.ForkleftObj.GetComponent<WSMGameStudio.HeavyMachinery.ForkliftController>();
+
+                break;
+            case "ThridStage":
+
+                mainGameManager_stageThree = this.GetComponent<StageThreeGameManager>();
+                _pipeDetectControl = mainGameManager_stageThree.PipeGroupObjs.GetComponent<PipeDetectControl>();
+                _wSMVehicleController = mainGameManager_stageThree.ForkleftObj.GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>();
+                _forkliftController = mainGameManager_stageThree.ForkleftObj.GetComponent<WSMGameStudio.HeavyMachinery.ForkliftController>();
+                break;
+        }
+
+     
+
         AS = GetComponent<AudioSource>();
 
         TotalWrongAmount = 0;
@@ -128,6 +158,10 @@ public class ScoreManager : MonoBehaviour
         isCheckForkCluth = false;
         isCheckBackFront = false;
         isCheckOnRoadNotEngine = false;
+        //======第三關=================
+        isCheckTouchShelf = false;
+
+
 
         logtichControl = GameObject.FindObjectOfType<LogtichControl>();
 
@@ -135,7 +169,36 @@ public class ScoreManager : MonoBehaviour
 
     public void ScoreUpdate()
     {
-        if(mainGameManager.CurrentState == MainGameStateControl.GameFlowState.DriveForkKit)
+        if (mainGameManager != null)
+        {
+            //=====第二關判斷項目==========
+            if (mainGameManager.CurrentState == MainGameStateControl.GameFlowState.DriveForkKit)
+            {
+                //撞到柱子或壓線
+                //超速駕駛
+                //行駛時未拉高貨插
+                //行駛時未傾斜貨插
+                //行駛時手煞車未放
+                //行駛時誤踩吋動踏板
+                //行駛時突然變換前後檔
+                //行駛時熄火
+
+                if (logtichControl.CheckEnterUI || Input.GetKeyDown(KeyCode.Return)) startTime = true;//按下Enter開始計時 or 羅技上的Enter
+                if (startTime) CountTime(480, 20);
+                PipeFall(10);
+                ForkitOnRoad(10);
+                OnStopTooLong(2, 20);
+                SpeedToHight(20, 10);
+                ForkPositionHight(1, 0.02f, 5);
+                ForkMastTiltRotate(1, 0.6f, 5);
+                ForkHandBrake(2, 10);
+                ForkCluth(2, 10, 10);
+                ForkBackFrontNorStop(2, 10);
+                OnRoadNotEngine(2, 10);
+            }
+        }
+        //=====第三關判斷項目==========
+        else if (mainGameManager_stageThree != null)
         {
             //撞到柱子或壓線
             //超速駕駛
@@ -145,21 +208,41 @@ public class ScoreManager : MonoBehaviour
             //行駛時誤踩吋動踏板
             //行駛時突然變換前後檔
             //行駛時熄火
+            //================第三關新增================
+            //倉儲架裝卸作業時碰撞貨架或碰撞貨物
+            //棧板與貨(後)扶架距離超過10cm(如果要放貨物 退後時程式會誤判)
+            //地面貨物區置放完成後壓線
+            //棧板超出倉儲架範圍
+            //行駛時棧板底部離地高度超過50cm(暫不做，沒在評分表如果要放高的貨物前進時程式會誤判)
 
-            if (logtichControl.CheckEnterUI) startTime = true;
-            if (startTime) CountTime(480,20);
+            if (logtichControl.CheckEnterUI || Input.GetKeyDown(KeyCode.Return)) startTime = true;//按下Enter開始計時 or 羅技上的Enter
+            if (startTime) CountTime(480, 20);
             PipeFall(10);
             ForkitOnRoad(10);
             OnStopTooLong(2, 20);
-            SpeedToHight(20,10);
-            ForkPositionHight(2, 0.02f,5);
-            ForkMastTiltRotate(2, 0.6f,5);
-            ForkHandBrake(2,10);
-            //ForkBrake(20, 10);
-            ForkCluth(2, 10,10);
-            ForkBackFrontNorStop(2,10);
-            OnRoadNotEngine(2,10);
+            SpeedToHight(20, 10);
+            if (StageThreeGameManager.Instance.IsNeerGoods == true)
+            {
+                ForkPositionHight_IsNeerGoods(1, 0.02f, 5);
+                ForkMastTiltRotate_IsNeerGoods(1, 0.6f, 5);
+
+            }
+            else if (StageThreeGameManager.Instance.IsNeerGoods == false)
+            {
+                ForkPositionHight(1, 0.02f, 5);
+                ForkMastTiltRotate(1, 0.6f, 5);
+
+            }     
+            ForkHandBrake(2, 10);
+            ForkCluth(2, 10, 10);
+            ForkBackFrontNorStop(2, 10);
+            OnRoadNotEngine(2, 10);
+            //=====================第三關=========================
+            ForkitTouchSelf(10);
+            ForkGoodsTo後扶架(1, 0.02f, 5);
         }
+
+      
 
     }
 
@@ -209,6 +292,8 @@ public class ScoreManager : MonoBehaviour
             OnPipeFallScore(pipeFallScore);
             PlayWrongVoice(wrongVoice[1]);
             TotalWrongAmount += score;
+
+            Debug.Log(TotalWrongAmount+"+++++++++++++++" + pipeFallScore);
         }
     }
 
@@ -240,45 +325,54 @@ public class ScoreManager : MonoBehaviour
     float countTime = 0;
     void OnStopTooLong(float stopSpeed, int score)
     {
-        EndPoint _endPoint = MainGameManager.Instance.EndPointObjs.GetComponent<EndPoint>();
-
-        //在開始點與終點不計算
-        if (!mainGameManager.StartPointObjs.GetComponent<StartPoint>().isOnStartPoint_Forkit && !_endPoint.isOnEndPoint_Forkit)
+        //====第二關==========
+        if (mainGameManager != null)
         {
-            if (_wSMVehicleController.CurrentSpeed >= stopSpeed)
-            {
-                isMove = true;
-            }
-            else
-            {
-                isMove = false;
-            }
-            if (isMove)
-            {
-                if (_wSMVehicleController.CurrentSpeed <= 0.001f)
-                {
-                    countTime += Time.deltaTime;
+            EndPoint _endPoint = MainGameManager.Instance.EndPointObjs.GetComponent<EndPoint>();
 
-                }
-                if (_wSMVehicleController.CurrentSpeed <= 0.001f && !isCheckStopTooLong && countTime > 5)
+            //在開始點與終點不計算
+            if (!mainGameManager.StartPointObjs.GetComponent<StartPoint>().isOnStartPoint_Forkit && !_endPoint.isOnEndPoint_Forkit)
+            {
+                if (_wSMVehicleController.CurrentSpeed >= stopSpeed)
                 {
-                    isCheckStopTooLong = true;
-                    StopTooLongScore += 1;
-                    Debug.Log("停留超過5秒" + StopTooLongScore + "次");
-                    OnStopTooLongScore(StopTooLongScore);
-                    //PlayWrongVoice(wrongVoice[2]);
-                    TotalWrongAmount += score;
+                    isMove = true;
                 }
-                else if (_wSMVehicleController.CurrentSpeed > 0.001f && isCheckStopTooLong)
+                else
                 {
-                    countTime = 0;
-                    isCheckStopTooLong = false;
+                    isMove = false;
                 }
+                if (isMove)
+                {
+                    if (_wSMVehicleController.CurrentSpeed <= 0.001f)
+                    {
+                        countTime += Time.deltaTime;
+
+                    }
+                    if (_wSMVehicleController.CurrentSpeed <= 0.001f && !isCheckStopTooLong && countTime > 5)
+                    {
+                        isCheckStopTooLong = true;
+                        StopTooLongScore += 1;
+                        Debug.Log("停留超過5秒" + StopTooLongScore + "次");
+                        OnStopTooLongScore(StopTooLongScore);
+                        //PlayWrongVoice(wrongVoice[2]);
+                        TotalWrongAmount += score;
+                    }
+                    else if (_wSMVehicleController.CurrentSpeed > 0.001f && isCheckStopTooLong)
+                    {
+                        countTime = 0;
+                        isCheckStopTooLong = false;
+                    }
+                }
+
             }
 
         }
 
-      
+        //====第三關==========
+        if (mainGameManager_stageThree != null)
+        { 
+        
+        }   
        
     }
 
@@ -311,6 +405,8 @@ public class ScoreManager : MonoBehaviour
     /// <param name="forkHight"></param>
     void ForkPositionHight(float speed , float forkHight, int score)
     {
+        Debug.Log("=============_forkliftController.CurrentForksVertical"+_forkliftController.CurrentForksVertical);
+
         //Debug.Log("CurrentForksVertical:"+_forkliftController.CurrentForksVertical);
         if (_wSMVehicleController.CurrentSpeed > speed &&
             _forkliftController.CurrentForksVertical <= forkHight
@@ -469,6 +565,80 @@ public class ScoreManager : MonoBehaviour
         {
             isCheckOnRoadNotEngine = false;
         }
+    }
+
+
+    /// <summary>
+    /// 撞擊貨架
+    /// </summary>
+    /// <param name="score"></param>
+    void ForkitTouchSelf(int score)
+    {
+        if (StageThreeGameManager.Instance.IsForkitTouchShelf && !isCheckTouchShelf)
+        {
+            isCheckTouchShelf = true;
+            ForkitTouchShelfScore += 1;
+            Debug.Log("撞擊貨架" + ForkitTouchShelfScore + "次");
+            OnForkiTouchShelfScore(ForkitTouchShelfScore);
+            //PlayWrongVoice(wrongVoice[2]);
+            TotalWrongAmount += score;
+        }
+        else if (!StageThreeGameManager.Instance.IsForkitTouchShelf)
+        {
+            isCheckTouchShelf = false;
+        }
+    }
+
+
+    /// <summary>
+    /// 第三關，當在貨物附近 當移動速度超過speed且貨物距離後扶架超過10cm，倒車時不判斷
+    /// </summary>
+    /// <param name="speed"></param>
+    /// <param name="forkHight"></param>
+    void ForkGoodsTo後扶架(float speed, float forkHight, int score)
+    {
+        Debug.Log("_forkliftController.CurrentForksVertical:" + _forkliftController.CurrentForksVertical);
+        //貨物距離後扶架超過10cm
+        if (StageThreeGameManager.Instance.IsTooFarTo後扶架 && 
+            !isCheckToFarTo後扶架 &&
+            _wSMVehicleController.CurrentSpeed > speed &&
+            _wSMVehicleController.BackFrontInput != -1 &&//倒車不判斷
+            _forkliftController.CurrentForksVertical > forkHight)//貨架要升起
+        {
+            isCheckToFarTo後扶架 = true;
+            ForkitToFarto後扶架Score += 1;
+            Debug.Log("貨物距離後扶架超過10cm" + ForkitToFarto後扶架Score + "次");
+            OnForkitToFarTo後扶架Score(ForkitToFarto後扶架Score);
+            TotalWrongAmount += score;
+
+        }
+        else if (!StageThreeGameManager.Instance.IsTooFarTo後扶架)
+        {
+            isCheckToFarTo後扶架 = false;
+        }
+    }
+
+    /// <summary>
+    /// 第三關，靠近貨物時對貨叉的判斷
+    /// </summary>
+    /// <param name="speed"></param>
+    /// <param name="tiltRotate"></param>
+    /// <param name="score"></param>
+    void ForkPositionHight_IsNeerGoods(float speed, float forkHight, int score)
+    {
+        //不判斷
+    }
+
+
+    /// <summary>
+    /// 第三關，靠近貨物時對貨叉的判斷
+    /// </summary>
+    /// <param name="speed"></param>
+    /// <param name="tiltRotate"></param>
+    void ForkMastTiltRotate_IsNeerGoods(float speed, float tiltRotate, int score)
+    {
+        //不判斷
+
     }
 
 

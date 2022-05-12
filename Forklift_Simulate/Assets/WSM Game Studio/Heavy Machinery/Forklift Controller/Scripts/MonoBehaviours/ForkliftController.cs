@@ -205,7 +205,7 @@ namespace WSMGameStudio.HeavyMachinery
                 if (forksVerticalLever != null) forksVerticalLever.localEulerAngles = new Vector3(180f, _verticalLeverAngle+90, 20f);
                 //if (forksHorizontalLever != null) forksHorizontalLever.localEulerAngles = new Vector3(_horizontalLeverAngle, 0f, 0f);
                 if (mastTiltLever != null) mastTiltLever.localEulerAngles = new Vector3(180f, _tiltLeverAngle + 90, 20f);
-                if (Lever_BackFront != null) Lever_BackFront.localEulerAngles = new Vector3(_Lever_BackFrontAngle + 105f, 90f, -90);
+                if (Lever_BackFront != null) Lever_BackFront.localEulerAngles = new Vector3(_Lever_BackFrontAngle + 90f, 90f, -90);//+ 105f,
                 if (Lever_ChangePower != null) Lever_ChangePower.localEulerAngles = new Vector3(_Lever_ChangePowerAngle - 105f, 90f, 90);
 
 

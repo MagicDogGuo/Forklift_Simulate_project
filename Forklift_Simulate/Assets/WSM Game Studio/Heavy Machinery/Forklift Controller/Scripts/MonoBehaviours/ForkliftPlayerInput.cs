@@ -6,6 +6,7 @@ namespace WSMGameStudio.HeavyMachinery
     [RequireComponent(typeof(ForkliftController))]
     public class ForkliftPlayerInput : MonoBehaviour
     {
+        [HideInInspector]
         public LogtichControl logtichControl;
 
         public bool enablePlayerInput = true;

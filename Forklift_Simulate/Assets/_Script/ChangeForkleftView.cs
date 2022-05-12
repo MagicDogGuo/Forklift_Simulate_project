@@ -12,6 +12,9 @@ public class ChangeForkleftView : MonoBehaviour
     GameObject RightCamera;
     [SerializeField]
     GameObject LeftCamera;
+    [SerializeField]
+    GameObject TopCameraImage;
+
 
     LogtichControl logtichControl;
 
@@ -27,14 +30,14 @@ public class ChangeForkleftView : MonoBehaviour
 
     void Update()
     {
-        if (logtichControl.CameraFront || GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>().BackFrontInput == 1)
+        if (logtichControl.CameraFront)// || GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>().BackFrontInput == 1
         {
             FrontCamera.SetActive(true);
             BackCamera.SetActive(false);
             RightCamera.SetActive(false);
             LeftCamera.SetActive(false);
         }
-        if (logtichControl.CameraBack || GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>().BackFrontInput == -1)
+        if (logtichControl.CameraBack)// || GetComponent<WSMGameStudio.Vehicles.WSMVehicleController>().BackFrontInput == -1
         {
             FrontCamera.SetActive(false);
             BackCamera.SetActive(true);
@@ -54,6 +57,17 @@ public class ChangeForkleftView : MonoBehaviour
             BackCamera.SetActive(false);
             RightCamera.SetActive(false);
             LeftCamera.SetActive(true);
+        }
+
+
+        if (CurrentPosLimit.isInPosLimit)
+        {
+            TopCameraImage.SetActive(true);
+        }
+        else
+        {
+            TopCameraImage.SetActive(false);
+
         }
     }
 }

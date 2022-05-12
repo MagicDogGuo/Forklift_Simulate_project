@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/_scene/MainGameState.unity
     guid: 02223e82340c385429d60fa2cae6e240
   - enabled: 0
-    path: Assets/_scene/FirstStageTest.unity
+    path: Assets/_scene/FirstStage.unity
     guid: 18785dca1054e8548b2995d60983c9d8
+  - enabled: 0
+    path: Assets/_scene/FirstStage_PC.unity
+    guid: e775b95d1a71b9e429450737a6c56263
   m_configObjects: {}

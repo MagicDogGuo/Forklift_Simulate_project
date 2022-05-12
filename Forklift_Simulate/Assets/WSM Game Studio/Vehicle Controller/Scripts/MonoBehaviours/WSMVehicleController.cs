@@ -943,7 +943,7 @@ namespace WSMGameStudio.Vehicles
                     {
                         if (i == 0 || i == 1)
                         {
-                            if (_brakes > 0f) reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(1, 0, 0));
+                            if (_brakes > 0f) reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(3, 0, 0));
                             else reverseAlarmLights_Materials[i].SetColor("_EmissionColor", new Color(0.1f, 0, 0));
 
                         }
