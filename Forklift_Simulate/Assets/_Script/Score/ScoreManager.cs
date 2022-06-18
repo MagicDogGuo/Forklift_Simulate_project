@@ -44,7 +44,11 @@ public class ScoreManager : MonoBehaviour
     public int ForkitTouchShelfScore;
     [HideInInspector]
     public int ForkitToFarto後扶架Score;
-
+    [HideInInspector]
+    public int GoodTouchGroundLineScore;
+    [HideInInspector]
+    public int GoodTouchFloorScore;
+    
 
     public UnityAction<int> OnTimeScore;
     public UnityAction<int> OnPipeFallScore;
@@ -60,6 +64,8 @@ public class ScoreManager : MonoBehaviour
     //=====================第三關=====================
     public UnityAction<int> OnForkiTouchShelfScore;
     public UnityAction<int> OnForkitToFarTo後扶架Score;
+    public UnityAction<int> OnGoodTouchGroundLineScore;
+    public UnityAction<int> OnGoodTouchFloorScore;
 
 
     [SerializeField]
@@ -85,6 +91,9 @@ public class ScoreManager : MonoBehaviour
     //===========第三關===================
     bool isCheckTouchShelf = false;
     bool isCheckToFarTo後扶架 = false;
+    bool isCheckGoodTouchGroundLine = false;
+    bool isCheckGoodTouchFloor = false;
+
 
     LogtichControl logtichControl;
     bool startTime = false;
@@ -160,7 +169,8 @@ public class ScoreManager : MonoBehaviour
         isCheckOnRoadNotEngine = false;
         //======第三關=================
         isCheckTouchShelf = false;
-
+        isCheckToFarTo後扶架 = false;
+        isCheckGoodTouchGroundLine = false;
 
 
         logtichControl = GameObject.FindObjectOfType<LogtichControl>();
@@ -189,7 +199,7 @@ public class ScoreManager : MonoBehaviour
                 ForkitOnRoad(10);
                 OnStopTooLong(2, 20);
                 SpeedToHight(20, 10);
-                ForkPositionHight(1, 0.02f, 5);
+                ForkPositionHight(1, 0.057f, 5);
                 ForkMastTiltRotate(1, 0.6f, 5);
                 ForkHandBrake(2, 10);
                 ForkCluth(2, 10, 10);
@@ -209,9 +219,10 @@ public class ScoreManager : MonoBehaviour
             //行駛時突然變換前後檔
             //行駛時熄火
             //================第三關新增================
-            //倉儲架裝卸作業時碰撞貨架或碰撞貨物
-            //棧板與貨(後)扶架距離超過10cm(如果要放貨物 退後時程式會誤判)
-            //地面貨物區置放完成後壓線
+            //V倉儲架裝卸作業時碰撞貨架或碰撞貨物
+            //V棧板與貨(後)扶架距離超過10cm(如果要放貨物 退後時程式會誤判)
+            //V地面貨物區置放完成後壓線
+            //V貨物置放於地面調整
             //棧板超出倉儲架範圍
             //行駛時棧板底部離地高度超過50cm(暫不做，沒在評分表如果要放高的貨物前進時程式會誤判)
 
@@ -223,13 +234,13 @@ public class ScoreManager : MonoBehaviour
             SpeedToHight(20, 10);
             if (StageThreeGameManager.Instance.IsNeerGoods == true)
             {
-                ForkPositionHight_IsNeerGoods(1, 0.02f, 5);
+                ForkPositionHight_IsNeerGoods(1, 0.057f, 5);
                 ForkMastTiltRotate_IsNeerGoods(1, 0.6f, 5);
 
             }
             else if (StageThreeGameManager.Instance.IsNeerGoods == false)
             {
-                ForkPositionHight(1, 0.02f, 5);
+                ForkPositionHight(1, 0.057f, 5);
                 ForkMastTiltRotate(1, 0.6f, 5);
 
             }     
@@ -238,8 +249,10 @@ public class ScoreManager : MonoBehaviour
             ForkBackFrontNorStop(2, 10);
             OnRoadNotEngine(2, 10);
             //=====================第三關=========================
-            ForkitTouchSelf(10);
+            ForkitTouchShelf(10);
             ForkGoodsTo後扶架(1, 0.02f, 5);
+            GoodsTouchGroundLine(5);
+            OnGoodsTouchGroundAdj(5);
         }
 
       
@@ -572,7 +585,7 @@ public class ScoreManager : MonoBehaviour
     /// 撞擊貨架
     /// </summary>
     /// <param name="score"></param>
-    void ForkitTouchSelf(int score)
+    void ForkitTouchShelf(int score)
     {
         if (StageThreeGameManager.Instance.IsForkitTouchShelf && !isCheckTouchShelf)
         {
@@ -597,7 +610,7 @@ public class ScoreManager : MonoBehaviour
     /// <param name="forkHight"></param>
     void ForkGoodsTo後扶架(float speed, float forkHight, int score)
     {
-        Debug.Log("_forkliftController.CurrentForksVertical:" + _forkliftController.CurrentForksVertical);
+        //Debug.Log("_forkliftController.CurrentForksVertical:" + _forkliftController.CurrentForksVertical);
         //貨物距離後扶架超過10cm
         if (StageThreeGameManager.Instance.IsTooFarTo後扶架 && 
             !isCheckToFarTo後扶架 &&
@@ -618,6 +631,50 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    ///  第三關，地面貨物區置放完成後壓線
+    /// </summary>
+    /// <param name="score"></param>
+    void GoodsTouchGroundLine(int score)
+    {
+        if (StageThreeGameManager.Instance.IsTouchGroundLine &&
+           !isCheckGoodTouchGroundLine)
+        {
+            isCheckGoodTouchGroundLine = true;
+            GoodTouchGroundLineScore += 1;
+            Debug.Log("地面貨物區置放完成後壓線" + GoodTouchGroundLineScore + "次");
+            OnGoodTouchGroundLineScore(GoodTouchGroundLineScore);
+            TotalWrongAmount += score;
+        }
+        else if (!StageThreeGameManager.Instance.IsTouchGroundLine)
+        {
+            isCheckGoodTouchGroundLine = false;
+        }
+    }
+
+    /// <summary>
+    ///  第三關，裝卸作業時，貨叉上棧板歪斜，貨物置放於地面調整。
+    /// </summary>
+    /// <param name="score"></param>
+    void OnGoodsTouchGroundAdj(int score)
+    {
+        if (StageThreeGameManager.Instance.IsGoodsTouchFloor &&
+            !isCheckGoodTouchFloor)
+        {
+            isCheckGoodTouchFloor = true;
+            GoodTouchFloorScore += 1;
+            Debug.Log("貨物置放於地面調整" + GoodTouchFloorScore + "次");
+            OnGoodTouchFloorScore(GoodTouchFloorScore);
+            TotalWrongAmount += score;
+        }
+        else if (!StageThreeGameManager.Instance.IsGoodsTouchFloor)
+        {
+            isCheckGoodTouchFloor = false;
+        }
+
+
+        
+    }
     /// <summary>
     /// 第三關，靠近貨物時對貨叉的判斷
     /// </summary>

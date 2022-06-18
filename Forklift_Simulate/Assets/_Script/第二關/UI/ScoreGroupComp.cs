@@ -66,7 +66,8 @@ public class ScoreGroupComp : MonoBehaviour
     //========第三關====================
     string ForkitTouchShelfScoreTxt = "撞擊貨架";
     string ForkitToFarTo後扶架ScoreTxt = "貨物距離後扶架大於10cm";
-
+    string GoodTouchGroundLineTxt = "地面貨物區置放完成後壓線";
+    string GoodTouchFloorScoreTxt = "貨物置放於地面調整";
 
 
     string BackStepWrong = "倒車步驟錯誤\n倒車前需完成以下步驟: 拉起手煞 >> 前後檔回歸 >> 將升降貨插放回 >> 升降貨插上升 >> 開啟手煞 >> 打檔至退後檔 >> 開始向後開";
@@ -82,6 +83,8 @@ public class ScoreGroupComp : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("===========scoreManager" + scoreManager);
+
         switch (SceneManager.GetActiveScene().name)
         {
             case "MainGameState":
@@ -113,6 +116,8 @@ public class ScoreGroupComp : MonoBehaviour
 
                 scoreManager = StageThreeGameManager.Instance.ScoreManagers;
 
+
+
                 scoreManager.OnTimeScore += OnTimeScore;
                 scoreManager.OnPipeFallScore += OnPipeFallScore;
                 scoreManager.OnForkitOnLineScore += OnForkitOnLineScore;
@@ -127,8 +132,17 @@ public class ScoreGroupComp : MonoBehaviour
                 //============第三關===============
                 scoreManager.OnForkiTouchShelfScore += OnForkitTouchShelfScore;
                 scoreManager.OnForkitToFarTo後扶架Score += OnForkitToFarTo後扶架Score;
+                scoreManager.OnGoodTouchGroundLineScore += OnOnGoodTouchGroundLineScore;
+                scoreManager.OnGoodTouchFloorScore += OnOnGoodTouchFloorScore;
 
-                OnPracticeMode();
+                if (GameMode == MainGameManager.GameMode.PracticeMode)
+                {
+                    OnPracticeMode();
+                }
+                else if (GameMode == MainGameManager.GameMode.TestMode)
+                {
+                    OnTestMode();
+                }
 
 
                 //if (GameMode == MainGameManager.GameMode.PracticeMode)
@@ -212,8 +226,26 @@ public class ScoreGroupComp : MonoBehaviour
                 ForkBackFrontNorStopScore = scoreManager.ForkBackFrontNorStopScore;
                 OnRoadNotEngineScore = scoreManager.OnRoadNotEngineScore;
 
-                OnPracticeMode();
-                
+
+                if (GameMode == MainGameManager.GameMode.PracticeMode)
+                {
+                    OnPracticeMode();
+                }
+                if (GameMode == MainGameManager.GameMode.TestMode)
+                {
+                    if (MainGameManager.Instance.IsSussuesPassTest == 0)
+                    {
+                        ScoreTestCanvas.SetActive(true);
+                        titleTxt_Test.text = "測驗失敗";
+                    }
+                    //else if (MainGameManager.Instance.TotalWrongScore < 2)
+                    //{
+                    //    ScoreTestCanvas.SetActive(true);
+                    //    titleTxt_Test.text = "測驗成功";
+                    //}
+
+                }
+
                 IsStepWrong_倒車();
 
                 break;
@@ -332,7 +364,8 @@ public class ScoreGroupComp : MonoBehaviour
     void TestModeUI(string s, int wrongAmount)
     {
         GameObject obj_test = Instantiate(StatePerfab, StateTextGroup_Test.transform);
-        obj_test.GetComponent<StateComp>().Label.text = s + ": <size=60>" + wrongAmount + "</size>次";
+        string content = s + ": <size=60>" + wrongAmount + "</size>次";
+        obj_test.GetComponent<StateComp>().Label.text = content;
         obj_test.name = s;
 
 
@@ -345,7 +378,7 @@ public class ScoreGroupComp : MonoBehaviour
             }
             else
             {
-                obj_test.GetComponent<StateComp>().Label.text = s + ": <size=60>" + wrongAmount + "</size>次";
+                obj_test.GetComponent<StateComp>().Label.text = content;
             }
         }
 
@@ -558,6 +591,24 @@ public class ScoreGroupComp : MonoBehaviour
 
         //測驗模式
         TestModeUI(ForkitToFarTo後扶架ScoreTxt, i);
+    }
+
+    void OnOnGoodTouchGroundLineScore(int i)
+    {
+        //練習模式
+        PracticeModeUI(GoodTouchGroundLineTxt, i);
+
+        //測驗模式
+        TestModeUI(GoodTouchGroundLineTxt, i);
+    }
+
+    void OnOnGoodTouchFloorScore(int i)
+    {
+        //練習模式
+        PracticeModeUI(GoodTouchFloorScoreTxt, i);
+
+        //測驗模式
+        TestModeUI(GoodTouchFloorScoreTxt, i);
     }
 }
 

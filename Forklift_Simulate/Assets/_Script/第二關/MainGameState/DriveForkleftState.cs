@@ -174,7 +174,7 @@ public class DriveForkleftState : IMainGameState
 
     public override void StateEnd()
     {
-
+        if (_endPoint != null) _endPoint.isAllreadyArraivalEndPoint = false;
     }
 
 
@@ -378,7 +378,19 @@ public class DriveForkleftState : IMainGameState
             MainGameManager.Instance.IsSussuesPassTest = 0;
             m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompleteTest, m_Conrtoller);
         }
-       
+
+        //停車位置
+        if (CurrentPosLimit.isInPosLimit && _wSMVehicleController.CurrentHandbrake == 1)//剎車且碰到限制區
+        {
+            if (WarningUI_超出格子 == null) WarningUI_超出格子 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+            WarningUI_超出格子.GetComponentInChildren<Text>().text = "堆高機未停好!";
+            WarningUI_超出格子.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+        }
+        else
+        {
+            if (WarningUI_超出格子 != null) GameObject.Destroy(WarningUI_超出格子);
+
+        }
     }
 
     void OnPipeFall_Test(int i)

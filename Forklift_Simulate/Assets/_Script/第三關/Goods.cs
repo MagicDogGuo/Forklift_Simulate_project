@@ -13,9 +13,13 @@ public class Goods : MonoBehaviour
 
     bool isTouchFrokleft;
 
+
     public static bool isTooHeight = false;
     public static bool isTooFarTo後扶架 = false;
 
+    public static bool isTouchGroundLine = false;
+
+    public static bool isGoodsTouchFloor = false;
 
 
     GameObject BackForkObj;
@@ -26,14 +30,21 @@ public class Goods : MonoBehaviour
 
         isTooHeight = false;
         isTooFarTo後扶架 = false;
+
+        isTouchGroundLine = false;
+
+        isGoodsTouchFloor = false;
+
     }
 
     private void Update()
     {
+        Debug.Log("isTouchFloor" + isGoodsTouchFloor);
+
         if (BackForkObj == null) BackForkObj = GameObject.Find("Box106_後扶架");
 
         Good_Ground_Distance = this.transform.localPosition.z;
-        Good_BackFork_Distance = Vector3.Distance(BackForkObj.transform.position, this.transform.position);
+        if(BackForkObj!=null) Good_BackFork_Distance = Vector3.Distance(BackForkObj.transform.position, this.transform.position);
 
         // Debug.Log("Good_BackFork_Distance:" + Good_BackFork_Distance);
         Debug.Log("isTooFarTo後扶架:" + isTooFarTo後扶架+ "  isTouchFrokleft:"+ isTouchFrokleft);
@@ -94,6 +105,16 @@ public class Goods : MonoBehaviour
         {
             isTouchFrokleft = true;
         }
+
+        if (collision.gameObject.tag == "GroundGoodLine")
+        {
+            isTouchGroundLine = true;
+        }
+
+        if(collision.gameObject.tag == "GoodsConnotTouchFloor")
+        {
+            isGoodsTouchFloor = true;
+        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -101,6 +122,16 @@ public class Goods : MonoBehaviour
         if (collision.gameObject.tag == "Forkleft")
         {
             isTouchFrokleft = false;
+        }
+
+        if (collision.gameObject.tag == "GroundGoodLine")
+        {
+            isTouchGroundLine = false;
+        }
+
+        if (collision.gameObject.tag == "GoodsConnotTouchFloor")
+        {
+            isGoodsTouchFloor = false;
         }
     }
 }

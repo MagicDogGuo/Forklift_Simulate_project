@@ -88,13 +88,13 @@ public class MainGameManager : MonoBehaviour
         get { return m_MainGameStateController.GameState; }
     }
 
-   private GameObject _initPlayerCam;
+    protected GameObject _initPlayerCam;
     public GameObject InitPlayerCam
     {
         get { return _initPlayerCam; }
     }
 
-    private GameMode _gameMode;
+    protected GameMode _gameMode;
     public GameMode GameModes
     {
         get { return _gameMode; }
@@ -123,18 +123,18 @@ public class MainGameManager : MonoBehaviour
 
 
 
-    private GameObject _startPointObj;
+    protected GameObject _startPointObj;
     public GameObject StartPointObjs
     {
         get { return _startPointObj; }
     }
-    private GameObject _endPointObj;
+    protected GameObject _endPointObj;
     public GameObject EndPointObjs
     {
         get { return _endPointObj; }
     }
 
-    private GameObject _forkleftObj;
+    protected GameObject _forkleftObj;
     public GameObject ForkleftObj
     {
         get { return _forkleftObj; }
@@ -150,49 +150,49 @@ public class MainGameManager : MonoBehaviour
         get { return ForkitOriPos_end; }
     }
 
-    private GameObject _pipeGroupObj;
+    protected GameObject _pipeGroupObj;
     public GameObject PipeGroupObjs
     {
         get { return _pipeGroupObj; }
     }
 
-    private ScoreManager _scoreManager;
+    protected ScoreManager _scoreManager;
     public ScoreManager ScoreManagers
     {
         get { return _scoreManager; }
     }
 
-    private int _totalWrongScore;
+    protected int _totalWrongScore;
     public int TotalWrongScore
     {
         get { return _scoreManager.TotalWrongAmount; }
     }
 
-    private int _isSussuesPassTest;
+    protected int _isSussuesPassTest;
     public int IsSussuesPassTest //0沒過 1有過 2測驗中
     {
         get { return _isSussuesPassTest; }
         set { _isSussuesPassTest = value; }
     }
 
-    private GameObject _initCanvas;
+    protected GameObject _initCanvas;
     public GameObject InitCanvass
     {
         get { return _initCanvas; }
     }
 
-    private GameObject _scoreGroupCanvas;
+    protected GameObject _scoreGroupCanvas;
     public GameObject ScoreGroupCanvass
     {
         get { return _scoreGroupCanvas; }
     }
-    private GameObject _forkitCanvasPos;
+    protected GameObject _forkitCanvasPos;
     public GameObject ForkitCanvasPoss
     {
         get { return _forkleftObj.GetComponent<ForkUI>().ForkkitCanvasPos; }
     }
 
-    private GameObject _warningUI;
+    protected GameObject _warningUI;
     public GameObject WarningUIs
     {
         get { return _warningUI; }

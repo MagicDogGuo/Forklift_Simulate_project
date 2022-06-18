@@ -76,7 +76,20 @@ public class CheckDeviceManager : MonoBehaviour
     [SerializeField]
     Text TestTxt;
 
+    [Header("初始UI")]
+    [SerializeField]
+    GameObject InitUICanvas;
+    [SerializeField]
+    GameObject CameraPCorVRController;
 
+    static public GameMode_firstStage gameMode_FirstStage;
+    static public bool isLetEngineOn;
+
+    public enum GameMode_firstStage
+    {
+        TestMode,
+        PracticeMode
+    }
 
     Dictionary<int, List<int>> _CorrectAnswerDict;
     public Dictionary<int, List<int>> CorrectAnswerDict
@@ -131,7 +144,36 @@ public class CheckDeviceManager : MonoBehaviour
 
     private void Awake()
     {
+        InitUIControl();
+    }
 
+
+    void InitUIControl()
+    {
+        isLetEngineOn = false;
+
+        InitUICanvas.SetActive(true);
+        CameraPCorVRController.SetActive(false);
+
+        GameEventSystem.Instance.OnPushTestModeBtn = null;
+        GameEventSystem.Instance.OnPushPracticeModeBtn = null;
+
+        GameEventSystem.Instance.OnPushTestModeBtn += TestMode;
+        GameEventSystem.Instance.OnPushPracticeModeBtn += PracticeMode;
+    }
+
+    void TestMode()
+    {
+        gameMode_FirstStage = GameMode_firstStage.TestMode;
+        InitUICanvas.SetActive(false);
+        CameraPCorVRController.SetActive(true);
+    }
+
+    void PracticeMode()
+    {
+        gameMode_FirstStage = GameMode_firstStage.PracticeMode;
+        InitUICanvas.SetActive(false);
+        CameraPCorVRController.SetActive(true);
     }
 
     void Start()
@@ -292,7 +334,9 @@ public class CheckDeviceManager : MonoBehaviour
         carLight.ControlLeft_左控制桿.name += carLight.ControlLeft_左控制桿_ab_SoundName;
 
         alertLight_工作警示燈.goodObj.SetActive(false);
+        alertLight_工作警示燈.goodObj_燈罩.SetActive(false);
         alertLight_工作警示燈.badObj.SetActive(true);
+        alertLight_工作警示燈.badObj_燈罩.SetActive(true);
 
         ironPipe.goodObj.SetActive(false);
         ironPipe.badObj.SetActive(true);
@@ -329,7 +373,10 @@ public class CheckDeviceManager : MonoBehaviour
         carLight.Control_大燈拉桿.name = carLight.Control_大燈拉桿_goodObjName;
         
         alertLight_工作警示燈.goodObj.SetActive(true);
+        alertLight_工作警示燈.goodObj_燈罩.SetActive(true);
         alertLight_工作警示燈.badObj.SetActive(false);
+        alertLight_工作警示燈.badObj_燈罩.SetActive(false);
+
 
         ironPipe.goodObj.SetActive(true);
         ironPipe.badObj.SetActive(false);
@@ -449,7 +496,9 @@ public class CheckDeviceManager : MonoBehaviour
             case DevicePart.AlertLight_工作警示燈:
                 tempBreakpartNumber.Add(2);
                 alertLight_工作警示燈.goodObj.SetActive(false);
+                alertLight_工作警示燈.goodObj_燈罩.SetActive(false);
                 alertLight_工作警示燈.badObj.SetActive(true);
+                alertLight_工作警示燈.badObj_燈罩.SetActive(true);
                 break;
 
             case DevicePart.ironPipe:
@@ -472,7 +521,7 @@ public class CheckDeviceManager : MonoBehaviour
         {
             _CorrectAnswerDict.Add((int)devicePart, tempBreakpartNumber);
         }
-
+        //Debug.Log("========(int)devicePart=" + (int)devicePart);
         //有壞掉的部位再另外存
         _BreakDeviceInCorrectAnswerDict.Add((int)devicePart, tempBreakpartNumber);
     }
@@ -500,40 +549,26 @@ public class CheckDeviceManager : MonoBehaviour
     /// <returns></returns>
     DevicePart[]  MyRondom( int breakDeviceAmount)
     {
-        DevicePart[] devicePartArray = new DevicePart[breakDeviceAmount]; //生成了5個隨機數
-
-        int brakeNo = (int)DevicePart.Brake;//腳剎車不能壞(才能測倒退檔)
+        List<DevicePart> devicePartList = new List<DevicePart>();
         int brakepart = 0;
+        int brakeNo = (int)DevicePart.Brake;//腳剎車不能壞(才能測倒退檔)
 
-        for (int i = 0; i < devicePartArray.Length;)
+        while (devicePartList.Count < breakDeviceAmount )
         {
-            bool iS_i = true;
-
             brakepart = Random.Range(MinPart, MaxPart);
-            while (brakepart == brakeNo)//當是腳剎車時重新random
-            {
-                Debug.Log("===============選到腳剎車，重新選======");
-                brakepart = Random.Range(MinPart, MaxPart);
-            }
 
-            DevicePart devicePart = (DevicePart)brakepart;//一定要5個以上
-
-            for (int j = 0; j < i; ++j)
+            if (devicePartList.Contains((DevicePart)brakepart) || brakepart == brakeNo)
             {
-                if (devicePart == devicePartArray[j])
-                {
-                    iS_i = false;
-                    break;
-                }
+                continue;
             }
-            if (iS_i)
-            {
-                devicePartArray[i] = devicePart;
-                i++;
-            }
+            devicePartList.Add((DevicePart)brakepart);
         }
-        
+
+
+        DevicePart[] devicePartArray = devicePartList.ToArray();
+
         return devicePartArray;
+
     }
 
 
@@ -1261,7 +1296,11 @@ public class AlertLight_工作警示燈
     [SerializeField]
     public GameObject goodObj;
     [SerializeField]
+    public GameObject goodObj_燈罩;
+    [SerializeField]
     public GameObject badObj;
+    [SerializeField]
+    public GameObject badObj_燈罩;
 }
 
 

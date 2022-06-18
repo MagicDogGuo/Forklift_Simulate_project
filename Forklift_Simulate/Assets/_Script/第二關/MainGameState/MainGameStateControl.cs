@@ -58,12 +58,12 @@ public class MainGameStateControl {
             case GameFlowState.DriveForkKit_stageThree:
                 m_State = new DriveForkKit_stageThreeState(m_MainGameStateController);
                 break;
-            //case GameFlowState.CompletePrictice:
-            //    m_State = new CompletePricticeState(m_MainGameStateController);
-            //    break;
-            //case GameFlowState.CompletePrictice:
-            //    m_State = new CompletePricticeState(m_MainGameStateController);
-            //    break;
+            case GameFlowState.CompleteTest_stageThree:
+                m_State = new CompleteTest_stageThreeState(m_MainGameStateController);
+                break;
+            case GameFlowState.CompletePrictice_stageThree:
+                m_State = new CompletePrictice_stageThreeState(m_MainGameStateController);
+                break;
         }
     }
 

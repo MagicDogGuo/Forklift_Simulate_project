@@ -1025,6 +1025,8 @@ public class HandelContorller : MonoBehaviour
                     {
                         checkDeviceManager.dashbroad.OnKeyPlugIn_NoSound();
                         Key_onHand.SetActive(false);
+                      
+
                     }
 
                     if (TipObj_KeyRotateTooMuch != null)
@@ -1034,6 +1036,16 @@ public class HandelContorller : MonoBehaviour
 
                     Key_onCar.transform.localEulerAngles = new Vector3(-45, -27.31f, -90);
                     Destroy(TipChooseCnavasObj);
+
+                    //警示燈
+                    if (checkDeviceManager.alertLight_工作警示燈.goodObj_燈罩.GetActive() == true)
+                    {
+                        checkDeviceManager.alertLight_工作警示燈.goodObj_燈罩.GetComponent<MeshRenderer>().enabled = true;
+                        checkDeviceManager.alertLight_工作警示燈.goodObj_燈罩.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+
+                    }
+
+
                 });
                 btn[1].onClick.AddListener(() => {
                     isInKey_onCar = false;
@@ -1041,18 +1053,35 @@ public class HandelContorller : MonoBehaviour
                     {
                         checkDeviceManager.dashbroad.OnKeyPlugIn_HaveSound();
                         Key_onHand.SetActive(false);
+                        
                     }
 
-                    if (TipObj_KeyRotateTooMuch == null)
-                    {
-                        TipObj_KeyRotateTooMuch = Instantiate(TipUIObj, this.transform);
-                        TipObj_KeyRotateTooMuch.GetComponentInChildren<Text>().text = "危險：你已發動引擎，請切換階級";
-                        TipObj_KeyRotateTooMuch.transform.localPosition = TipUIOffset;
+                    //警告
+                    if (CheckDeviceManager.gameMode_FirstStage == CheckDeviceManager.GameMode_firstStage.PracticeMode)
+                    {//練習
+                        if (TipObj_KeyRotateTooMuch == null)
+                        {
+                            TipObj_KeyRotateTooMuch = Instantiate(TipUIObj, this.transform);
+                            TipObj_KeyRotateTooMuch.GetComponentInChildren<Text>().text = "危險：你已發動引擎，請切換階級";
+                            TipObj_KeyRotateTooMuch.transform.localPosition = TipUIOffset;
+                        }
+                    }
+                    else if (CheckDeviceManager.gameMode_FirstStage == CheckDeviceManager.GameMode_firstStage.TestMode)
+                    {//測驗
+                        CheckDeviceManager.isLetEngineOn = true;
                     }
 
-                    Key_onCar.transform.localEulerAngles = new Vector3(-90, -27.31f, -90);
+
+                        Key_onCar.transform.localEulerAngles = new Vector3(-90, -27.31f, -90);
                     Destroy(TipChooseCnavasObj);
 
+                    //警示燈
+                    if (checkDeviceManager.alertLight_工作警示燈.goodObj_燈罩.GetActive() == true)
+                    {
+                        checkDeviceManager.alertLight_工作警示燈.goodObj_燈罩.GetComponent<MeshRenderer>().enabled = true;
+                        checkDeviceManager.alertLight_工作警示燈.goodObj_燈罩.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+
+                    }
                 });                        
             }
 

@@ -48,7 +48,9 @@ public class IntiComp : MonoBehaviour
 
     private void Update()
     {
-      
+        Cursor.lockState = CursorLockMode.None;
+
+        if (Cursor.visible==false) Cursor.visible = true;
         //VRTK_SDKManagerObj.GetComponent<ResetVRPosition>().OriDriveForkleftPos =
         //    new Vector3(float.Parse(SetX.text), float.Parse(SetY.text), float.Parse(SetZ.text));
         //ResetVRPosition.OriDriveForkleftPos =

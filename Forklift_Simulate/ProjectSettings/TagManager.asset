@@ -10,6 +10,9 @@ TagManager:
   - StartPoint
   - CurrentPosLimit
   - HandTrigger
+  - GroundGoodLine
+  - GoodsConnotTouchFloor
+  - Goods
   layers:
   - Default
   - TransparentFX

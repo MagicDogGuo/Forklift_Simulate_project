@@ -68,9 +68,9 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 439afd3f954cea94c8e910eef29cd81f, type: 3}
     m_FontSize: 38
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 63
+    m_BestFit: 1
+    m_MinSize: 30
+    m_MaxSize: 38
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 2110328290210408576}
   - component: {fileID: 5624890743962670445}
   - component: {fileID: 3529458262577246176}
+  - component: {fileID: 8409055097395059676}
   m_Layer: 5
   m_Name: WarningCanvas
   m_TagString: Untagged
@@ -181,7 +182,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4179356244941054039}
   m_LocalRotation: {x: 0.015571703, y: 0.49475008, z: -0.0011644653, w: 0.86889505}
-  m_LocalPosition: {x: 0, y: 0, z: -2.368}
+  m_LocalPosition: {x: 0, y: 0, z: -2.319}
   m_LocalScale: {x: 0.0006386272, y: 0.0006386272, z: 0.0006386272}
   m_Children:
   - {fileID: 169202426447186929}
@@ -191,7 +192,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 1.6170001, y: 59.325005, z: 0.767}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.107, y: 0.615}
+  m_AnchoredPosition: {x: 0.191, y: 0.583}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!223 &2110328290210408576
@@ -254,6 +255,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8409055097395059676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4179356244941054039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f659e30e1e2fda4e9d05a953e7e9582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5382358965816893489
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,8 +482,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de12ce3d48f8d374990080b3e845b0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartTipAudioClip: {fileID: 8300000, guid: 1edaf278c52d4b04a96c41dfcc578ed5, type: 3}
+  StartTipAudioClip_StageTwo: {fileID: 8300000, guid: 1edaf278c52d4b04a96c41dfcc578ed5,
+    type: 3}
   BackGoTipAudioClip: {fileID: 8300000, guid: b83a3aa020a115e49b202e36f8da3714, type: 3}
+  StartTipAudioClip_StageThree: {fileID: 8300000, guid: 1edaf278c52d4b04a96c41dfcc578ed5,
+    type: 3}
   AS: {fileID: 3908219461419145414}
 --- !u!1 &7839247364715817959
 GameObject:

@@ -14,8 +14,11 @@ public class DriveForkKit_stageThreeState : IMainGameState
 
     float delayScoreCount = 0;
     MainGameManager.GameMode _gameMode;
-    StartPoint _startPoint;
-    EndPoint _endPoint;
+    StartPoint _startPoint_Forkleft;
+    EndPoint _endPoint_Forkleft;
+    GoodsStartPoint _startPoint_Goods;
+    GoodsEndPoint _endPoint_Goods;
+    GoodsEndPoint _endPoint_Goods02;
     GameObject _ScoreGroupCanvas;
     WSMVehicleController _wSMVehicleController;
     ForkliftController _forkliftController;
@@ -48,42 +51,45 @@ public class DriveForkKit_stageThreeState : IMainGameState
         //stepIsAllOK = false;
 
         //delayScoreCount = 0;
-        //MainGameManager.Instance.CreateForkkit();
-        //MainGameManager.Instance.ScoreManagers.Init();
-        //_isCountScore_ScoreManager = true;
+        StageThreeGameManager.Instance.CreateForkkit();
+        StageThreeGameManager.Instance.ScoreManagers.Init();
+        _isCountScore_ScoreManager = true;
         //isStopNow = false;
         //MainGameManager.Instance.IsForkitOnRoadOutLineObj.Init();
 
-        //_wSMVehicleController = MainGameManager.Instance.ForkleftObj.GetComponent<WSMVehicleController>();
-        //_forkliftController = MainGameManager.Instance.ForkleftObj.GetComponent<ForkliftController>();
-        //_gameMode = MainGameManager.Instance.GameModes;
+        _wSMVehicleController = StageThreeGameManager.Instance.ForkleftObj.GetComponent<WSMVehicleController>();
+        _forkliftController = StageThreeGameManager.Instance.ForkleftObj.GetComponent<ForkliftController>();
+        _gameMode = StageThreeGameManager.Instance.GameModes;
         _scoreManager = StageThreeGameManager.Instance.ScoreManagers;
 
         //_wSMVehicleController.enabled = true;
 
 
 
-        //if (_gameMode == MainGameManager.GameMode.PracticeMode)
-        //{
-        _ScoreGroupCanvas = GameObject.Instantiate(StageThreeGameManager.Instance.ScoreGroupCanvass,
-                                                    StageThreeGameManager.Instance.ForkitCanvasPoss.transform);
+        if (_gameMode == MainGameManager.GameMode.PracticeMode)
+        {
+            _ScoreGroupCanvas = GameObject.Instantiate(StageThreeGameManager.Instance.ScoreGroupCanvass,
+                                                        StageThreeGameManager.Instance.ForkitCanvasPoss.transform);
+
+        }
+
+        else if (_gameMode == MainGameManager.GameMode.TestMode)
+        {
+            _ScoreGroupCanvas = GameObject.Instantiate(MainGameManager.Instance.ScoreGroupCanvass,
+                                                        MainGameManager.Instance.ForkitCanvasPoss.transform);
+
+            //判斷回原位(撞柱子、壓線)
+            _scoreManager.OnPipeFallScore += OnPipeFall_Test;
+            _scoreManager.OnForkitOnLineScore += OnForkitOnLine_Test;
+        }
 
 
-        //}
-        //else if (_gameMode == MainGameManager.GameMode.TestMode)
-        //{
-        //    _ScoreGroupCanvas = GameObject.Instantiate(MainGameManager.Instance.ScoreGroupCanvass,
-        //                                                MainGameManager.Instance.ForkitCanvasPoss.transform);
-
-        //    //判斷回原位(撞柱子、壓線)
-        //    _scoreManager.OnPipeFallScore += OnPipeFall_Test;
-        //    _scoreManager.OnForkitOnLineScore += OnForkitOnLine_Test;
-        //}
-
-
-        //_startPoint = MainGameManager.Instance.StartPointObjs.GetComponent<StartPoint>();
+        _startPoint_Forkleft = StageThreeGameManager.Instance.StartPointObjs.GetComponent<StartPoint>();
         //_endPoint = MainGameManager.Instance.EndPointObjs.GetComponent<EndPoint>();
 
+        _startPoint_Goods = StageThreeGameManager.Instance.StartPointObj_Goods.GetComponent<GoodsStartPoint>();
+        _endPoint_Goods = StageThreeGameManager.Instance.EndPointObj_Goods.GetComponent<GoodsEndPoint>();
+        _endPoint_Goods02 = StageThreeGameManager.Instance.EndPointObj_Goods02s.GetComponent<GoodsEndPoint>();
 
         //logtichControl = GameObject.FindObjectOfType<LogtichControl>();
 
@@ -91,10 +97,12 @@ public class DriveForkKit_stageThreeState : IMainGameState
         ////測驗中
         //MainGameManager.Instance.IsSussuesPassTest = 2;
 
+
+
     }
     public override void StateUpdate()
     {
-
+       
         ////測試記錄用
         //if (Input.GetKeyDown(KeyCode.N))
         //{
@@ -116,26 +124,27 @@ public class DriveForkKit_stageThreeState : IMainGameState
         //  + "\n _forkliftController.CurrentMastTilt > 0.6f: " + (_forkliftController.CurrentMastTilt > 0.6f);
         //MainGameManager.Instance.TestText.GetComponent<Text>().text = t;
 
-        ////延遲出現分數版
-        //delayScoreCount += Time.deltaTime;
-        //if ((int)delayScoreCount >= 1 && _isCountScore_ScoreManager)
-        //{
-        //    MainGameManager.Instance.ScoreManagers.ScoreUpdate();
+        //延遲出現分數版
+        delayScoreCount += Time.deltaTime;
+        if ((int)delayScoreCount >= 1 && _isCountScore_ScoreManager)
+        {
 
-        //    //MainGameManager.Instance.ScoreManagers.enabled = true;
-        //}
+            StageThreeGameManager.Instance.ScoreManagers.ScoreUpdate();
+
+            //MainGameManager.Instance.ScoreManagers.enabled = true;
+        }
 
 
         ////Debug.Log("=====IsSussuesPassTest:" + MainGameManager.Instance.IsSussuesPassTest);
 
-        //if (_gameMode == MainGameManager.GameMode.PracticeMode)
-        //{
-        //    OnPractice();
-        //}
-        //else if (_gameMode == MainGameManager.GameMode.TestMode)
-        //{
-        //    OnTest();
-        //}
+        if (_gameMode == StageThreeGameManager.GameMode.PracticeMode)
+        {
+            OnPractice();
+        }
+        else if (_gameMode == StageThreeGameManager.GameMode.TestMode)
+        {
+            OnTest();
+        }
         ////隨時歸位
         //if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.O))
         //{
@@ -177,7 +186,8 @@ public class DriveForkKit_stageThreeState : IMainGameState
 
     public override void StateEnd()
     {
-
+        _endPoint_Goods.isAllreadyArraivalEndPoint = false;
+        _endPoint_Goods02.isAllreadyArraivalEndPoint = false;
     }
 
 
@@ -192,87 +202,90 @@ public class DriveForkKit_stageThreeState : IMainGameState
         //Debug.Log("_______forkliftController.CurrentMastTilt: "+ _forkliftController.CurrentMastTilt);
 
         //是否完成練習
-        if (_startPoint.isOnStartPoint_Forkit
-             && _endPoint.isAllreadyArraivalEndPoint
+        if (_startPoint_Forkleft.isOnStartPoint_Forkit
+             && _startPoint_Goods.isOnStartPoint_Goods
+             && _endPoint_Goods.isAllreadyArraivalEndPoint
+             && _endPoint_Goods02.isAllreadyArraivalEndPoint //貨架上的貨物
              && _wSMVehicleController.CurrentHandbrake == 1
              && _wSMVehicleController.CurrentBackFront == 0
              && _forkliftController.CurrentForksVertical <= 0.02f//高度
              && _forkliftController.CurrentMastTilt > 0.59f)//傾斜
         {
-            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompletePrictice, m_Conrtoller);
-            MainGameManager.Instance.IsSussuesPassTest = 1;
+            Debug.Log("[完成練習]=================");
+            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompletePrictice_stageThree, m_Conrtoller);
+            StageThreeGameManager.Instance.IsSussuesPassTest = 1;
         }
         else
         {
             //練習模式可以一直練不會失敗
-            //MainGameManager.Instance.IsSussuesPassTest = 0;
+            StageThreeGameManager.Instance.IsSussuesPassTest = 0;
         }
 
         //壓線出UI
-        if (MainGameManager.Instance.IsForkitOnRoad == false)
+        if (StageThreeGameManager.Instance.IsForkitOnRoad == false)
         {
-            if (WarningUI == null) WarningUI = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+            if (WarningUI == null) WarningUI = GameObject.Instantiate(StageThreeGameManager.Instance.WarningUIs, StageThreeGameManager.Instance.ForkitCanvasPoss.transform);
             WarningUI.GetComponentInChildren<Text>().text = "超出車道範圍，請採煞車並按下確認按鈕回到出發點";
 
         }
-        if (MainGameManager.Instance.IsForkitOnRoad == true)
+        if (StageThreeGameManager.Instance.IsForkitOnRoad == true)
         {
             if (WarningUI != null) GameObject.Destroy(WarningUI);
         }
 
-        Debug.Log("==========" + stepIsAllOK
-            + " " + _endPoint.isAllreadyArraivalEndPoint
-            + " " + _wSMVehicleController.CurrentHandbrake
-            + " " + _wSMVehicleController.CurrentBackFront);
+        //Debug.Log("==========" + stepIsAllOK
+        //    + " " + _endPoint.isAllreadyArraivalEndPoint
+        //    + " " + _wSMVehicleController.CurrentHandbrake
+        //    + " " + _wSMVehicleController.CurrentBackFront);
 
-        //在倒車點要做到指定動作
-        if (_endPoint.isOnEndPoint_Forkit
-            && _wSMVehicleController.CurrentHandbrake == 1
-            && _wSMVehicleController.CurrentBackFront == 0
-            && _forkliftController.CurrentForksVertical <= 0.02f) //高度
-        {
-            //第一步驟
-            stepOne_拉起手煞 = true;
-            stepOne_前後檔回歸 = true;
-            stepOne_升降拉桿放回 = true;
+        ////在倒車點要做到指定動作
+        //if (_endPoint.isOnEndPoint_Forkit
+        //    && _wSMVehicleController.CurrentHandbrake == 1
+        //    && _wSMVehicleController.CurrentBackFront == 0
+        //    && _forkliftController.CurrentForksVertical <= 0.02f) //高度
+        //{
+        //    //第一步驟
+        //    stepOne_拉起手煞 = true;
+        //    stepOne_前後檔回歸 = true;
+        //    stepOne_升降拉桿放回 = true;
 
-        }
-        //第二步驟
-        if (stepOne_拉起手煞 && stepOne_前後檔回歸 && stepOne_升降拉桿放回)
-        {
-            if (_endPoint.isAllreadyArraivalEndPoint
-            && _wSMVehicleController.CurrentHandbrake == 0//放開剎車
-            && _wSMVehicleController.CurrentBackFront == -1 //倒車
-            && _forkliftController.CurrentForksVertical > 0.02f) //高度
-            {
-                stepIsAllOK = true;
-            }
-        }
-        //是否彈出警告
-        if (stepIsAllOK == false
-            && _endPoint.isAllreadyArraivalEndPoint
-            && _wSMVehicleController.CurrentHandbrake == 0//放開剎車
-            && _wSMVehicleController.CurrentBackFront == -1) //倒車 
-        {
-            MainGameManager.Instance.stepIsWrong_倒車 = true;
+        //}
+        ////第二步驟
+        //if (stepOne_拉起手煞 && stepOne_前後檔回歸 && stepOne_升降拉桿放回)
+        //{
+        //    if (_endPoint.isAllreadyArraivalEndPoint
+        //    && _wSMVehicleController.CurrentHandbrake == 0//放開剎車
+        //    && _wSMVehicleController.CurrentBackFront == -1 //倒車
+        //    && _forkliftController.CurrentForksVertical > 0.02f) //高度
+        //    {
+        //        stepIsAllOK = true;
+        //    }
+        //}
+        ////是否彈出警告
+        //if (stepIsAllOK == false
+        //    && _endPoint.isAllreadyArraivalEndPoint
+        //    && _wSMVehicleController.CurrentHandbrake == 0//放開剎車
+        //    && _wSMVehicleController.CurrentBackFront == -1) //倒車 
+        //{
+        //    MainGameManager.Instance.stepIsWrong_倒車 = true;
 
-            if (WarningUI_退後 == null)
-            {
-                WarningUI_退後 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
-                WarningUI_退後.GetComponent<WarningUIAudio>().AS.clip = WarningUI_退後.GetComponent<WarningUIAudio>().BackGoTipAudioClip;
-                WarningUI_退後.GetComponent<WarningUIAudio>().AS.Stop();
-                WarningUI_退後.GetComponent<WarningUIAudio>().AS.Play();
-            }
-            WarningUI_退後.GetComponentInChildren<Text>().text = "倒車前請完成以下步驟：\n拉起手煞 >> 前後檔回歸 >> 將升降貨插放回 >> 升降貨插上升 >> 開啟手煞 >> 打檔至退後檔 >> 開始向後開";
-            WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
-            WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
-            WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+        //    if (WarningUI_退後 == null)
+        //    {
+        //        WarningUI_退後 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+        //        WarningUI_退後.GetComponent<WarningUIAudio>().AS.clip = WarningUI_退後.GetComponent<WarningUIAudio>().BackGoTipAudioClip;
+        //        WarningUI_退後.GetComponent<WarningUIAudio>().AS.Stop();
+        //        WarningUI_退後.GetComponent<WarningUIAudio>().AS.Play();
+        //    }
+        //    WarningUI_退後.GetComponentInChildren<Text>().text = "倒車前請完成以下步驟：\n拉起手煞 >> 前後檔回歸 >> 將升降貨插放回 >> 升降貨插上升 >> 開啟手煞 >> 打檔至退後檔 >> 開始向後開";
+        //    WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
+        //    WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
+        //    WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
 
-        }
-        if (stepIsAllOK)
-        {
-            if (WarningUI_退後 != null) GameObject.Destroy(WarningUI_退後);
-        }
+        //}
+        //if (stepIsAllOK)
+        //{
+        //    if (WarningUI_退後 != null) GameObject.Destroy(WarningUI_退後);
+        //}
 
         //停車位置
         if (CurrentPosLimit.isInPosLimit && _wSMVehicleController.CurrentHandbrake == 1)//剎車且碰到限制區
@@ -294,27 +307,29 @@ public class DriveForkKit_stageThreeState : IMainGameState
 
     void OnTest()
     {
-        if (MainGameManager.Instance.TotalWrongScore >= 20)
+        if (StageThreeGameManager.Instance.TotalWrongScore >= 20)
         {
-            MainGameManager.Instance.IsSussuesPassTest = 0;
-            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompleteTest, m_Conrtoller);
+            StageThreeGameManager.Instance.IsSussuesPassTest = 0;
+            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompleteTest_stageThree, m_Conrtoller);
         }
 
-        if (_startPoint.isOnStartPoint_Forkit
-            && _endPoint.isAllreadyArraivalEndPoint
+        if (_startPoint_Forkleft.isOnStartPoint_Forkit
+            && _startPoint_Goods.isOnStartPoint_Goods
+            && _endPoint_Goods.isAllreadyArraivalEndPoint
+            && _endPoint_Goods02.isAllreadyArraivalEndPoint //貨架上的貨物
             && _wSMVehicleController.CurrentHandbrake == 1
             && _wSMVehicleController.CurrentBackFront == 0
             && _forkliftController.CurrentForksVertical <= 0.02f//高度
-            && _forkliftController.CurrentMastTilt > 0.6f)//傾斜
+            && _forkliftController.CurrentMastTilt > 0.59f)//傾斜
         {
-            MainGameManager.Instance.IsSussuesPassTest = 1;
-            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompleteTest, m_Conrtoller);
+            StageThreeGameManager.Instance.IsSussuesPassTest = 1;
+            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompleteTest_stageThree, m_Conrtoller);
         }
 
         Debug.Log("===========isStopNow: " + isStopNow);
 
         //醜一暫停後
-        if (isStopNow && MainGameManager.Instance.IsSussuesPassTest == 2)
+        if (isStopNow && StageThreeGameManager.Instance.IsSussuesPassTest == 2)
         {
             StopDrive();
 
@@ -344,43 +359,56 @@ public class DriveForkKit_stageThreeState : IMainGameState
         {
         }
 
-        //在倒車點要做到指定動作
-        if (_endPoint.isOnEndPoint_Forkit
-            && _wSMVehicleController.CurrentHandbrake == 1
-            && _wSMVehicleController.CurrentBackFront == 0
-            && _forkliftController.CurrentForksVertical <= 0.02f) //高度
+        //停車位置
+        if (CurrentPosLimit.isInPosLimit && _wSMVehicleController.CurrentHandbrake == 1)//剎車且碰到限制區
         {
-            //第一步驟
-            stepOne_拉起手煞 = true;
-            stepOne_前後檔回歸 = true;
-            stepOne_升降拉桿放回 = true;
+            if (WarningUI_超出格子 == null) WarningUI_超出格子 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+            WarningUI_超出格子.GetComponentInChildren<Text>().text = "堆高機未停好!";
+            WarningUI_超出格子.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+        }
+        else
+        {
+            if (WarningUI_超出格子 != null) GameObject.Destroy(WarningUI_超出格子);
 
         }
-        //第二步驟
-        if (stepOne_拉起手煞 && stepOne_前後檔回歸 && stepOne_升降拉桿放回)
-        {
-            if (_endPoint.isAllreadyArraivalEndPoint
-            && _wSMVehicleController.CurrentHandbrake == 0//放開剎車
-            && _wSMVehicleController.CurrentBackFront == -1 //倒車
-            && _forkliftController.CurrentForksVertical > 0.02f) //高度
-            {
-                Debug.Log("=====+++++++++++++++++++++++1");
-                stepIsAllOK = true;
-            }
-        }
-        //是否彈出警告
-        if (stepIsAllOK == false
-            && _endPoint.isAllreadyArraivalEndPoint
-            && _wSMVehicleController.CurrentHandbrake == 0//放開剎車
-            && _wSMVehicleController.CurrentBackFront == -1) //倒車 
-        {
-            Debug.Log("=====+++++++++++++++++++++++2");
 
-            MainGameManager.Instance.stepIsWrong_倒車 = true;
+        ////在倒車點要做到指定動作
+        //if (_endPoint_Forkleft.isOnEndPoint_Forkit
+        //    && _wSMVehicleController.CurrentHandbrake == 1
+        //    && _wSMVehicleController.CurrentBackFront == 0
+        //    && _forkliftController.CurrentForksVertical <= 0.02f) //高度
+        //{
+        //    //第一步驟
+        //    stepOne_拉起手煞 = true;
+        //    stepOne_前後檔回歸 = true;
+        //    stepOne_升降拉桿放回 = true;
 
-            MainGameManager.Instance.IsSussuesPassTest = 0;
-            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompleteTest, m_Conrtoller);
-        }
+        //}
+        ////第二步驟
+        //if (stepOne_拉起手煞 && stepOne_前後檔回歸 && stepOne_升降拉桿放回)
+        //{
+        //    if (_endPoint_Forkleft.isAllreadyArraivalEndPoint
+        //    && _wSMVehicleController.CurrentHandbrake == 0//放開剎車
+        //    && _wSMVehicleController.CurrentBackFront == -1 //倒車
+        //    && _forkliftController.CurrentForksVertical > 0.02f) //高度
+        //    {
+        //        Debug.Log("=====+++++++++++++++++++++++1");
+        //        stepIsAllOK = true;
+        //    }
+        //}
+        ////是否彈出警告
+        //if (stepIsAllOK == false
+        //    && _endPoint_Forkleft.isAllreadyArraivalEndPoint
+        //    && _wSMVehicleController.CurrentHandbrake == 0//放開剎車
+        //    && _wSMVehicleController.CurrentBackFront == -1) //倒車 
+        //{
+        //    Debug.Log("=====+++++++++++++++++++++++2");
+
+        //    MainGameManager.Instance.stepIsWrong_倒車 = true;
+
+        //    MainGameManager.Instance.IsSussuesPassTest = 0;
+        //    m_Conrtoller.SetState(MainGameStateControl.GameFlowState.CompleteTest, m_Conrtoller);
+        //}
 
     }
 

@@ -60,12 +60,14 @@ public class TitleStateManager : MonoBehaviour
             int sceneIndex_FirstStageTest = SceneUtility.GetBuildIndexByScenePath("_scene/FirstStage");
             int sceneIndex_FirstStageTest_PC = SceneUtility.GetBuildIndexByScenePath("_scene/FirstStage_PC");
             int sceneIndex_MainGameState = SceneUtility.GetBuildIndexByScenePath("_scene/MainGameState");
+            int sceneIndex_ThridStage = SceneUtility.GetBuildIndexByScenePath("_scene/ThridStage");
 
-            if (sceneIndex_FirstStageTest == -1 && sceneIndex_FirstStageTest_PC ==-1)//沒有在bulid setting打勾
+
+            if (sceneIndex_FirstStageTest == -1 && sceneIndex_FirstStageTest_PC ==-1 && sceneIndex_ThridStage == -1)//沒有在bulid setting打勾
             {
                 SceneManager.LoadScene("MainGameState");
             }
-            else if (sceneIndex_MainGameState == -1)
+            else if (sceneIndex_MainGameState == -1 && sceneIndex_ThridStage == -1)
             {
                 if(RecordUserDate.modeChoose == RecordUserDate.ModeChoose.PC)
                 {
@@ -77,6 +79,11 @@ public class TitleStateManager : MonoBehaviour
                     SceneManager.LoadScene("FirstStage");
 
                 }
+            }
+            else if(sceneIndex_MainGameState == -1&& sceneIndex_FirstStageTest == -1 && sceneIndex_FirstStageTest_PC ==-1)
+            {
+                SceneManager.LoadScene("ThridStage");
+
             }
             else
             {

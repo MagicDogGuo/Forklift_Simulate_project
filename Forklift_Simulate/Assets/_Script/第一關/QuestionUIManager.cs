@@ -162,16 +162,28 @@ public class QuestionUIManager : MonoBehaviour
                      //更換作答的按鈕
                         _QuestionUIComp.QuestionNumberButtons[j].QuestionChooseButton.GetComponent<Image>().sprite =
                         _QuestionUIComp.QuestionNumberButtons[j].QuestionIsAnswerSprite;
+                        _QuestionUIComp.QuestionNumberButtons[j].QuestionChooseButton.GetComponent<Image>().color = Color.white;
+
                     }
                     else
                     {//作答是異常
                      //更換作答的按鈕
+                        _QuestionUIComp.QuestionNumberButtons[j].QuestionChooseButton.GetComponent<Image>().sprite =
+                           _QuestionUIComp.QuestionNumberButtons[j].QuestionIsNoAnswerSprite;
                         _QuestionUIComp.QuestionNumberButtons[j].QuestionChooseButton.GetComponent<Image>().color = Color.red;
                     }
 
                 
                 }
             }
+        }
+
+
+        //測驗模式發動引擎，直接結算
+        if(CheckDeviceManager.isLetEngineOn == true)
+        {
+            CheckDeviceManager.isLetEngineOn = false;
+            OnPushCheckAnswerBtn();
         }
 
     }
@@ -334,14 +346,18 @@ public class QuestionUIManager : MonoBehaviour
         string resultContent = "異常項目:\n";
         foreach (KeyValuePair<int, List<int>> kvp in _BreakDeviceInCorrectAnswerDictSort)
         {
-            if (_MatchAnswerBreakDeviceDict.ContainsKey(kvp.Key))
-            {//有答對的損壞部位
-                resultContent += "<color=green>" + kvp.Key+"."+ questionContent[kvp.Key-1].TitleTxt + "</color>\n";
+            if (questionContent.Length >0)
+            {
+                if (_MatchAnswerBreakDeviceDict.ContainsKey(kvp.Key))
+                {//有答對的損壞部位
+                    resultContent += "<color=green>" + kvp.Key + "." + questionContent[kvp.Key - 1].TitleTxt + "</color>\n";
+                }
+                else
+                {//沒有答對的損壞部位
+                    resultContent += "<color=red>" + kvp.Key + "." + questionContent[kvp.Key - 1].TitleTxt + "</color>\n";
+                }
             }
-            else
-            {//沒有答對的損壞部位
-                resultContent += "<color=red>" + kvp.Key + "." + questionContent[kvp.Key - 1].TitleTxt + "</color>\n";
-            }
+          
 
         }
 
@@ -354,12 +370,12 @@ public class QuestionUIManager : MonoBehaviour
         //判斷有無讓鑰匙轉90度啟動引擎
         if (checkDeviceManager.IsKeyRot90Degree)
         {//未通過
-            unPassNO += "A.誤觸引擎\n";
+            unPassNO += "<color=red>A.誤觸引擎</color>\n";
         }
 
         if (checkDeviceManager.IsOverTime)
         {
-            unPassNO += "B.超時\n";
+            unPassNO += "<color=red>B.超時</color>\n";
         }
 
         foreach (KeyValuePair<int, List<int>> kvp in _UnMatchCorrectAnswerDict)

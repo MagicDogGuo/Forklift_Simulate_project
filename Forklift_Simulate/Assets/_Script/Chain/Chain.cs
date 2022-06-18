@@ -15,6 +15,18 @@ public class Chain : MonoBehaviour
     [SerializeField]
     GameObject EndObj;
 
+    [SerializeField]
+    GameObject TopChainInside;
+    [SerializeField]
+    GameObject DownChainInside;
+
+    [SerializeField]
+    GameObject TopChainOutside;
+    [SerializeField]
+    GameObject DownChainOutside;
+
+
+
     float chainDistance = 0.013f;
 
     float countTime = 0;
@@ -31,12 +43,19 @@ public class Chain : MonoBehaviour
     ForkliftPlayerInput forkliftPlayerInput;
     WSMVehiclePlayerInput wSMVehiclePlayerInput;
 
-    // Start is called before the first frame update
+
+    List<GameObject> chainObjList = new List<GameObject>();
+
+    bool isUp=false;
+
+// Start is called before the first frame update
     void Start()
     {
         logtichControl = GetComponentInParent<LogtichControl>();
         forkliftPlayerInput = GetComponentInParent<ForkliftPlayerInput>();
         wSMVehiclePlayerInput = GetComponentInParent<WSMVehiclePlayerInput>();
+
+        chainObjList = new List<GameObject>();
 
         for (int i = 0; i < initStartChainCount; i++)
         {
@@ -80,6 +99,7 @@ public class Chain : MonoBehaviour
 
             if(countTime> speedTime)
             {
+                isUp = true;
                 AddChain(StartObj, startChainCountMax, initStartChainCount);
                 LessChain(EndObj, initEndChainCount+1, endChainCountMin + 1);
 
@@ -93,6 +113,7 @@ public class Chain : MonoBehaviour
 
             if (countTime > speedTime)
             {
+                isUp = false;
                 AddChain(EndObj, initEndChainCount, endChainCountMin);
                 LessChain(StartObj, startChainCountMax + 1, initStartChainCount+1);
 
@@ -100,7 +121,26 @@ public class Chain : MonoBehaviour
             }
 
         }
+
+        //過高就刪除
+        if (chainObjList.Count > 0)
+        {
+            foreach (var chainObjs in chainObjList)
+            {
+                if (chainObjs.transform.position.y > TopChainInside.transform.position.y)
+                {
+                    GameObject.Destroy(chainObjs);
+                    chainObjList.Remove(chainObjs);
+                }
+            }
+
+       
+        }
+      
+
+
     }
+
 
     void AddChain(GameObject addObj,int maxAmount,int minAmount)
     {
@@ -110,22 +150,36 @@ public class Chain : MonoBehaviour
             GameObject go = Instantiate(chainObj, new Vector3(0, childCount * chainDistance, 0), Quaternion.identity);
 
             go.transform.SetParent(addObj.transform, false);
+
+            chainObjList.Add(go);
         }
   
 
-        Debug.Log("AddchildCount:" + addObj.name + childCount);
+       // Debug.Log("AddchildCount:" + addObj.name + childCount);
     }
 
     void LessChain(GameObject lessObj, int maxAmount, int minAmount)
     {
         int childCount = lessObj.transform.childCount;
 
-        if (childCount != 0&& childCount <= maxAmount && childCount >= minAmount)
+        if (childCount != 0 && childCount <= maxAmount && childCount >= minAmount)
         {
             GameObject lastChild = lessObj.transform.GetChild(childCount - 1).gameObject;
-            Destroy(lastChild);
+
+            if (lastChild.transform.position.y > DownChainInside.transform.position.y && isUp == false)// && isUp==true
+            {
+                Destroy(lastChild);
+                chainObjList.Remove(lastChild);
+
+            }
+            else if ( isUp == true)//lastChild.transform.position.y > DownChainOutside.transform.position.y &&
+            {
+                Destroy(lastChild);
+                chainObjList.Remove(lastChild);
+            }
+            Debug.Log("lastChild.transform.position.y" + lastChild.transform.position.y + "TopChainOutside.transform.position.y" + TopChainOutside.transform.position.y);
         }
-        Debug.Log("LesschildCount:" + lessObj .name+ childCount);
+        //Debug.Log("LesschildCount:" + lessObj .name+ childCount);
 
     }
 }
