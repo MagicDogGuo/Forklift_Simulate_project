@@ -70,4 +70,15 @@ public class IntiComp : MonoBehaviour
     {
         SceneManager.LoadScene("TitleState");
     }
+
+    private void OnDestroy()
+    {
+        if (Cursor.visible == true) Cursor.visible = false;
+    }
+
+    private void OnDisable()
+    {
+        if (Cursor.visible == true) Cursor.visible = false;
+
+    }
 }

@@ -91,7 +91,7 @@ public class DriveForkKit_stageThreeState : IMainGameState
         _endPoint_Goods = StageThreeGameManager.Instance.EndPointObj_Goods.GetComponent<GoodsEndPoint>();
         _endPoint_Goods02 = StageThreeGameManager.Instance.EndPointObj_Goods02s.GetComponent<GoodsEndPoint>();
 
-        //logtichControl = GameObject.FindObjectOfType<LogtichControl>();
+        logtichControl = GameObject.FindObjectOfType<LogtichControl>();
 
 
         ////測驗中
@@ -102,6 +102,7 @@ public class DriveForkKit_stageThreeState : IMainGameState
     }
     public override void StateUpdate()
     {
+    
        
         ////測試記錄用
         //if (Input.GetKeyDown(KeyCode.N))
@@ -148,7 +149,7 @@ public class DriveForkKit_stageThreeState : IMainGameState
         ////隨時歸位
         //if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.O))
         //{
-        //    if (!_startPoint.isOnStartPoint_Forkit && !_endPoint.isOnEndPoint_Forkit) BackToOri();
+        //    if (!_startPoint_Forkleft.isOnStartPoint_Forkit) BackToOri();
         //}
         ////到終點
         //if (Input.GetKey(KeyCode.K))
@@ -160,6 +161,7 @@ public class DriveForkKit_stageThreeState : IMainGameState
 
     void BackToOri()
     {
+        Debug.Log("sssssssssssssssssssssssss");
         MainGameManager.Instance.ForkleftObj.transform.position
                 = MainGameManager.Instance.ForkitOriPoss.position;
 
@@ -227,7 +229,17 @@ public class DriveForkKit_stageThreeState : IMainGameState
             if (WarningUI == null) WarningUI = GameObject.Instantiate(StageThreeGameManager.Instance.WarningUIs, StageThreeGameManager.Instance.ForkitCanvasPoss.transform);
             WarningUI.GetComponentInChildren<Text>().text = "超出車道範圍，請採煞車並按下確認按鈕回到出發點";
 
+           
         }
+        if (WarningUI != null)
+        {
+            //隨時歸位
+            if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.O))
+            {
+                if (!_startPoint_Forkleft.isOnStartPoint_Forkit) BackToOri();
+            }
+        }
+
         if (StageThreeGameManager.Instance.IsForkitOnRoad == true)
         {
             if (WarningUI != null) GameObject.Destroy(WarningUI);

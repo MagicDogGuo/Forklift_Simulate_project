@@ -194,7 +194,7 @@ public class ScoreManager : MonoBehaviour
                 //行駛時熄火
 
                 if (logtichControl.CheckEnterUI || Input.GetKeyDown(KeyCode.Return)) startTime = true;//按下Enter開始計時 or 羅技上的Enter
-                if (startTime) CountTime(480, 20);
+                if (startTime) CountTime(480, 20);//8分鐘
                 PipeFall(10);
                 ForkitOnRoad(10);
                 OnStopTooLong(2, 20);
@@ -202,7 +202,7 @@ public class ScoreManager : MonoBehaviour
                 ForkPositionHight(1, 0.057f, 5);
                 ForkMastTiltRotate(1, 0.6f, 5);
                 ForkHandBrake(2, 10);
-                ForkCluth(2, 10, 10);
+                ForkCluth(1, 10, 10);
                 ForkBackFrontNorStop(2, 10);
                 OnRoadNotEngine(2, 10);
             }
@@ -227,7 +227,7 @@ public class ScoreManager : MonoBehaviour
             //行駛時棧板底部離地高度超過50cm(暫不做，沒在評分表如果要放高的貨物前進時程式會誤判)
 
             if (logtichControl.CheckEnterUI || Input.GetKeyDown(KeyCode.Return)) startTime = true;//按下Enter開始計時 or 羅技上的Enter
-            if (startTime) CountTime(480, 20);
+            if (startTime) CountTime(900, 20);//15分鐘
             PipeFall(10);
             ForkitOnRoad(10);
             OnStopTooLong(2, 20);
@@ -245,7 +245,7 @@ public class ScoreManager : MonoBehaviour
 
             }     
             ForkHandBrake(2, 10);
-            ForkCluth(2, 10, 10);
+            ForkCluth(1, 10, 10);
             ForkBackFrontNorStop(2, 10);
             OnRoadNotEngine(2, 10);
             //=====================第三關=========================

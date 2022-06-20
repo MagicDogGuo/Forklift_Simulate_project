@@ -64,7 +64,7 @@ public class ScoreGroupComp : MonoBehaviour
     string ForkBackFrontNorStopScoreTxt = "堆高機行駛時突然變換前後檔";
     string OnRoadNotEngineScoreTxt = "堆高機行駛時熄火";
     //========第三關====================
-    string ForkitTouchShelfScoreTxt = "撞擊貨架";
+    string ForkitTouchShelfScoreTxt = "堆高機撞擊貨架";
     string ForkitToFarTo後扶架ScoreTxt = "貨物距離後扶架大於10cm";
     string GoodTouchGroundLineTxt = "地面貨物區置放完成後壓線";
     string GoodTouchFloorScoreTxt = "貨物置放於地面調整";

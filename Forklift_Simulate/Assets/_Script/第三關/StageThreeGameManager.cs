@@ -169,6 +169,10 @@ public class StageThreeGameManager : MainGameManager
 
         //Debug.Log("====IsForkitTouchShelf：" + IsForkitTouchShelf);
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
     public  void InstantiateInitObject_stageThree()
     {
