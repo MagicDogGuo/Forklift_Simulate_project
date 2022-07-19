@@ -23,7 +23,7 @@ namespace WSMGameStudio.Vehicles
         private float _mastTiltSpeed = 0;
         float _maxSpeed = 0;
 
-        float onGasOnlyInFrontBackSpeedLimit = 1f;//沒踩油門入檔的最高速 2022/04/29降速
+        float onGasOnlyInFrontBackSpeedLimit = 2f;//沒踩油門入檔的最高速 2022/04/29降速，2022/07/01升速
 
 
 

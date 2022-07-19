@@ -89,6 +89,8 @@ public class DriveForkleftState : IMainGameState
         //測驗中
         MainGameManager.Instance.IsSussuesPassTest = 2;
 
+        countWarningUI = 0;
+
     }
     public override void StateUpdate()
     {
@@ -183,6 +185,8 @@ public class DriveForkleftState : IMainGameState
         MainGameManager.Instance.WheelBackPos();
     }
 
+    int countWarningUI = 0;
+
     void OnPractice()
     {
    
@@ -224,6 +228,28 @@ public class DriveForkleftState : IMainGameState
 
         //在倒車點要做到指定動作
         if (_endPoint.isOnEndPoint_Forkit
+           && _wSMVehicleController.CurrentHandbrake == 1
+           && _wSMVehicleController.CurrentBackFront == 0)
+        {
+            //彈提示1
+            if (countWarningUI == 0)
+            {
+                if (WarningUI_退後 == null)
+                {
+                    countWarningUI++;
+                    WarningUI_退後 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+                }
+                WarningUI_退後.GetComponentInChildren<Text>().text = "已停至定點，請操作基本動作";
+                //WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
+                WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
+                WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+
+                GameObject.Destroy(WarningUI_退後, 3);
+            }
+            
+         
+        }
+        if (_endPoint.isOnEndPoint_Forkit
             &&_wSMVehicleController.CurrentHandbrake == 1
             && _wSMVehicleController.CurrentBackFront == 0
             && _forkliftController.CurrentForksVertical <= 0.02f) //高度
@@ -233,9 +259,25 @@ public class DriveForkleftState : IMainGameState
             stepOne_前後檔回歸 = true;
             stepOne_升降拉桿放回 = true;
 
+            //彈提示2
+            if (countWarningUI == 1)
+            {
+                if (WarningUI_退後 == null)
+                {
+                    countWarningUI++;
+                    WarningUI_退後 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+                }
+                WarningUI_退後.GetComponentInChildren<Text>().text = "完成基本操作";
+                //WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
+                WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
+                WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+
+                GameObject.Destroy(WarningUI_退後, 3);
+            }
+          
         }
         //第二步驟
-        if(stepOne_拉起手煞 && stepOne_前後檔回歸 && stepOne_升降拉桿放回)
+        if (stepOne_拉起手煞 && stepOne_前後檔回歸 && stepOne_升降拉桿放回)
         {
             if (_endPoint.isAllreadyArraivalEndPoint
             && _wSMVehicleController.CurrentHandbrake == 0//放開剎車
@@ -343,6 +385,28 @@ public class DriveForkleftState : IMainGameState
 
         //在倒車點要做到指定動作
         if (_endPoint.isOnEndPoint_Forkit
+        && _wSMVehicleController.CurrentHandbrake == 1
+        && _wSMVehicleController.CurrentBackFront == 0)
+        {
+            //彈提示1
+            if (countWarningUI == 0)
+            {
+                if (WarningUI_退後 == null)
+                {
+                    countWarningUI++;
+                    WarningUI_退後 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+                }
+                WarningUI_退後.GetComponentInChildren<Text>().text = "已停至定點，請操作基本動作";
+                //WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
+                WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
+                WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+
+                GameObject.Destroy(WarningUI_退後, 3);
+            }
+
+
+        }
+        if (_endPoint.isOnEndPoint_Forkit
             && _wSMVehicleController.CurrentHandbrake == 1
             && _wSMVehicleController.CurrentBackFront == 0
             && _forkliftController.CurrentForksVertical <= 0.02f) //高度
@@ -352,6 +416,21 @@ public class DriveForkleftState : IMainGameState
             stepOne_前後檔回歸 = true;
             stepOne_升降拉桿放回 = true;
 
+            //彈提示2
+            if (countWarningUI == 1)
+            {
+                if (WarningUI_退後 == null)
+                {
+                    countWarningUI++;
+                    WarningUI_退後 = GameObject.Instantiate(MainGameManager.Instance.WarningUIs, MainGameManager.Instance.ForkitCanvasPoss.transform);
+                }
+                WarningUI_退後.GetComponentInChildren<Text>().text = "完成基本操作";
+                //WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
+                WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
+                WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+
+                GameObject.Destroy(WarningUI_退後, 3);
+            }
         }
         //第二步驟
         if (stepOne_拉起手煞 && stepOne_前後檔回歸 && stepOne_升降拉桿放回)

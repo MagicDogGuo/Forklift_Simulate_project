@@ -32,7 +32,11 @@ public class QuestionUIManager : MonoBehaviour
     Button checkAnswerBtn;
 
     [SerializeField]
-    CheckDeviceManager checkDeviceManager;  
+    CheckDeviceManager checkDeviceManager;
+
+    [SerializeField]
+    Text KeyText;
+
 
     [SerializeField]
     GameObject[] YesNoQuestion;
@@ -48,6 +52,7 @@ public class QuestionUIManager : MonoBehaviour
     Text ResultContentText;
     [SerializeField]
     Text PassOFailText;
+
 
     QuestionUIComp _QuestionUIComp;
 
@@ -201,12 +206,49 @@ public class QuestionUIManager : MonoBehaviour
 
     void OnPushCheckAnswerBtn()
     {
+        //鑰匙
+        if (HandelContorller.isKey_onTable == false)
+        {
+            checkDeviceManager.IsNoBackKey = true;
+            //KeyText.enabled = true;
+        }
+        else
+        {
+            checkDeviceManager.IsNoBackKey = false;
+            //KeyText.enabled = false;
+        }
+
+        //安全帶
+        GameObject SeatBeltLong = GameObject.Find("seat belt_belt");
+        if (SeatBeltLong.GetComponent<MeshRenderer>().enabled == true) checkDeviceManager.IsNoBackSetbelt = true;
+        else checkDeviceManager.IsNoBackSetbelt = false;
+
+        //大燈
+        if (HandelContorller.isBackBigLight == false) checkDeviceManager.IsNoBackBigLight = true;
+        else checkDeviceManager.IsNoBackBigLight = false;
+
+        //方向燈
+        if (HandelContorller.isBackDirLight == false) checkDeviceManager.IsNoBackDirLight = true;
+        else checkDeviceManager.IsNoBackDirLight = false;
+
+
+        //手煞
+        if (HandelContorller.isBackHandbrake == false) checkDeviceManager.IsNoBackHandBrake = true;
+        else checkDeviceManager.IsNoBackHandBrake = false;
+
+
+        //後退檔
+        if (HandelContorller.isBackFrontBack == false) checkDeviceManager.IsNoBackFrontBack = true;
+        else checkDeviceManager.IsNoBackFrontBack = false;
+
+
         CheckAnswer();
         UseTipImage.SetActive(false);
         StartInfoImage.SetActive(false);
         AnswerBackImage.SetActive(false);
         AllChoosBackImage.SetActive(false);
         ResultBackImage.SetActive(true);
+
     }
 
     void OnPushUseTipImageConfirmBtn()
@@ -372,11 +414,43 @@ public class QuestionUIManager : MonoBehaviour
         {//未通過
             unPassNO += "<color=red>A.誤觸引擎</color>\n";
         }
+        Debug.Log("checkDeviceManager.IsOverTime"+ checkDeviceManager.IsOverTime);
 
         if (checkDeviceManager.IsOverTime)
         {
             unPassNO += "<color=red>B.超時</color>\n";
         }
+
+        if (checkDeviceManager.IsNoBackKey)
+        {
+            unPassNO += "<color=red>C.鑰匙未歸位</color>\n";
+        }
+        if (checkDeviceManager.IsNoBackSetbelt)
+        {
+            unPassNO += "<color=red>D.安全帶未歸位</color>\n";
+
+        }
+        if (checkDeviceManager.IsNoBackBigLight)
+        {
+            unPassNO += "<color=red>E.大燈未歸位</color>\n";
+
+        }
+        if (checkDeviceManager.IsNoBackDirLight)
+        {
+            unPassNO += "<color=red>F.方向燈未歸位</color>\n";
+
+        }
+        if (checkDeviceManager.IsNoBackHandBrake)
+        {
+            unPassNO += "<color=red>G.手剎車未歸位</color>\n";
+
+        }
+        if (checkDeviceManager.IsNoBackFrontBack)
+        {
+            unPassNO += "<color=red>H.排檔未歸位</color>\n";
+
+        }
+
 
         foreach (KeyValuePair<int, List<int>> kvp in _UnMatchCorrectAnswerDict)
         {//與正解不合的題目
@@ -457,7 +531,15 @@ public class QuestionUIManager : MonoBehaviour
         ResultContentText.GetComponent<RectTransform>().sizeDelta = new Vector2(1481.89f, 86 * (_UnMatchCorrectAnswerDict.Count + 4));
 
        
-        if (_UnMatchCorrectAnswerDict.Count < 3 && !checkDeviceManager.IsKeyRot90Degree && !checkDeviceManager.IsOverTime)//與答案不符合的題目數量
+        if (_UnMatchCorrectAnswerDict.Count < 3 &&
+            !checkDeviceManager.IsKeyRot90Degree &&
+             !checkDeviceManager.IsOverTime &&
+              !checkDeviceManager.IsNoBackKey &&
+               !checkDeviceManager.IsNoBackSetbelt &&
+                !checkDeviceManager.IsNoBackDirLight &&
+                !checkDeviceManager.IsNoBackHandBrake &&
+                !checkDeviceManager.IsNoBackFrontBack &&
+            !checkDeviceManager.IsOverTime)//與答案不符合的題目數量
         {
             //PassOFailText.text = "<color=green>通過!</color>" + unPassNO;
             ResultContentText.text = "<color=green>通過!</color>" + unPassNO;
@@ -889,11 +971,11 @@ public class QuestionUIManager : MonoBehaviour
         if (m_Timer > limitSec && isTimeUp == false)
         {
             isTimeUp = true;
-            checkDeviceManager.IsOverTime = true;
+            checkDeviceManager.isOverTime(true);
         }
-        else
+        else if(m_Timer <= limitSec)
         {
-            checkDeviceManager.IsOverTime = false;
+            checkDeviceManager.isOverTime(false);
         }
     }
 

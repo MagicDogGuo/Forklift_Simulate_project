@@ -81,6 +81,8 @@ public class DriveForkKit_stageThreeState : IMainGameState
             //判斷回原位(撞柱子、壓線)
             _scoreManager.OnPipeFallScore += OnPipeFall_Test;
             _scoreManager.OnForkitOnLineScore += OnForkitOnLine_Test;
+
+ 
         }
 
 

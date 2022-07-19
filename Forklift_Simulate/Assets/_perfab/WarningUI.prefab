@@ -485,7 +485,7 @@ MonoBehaviour:
   StartTipAudioClip_StageTwo: {fileID: 8300000, guid: 1edaf278c52d4b04a96c41dfcc578ed5,
     type: 3}
   BackGoTipAudioClip: {fileID: 8300000, guid: b83a3aa020a115e49b202e36f8da3714, type: 3}
-  StartTipAudioClip_StageThree: {fileID: 8300000, guid: 1edaf278c52d4b04a96c41dfcc578ed5,
+  StartTipAudioClip_StageThree: {fileID: 8300000, guid: 86a3bb345b245b84e8287b85b0ab86d5,
     type: 3}
   AS: {fileID: 3908219461419145414}
 --- !u!1 &7839247364715817959

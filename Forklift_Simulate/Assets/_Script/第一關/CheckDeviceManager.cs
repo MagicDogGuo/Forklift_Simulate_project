@@ -113,9 +113,51 @@ public class CheckDeviceManager : MonoBehaviour
     bool _isOverTime;
     public bool IsOverTime
     {
-        set { _isOverTime = value; }
         get { return _isOverTime; }
     }
+
+    bool _isNoBackKey;
+    public bool IsNoBackKey
+    {
+        set { _isNoBackKey = value; }
+        get { return _isNoBackKey; }
+    }
+
+    bool _isNoBacSetbelt;
+    public bool IsNoBackSetbelt
+    {
+        set { _isNoBacSetbelt = value; }
+        get { return _isNoBacSetbelt; }
+    }
+
+    bool _isNoBackBigLight;
+    public bool IsNoBackBigLight
+    {
+        set { _isNoBackBigLight = value; }
+        get { return _isNoBackBigLight; }
+    }
+
+    bool _isNoBackDirLight;
+    public bool IsNoBackDirLight
+    {
+        set { _isNoBackDirLight = value; }
+        get { return _isNoBackDirLight; }
+    }
+
+    bool _isNoBackHandBrake;
+    public bool IsNoBackHandBrake
+    {
+        set { _isNoBackHandBrake = value; }
+        get { return _isNoBackHandBrake; }
+    }
+
+    bool _isNoBackFrontBack;
+    public bool IsNoBackFrontBack
+    {
+        set { _isNoBackFrontBack = value; }
+        get { return _isNoBackFrontBack; }
+    }
+
 
     public enum DevicePart
     {
@@ -160,6 +202,7 @@ public class CheckDeviceManager : MonoBehaviour
 
         GameEventSystem.Instance.OnPushTestModeBtn += TestMode;
         GameEventSystem.Instance.OnPushPracticeModeBtn += PracticeMode;
+
     }
 
     void TestMode()
@@ -323,6 +366,10 @@ public class CheckDeviceManager : MonoBehaviour
         dashbroad.OnKeyPlugIn_HaveSound = null;
         dashbroad.OnKeyPlugIn_HaveSound += DashBoardRandomBreak_key_HaveSound;
 
+        dashbroad.OnKeyPlugOut = null;
+        dashbroad.OnKeyPlugOut += DashBoardPlugOut;
+
+
         carLight.Control_大燈拉桿.name = carLight.Control_大燈拉桿_badObjName;
         carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_LName;
         carLight.ControlRight_右控制桿.name += carLight.ControlLeft_右控制桿_ab_DirtLight_RName;
@@ -366,6 +413,8 @@ public class CheckDeviceManager : MonoBehaviour
         dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = false;
         dashbroad.OnKeyPlugIn_NoSound += DashBoardGood_key_NoSound;
         dashbroad.OnKeyPlugIn_HaveSound += DashBoardGood_key_HaveSound;
+        dashbroad.OnKeyPlugOut += DashBoardPlugOut;
+
 
         carLight.ControlRight_右控制桿.name = carLight.NormalControlRight_右控制桿Name;
         carLight.ControlLeft_左控制桿.name = carLight.NormalControlLeft_左控制桿Name;
@@ -415,8 +464,8 @@ public class CheckDeviceManager : MonoBehaviour
                 engineOil.badObj.SetActive(true);
                 break;
             case DevicePart.BatteryWater:
-                int[] input = {3,4,5,6,7,8};
-                tempBreakpartNumber.AddRange(input);///////////////////////有1-8(複選題，1到6會一起錯，正極負極不會錯)
+                int[] input = {3};//,4,5,6,7,8
+                tempBreakpartNumber.AddRange(input);///////////////////////有1-8(複選題，只有1會錯，正極負極不會錯)
                 batteryWater.goodObj.SetActive(false);
                 batteryWater.badObj.SetActive(true);
                 break;
@@ -469,7 +518,8 @@ public class CheckDeviceManager : MonoBehaviour
                 dashbroad.OnKeyPlugIn_NoSound += DashBoardRandomBreak_key_NoSound;
                 dashbroad.OnKeyPlugIn_HaveSound = null;
                 dashbroad.OnKeyPlugIn_HaveSound += DashBoardRandomBreak_key_HaveSound;
-
+                dashbroad.OnKeyPlugOut = null;
+                dashbroad.OnKeyPlugOut += DashBoardPlugOut;
                 break;
             case DevicePart.CarLight_BigLight:
                 tempBreakpartNumber.Add(3);//壞左燈
@@ -719,12 +769,22 @@ public class CheckDeviceManager : MonoBehaviour
         }
     }
 
+    void DashBoardPlugOut()
+    {
+        _wSMVehicleController.IsEngineOn = false;
+        dashbroad.OffDashBoard.SetActive(true);
+        dashbroad.goodObj.SetActive(false);
+        dashbroad.badObj_ChargeLight.SetActive(false);
+        dashbroad.badObj_EngineOilLight.SetActive(false);
+        dashbroad.badObj_WaterLight.SetActive(false);
+    }
 
     void OffDashBoard_Key()
     {
         _wSMVehicleController.IsEngineOn = false;
         dashbroad.OnKeyPlugIn_HaveSound = null;
         dashbroad.OnKeyPlugIn_NoSound = null;
+        dashbroad.OnKeyPlugOut = null;
         dashbroad.key_onCar.GetComponent<MeshRenderer>().enabled = false;
         dashbroad.OffDashBoard.SetActive(true);
         dashbroad.goodObj.SetActive(false);
@@ -814,6 +874,7 @@ public class CheckDeviceManager : MonoBehaviour
 
         }
     }
+
 
     public void ControlLight(bool isGood, string LighType)
     {
@@ -1049,7 +1110,14 @@ public class CheckDeviceManager : MonoBehaviour
     void Fork_固定銷Bad()
     {
         fork_固定銷.Fork_固定銷R.name = fork_固定銷.BreakFork_固定銷RName;
+        fork_固定銷.Fork_固定銷R.transform.GetChild(0).gameObject.SetActive(false);
         //沒有坐左邊錯誤的
+    }
+
+
+    public void isOverTime(bool s)
+    {
+        _isOverTime = s;
     }
 
 }
@@ -1191,6 +1259,9 @@ public class Dashbroad
     public UnityAction OnKeyPlugIn_NoSound;
     [HideInInspector]
     public UnityAction OnKeyPlugIn_HaveSound;
+    [HideInInspector]
+    public UnityAction OnKeyPlugOut;
+
 
     [SerializeField]
     public GameObject OffDashBoard;

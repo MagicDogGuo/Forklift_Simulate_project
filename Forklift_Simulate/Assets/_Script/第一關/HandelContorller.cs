@@ -21,6 +21,8 @@ public class HandelContorller : MonoBehaviour
     GameObject Key_onHand;
     [SerializeField]
     GameObject Key_onTable;
+    [SerializeField]
+    GameObject Table;
 
     AudioSource _audioSourse;
 
@@ -108,11 +110,14 @@ public class HandelContorller : MonoBehaviour
     bool isInKey_onTable = false;
     bool isInKey_onCar = false;
     bool isKey_onHand = false;
-    bool isKey_onTable = false;
+    public static bool isKey_onTable = false;
     bool isKey_onCar = false;
     GameObject Key_onCar;
     GameObject TipObj_KeyRotateTooMuch;
+    bool isInTable = false;
 
+
+ 
 
     //右控制桿
     string ControlRight_右控制桿Name_Nor;
@@ -161,6 +166,13 @@ public class HandelContorller : MonoBehaviour
     bool isTakingObj;
 
     HandelContorller[] handelContorllers;
+
+
+    public static bool isBackDirLight = true;
+    public static bool isBackBigLight = true;
+    public static bool isBackHandbrake = true;
+    public static bool isBackFrontBack = true;
+
 
     void Start()
     {
@@ -393,10 +405,14 @@ public class HandelContorller : MonoBehaviour
                   (padel_Nor.transform.localEulerAngles.y - 360) <= -338)
                     {
                         isInUnStopBrakeArea = true;
+                        isBackHandbrake = true;////////
+
                     }
                     else
                     {
                         isInUnStopBrakeArea = false;
+                        isBackHandbrake = false;////////////////
+
                     }
 
                 }
@@ -509,7 +525,8 @@ public class HandelContorller : MonoBehaviour
 
                 Destroy(TipObj_abNormalCluthPadel);
             }
-            padel_abNor.transform.localEulerAngles = new Vector3(oriTemp_Cluth, 0, 0);
+            //不動
+            //padel_abNor.transform.localEulerAngles = new Vector3(oriTemp_Cluth, 0, 0);
 
         }
         void BrakeTip()
@@ -540,18 +557,80 @@ public class HandelContorller : MonoBehaviour
 
                 Destroy(TipObj_abNormalBrakePadel);
             }
-            padel_abNor.transform.localEulerAngles = new Vector3(oriTemp_Brake, 0, 0);
+            //不動
+            //padel_abNor.transform.localEulerAngles = new Vector3(oriTemp_Brake, 0, 0);
 
         }
         void HandBrakeBreakTip()
         {
+            if (!isPushHandTrig)
+            {
+                ischeckHandBrakeTouch = false;
+            }
+
+            if (isInPadel_abNor)
+            {
+                //先判斷是在哪裡，沒按下紅點的情況
+                if (!isPushRedDot)
+                {
+                    if ((padel_abNor.transform.localEulerAngles.y - 360) >= -342 &&
+                  (padel_abNor.transform.localEulerAngles.y - 360) <= -338)
+                    {
+                        isInUnStopBrakeArea = true;
+                    }
+                    else
+                    {
+                        isInUnStopBrakeArea = false;
+                    }
+
+                }
+
+                //判斷有無按下紅點
+                if (isPushHandTrig)
+                {
+                    //手煞紅點
+                    padel_abNor.transform.GetChild(0).transform.localPosition = new Vector3(0.0043f, 0, 0.2819f);
+                    isPushRedDot = true;
+                }
+                else
+                {
+                    //手煞紅點 原位
+                    padel_abNor.transform.GetChild(0).transform.localPosition = new Vector3(0.004561948f, 0, 0.2845623f);
+                    isPushRedDot = false;
+                }
+
+                //在移動把手
+                if (!isInUnStopBrakeArea)//在原位
+                {
+
+                    if (isPushRedDot)
+                    {
+                        oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, 20, 70f * Time.deltaTime);
+                    }
+                }
+                else//在解煞車點
+                {
+                    if (isPushRedDot)
+                    {
+                        oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, -5, 70f * Time.deltaTime);
+                    }
+                }
+            }
+            else
+            {   
+
+                isPushRedDot = false;
+            }
+            padel_abNor.transform.localEulerAngles = new Vector3(0, oriTemp_HandBrake, 180);
+
+            //提示
             if (isInPadel_abNor && isPushHandTrig)
             {
                 if (TipObj_abNormalHandBrakePadel == null)
                 {
                     //TipObj_abNormalHandBrakePadel = Instantiate(TipUIObj, padel_abNor.transform);
                     TipObj_abNormalHandBrakePadel = Instantiate(TipUIObj, this.transform);
-                    TipObj_abNormalHandBrakePadel.GetComponentInChildren<Text>().text = "煞車拉柄卡住!";
+                    TipObj_abNormalHandBrakePadel.GetComponentInChildren<Text>().text = "煞車拉柄鬆動無阻力!";
                     TipObj_abNormalHandBrakePadel.transform.localPosition = TipUIOffset;//new Vector3(0.04f, 0.05f, 0.4f);
                     //TipObj_abNormalHandBrakePadel.transform.localEulerAngles = new Vector3(0, 0, 130);
 
@@ -561,8 +640,9 @@ public class HandelContorller : MonoBehaviour
                     TipObj_abNormalHandBrakePadel.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
                 }
 
+
             }
-            else
+            else if(isPushHandTrig==false)
             {
                 Destroy(TipObj_abNormalHandBrakePadel);
             }
@@ -676,8 +756,9 @@ public class HandelContorller : MonoBehaviour
                     TipObj_BrakeScrew.transform.localPosition = TipUIOffset;// new Vector3(-0.05f, -.25f, 0);
                  
                 }
-                if (TipObj_BrakeScrew != null)
-                    TipObj_BrakeScrew.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
+                if (TipObj_BrakeScrew != null) {
+                    TipObj_BrakeScrew.transform.LookAt(GameObject.Find("TipUILookTraget").transform.position);
+                }
 
             }
             else 
@@ -699,7 +780,9 @@ public class HandelContorller : MonoBehaviour
 
                 }
                 if (TipObj_NormalScrew != null)
+                {
                     TipObj_NormalScrew.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
+                }
             }
             else 
             {
@@ -749,6 +832,8 @@ public class HandelContorller : MonoBehaviour
         }
     }
 
+
+
     void ControlRight_右控制桿Control()
     {
         if (isInControlRight_右控制桿 && isPushHandTrig)
@@ -766,10 +851,10 @@ public class HandelContorller : MonoBehaviour
                 //btn[4].GetComponentInChildren<Text>().text = "旋轉回歸";
 
                 //正常
-                btn[0].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "R_On");Destroy(TipChooseCnavasObj); });
-                btn[1].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "L_On"); Destroy(TipChooseCnavasObj); });
+                btn[0].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "R_On");Destroy(TipChooseCnavasObj); isBackDirLight = false; });
+                btn[1].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "L_On"); Destroy(TipChooseCnavasObj); isBackDirLight = false; });
                 //btn[2].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "Big_On"); Destroy(TipChooseCnavasObj); });
-                btn[2].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "Dirct_Off"); });
+                btn[2].onClick.AddListener(() => { checkDeviceManager.ControlLight(true, "Dirct_Off"); isBackDirLight = true; });
                 
                 ////大燈異常
                 //if (ControlRight_右控制桿.name.Contains(ControlRight_右控制桿Name_ab_BigLight))
@@ -832,6 +917,8 @@ public class HandelContorller : MonoBehaviour
 
         if (Control_大燈桿TriggerCount % 2 != 0)
         {
+            isBackBigLight = false;
+
             if (isIn大燈拉桿_nor)
             {
                 //正常
@@ -848,6 +935,7 @@ public class HandelContorller : MonoBehaviour
         }
         else
         {//控制桿固定關
+            isBackBigLight = true;
 
             if (isIn大燈拉桿_nor)
             {
@@ -922,12 +1010,15 @@ public class HandelContorller : MonoBehaviour
             {
                 checkDeviceManager.ControlLight(true, "RevLight_On_BreakSound");////////////////////////////
             }
+
+            isBackFrontBack = false;
         }
         else
         {//控制桿固定關
 
             oriTempRotate_ControlLeft = Mathf.MoveTowards(oriTempRotate_ControlLeft, 0, 70f * Time.deltaTime);
             checkDeviceManager.ControlLight(true, "RevLight_Off");
+            isBackFrontBack = true;
         }
         ControlLeft_左控制桿.transform.localEulerAngles = new Vector3(0, 0, -oriTempRotate_ControlLeft);
     }
@@ -983,6 +1074,9 @@ public class HandelContorller : MonoBehaviour
 
     void GetKeyOnTable()
     {
+        Debug.Log("isInTable" + isInTable + " isInKey_onTable" + isInKey_onTable);
+
+        //桌上拿起
         if (isInKey_onTable && isPushHandTrig && isKey_onTable == true)
         {
             isKey_onTable = false;
@@ -990,12 +1084,25 @@ public class HandelContorller : MonoBehaviour
             isKey_onCar = false;
             Key_onHand.SetActive(true);
             Key_onTable.SetActive(false);
+            GameObject.Find("TableUICanvas").GetComponent<Canvas>().enabled = true;
+        }
+        //放回桌上
+        if (isInTable == true && isPushHandTrig && isInKey_onTable == false && isKey_onHand == true)
+        {
+            isKey_onTable = true;
+            isKey_onHand = false;
+            isKey_onCar = false;
+            Key_onHand.SetActive(false);
+            Key_onTable.SetActive(true);
+            GameObject.Find("TableUICanvas").GetComponent<Canvas>().enabled = false;
         }
     }
     void GiveKeyToCar()
     {
-        if (isInKey_onCar && isPushHandTrig)
+        if ((isInKey_onCar && isPushHandTrig && isKey_onHand)
+            || (isInKey_onCar && isKey_onCar && isPushHandTrig))////////////////////////////鑰匙有在手上
         {
+
             isKey_onTable = false;
             isKey_onHand = false;
             isKey_onCar = true;
@@ -1013,7 +1120,7 @@ public class HandelContorller : MonoBehaviour
                 btn[0].transform.parent.GetComponent<GridLayoutGroup>().cellSize = new Vector2(180, 120);
                 btn[0].GetComponentInChildren<Text>().text = "轉動1階（約45°）";
                 btn[1].GetComponentInChildren<Text>().text = "轉動2階（約90°）";
-                btn[2].gameObject.SetActive(false);
+                btn[2].GetComponentInChildren<Text>().text = "拔出鑰匙";
                 btn[3].gameObject.SetActive(false);
                 
                 TipChooseCnavasObj.GetComponent<TipChooseUI_CheckDevice>().closeBtn.onClick.AddListener(() => { isInKey_onCar = false; });
@@ -1061,9 +1168,10 @@ public class HandelContorller : MonoBehaviour
                     {//練習
                         if (TipObj_KeyRotateTooMuch == null)
                         {
-                            TipObj_KeyRotateTooMuch = Instantiate(TipUIObj, this.transform);
+                            GameObject pa = GameObject.Find("Group038");
+                            TipObj_KeyRotateTooMuch = Instantiate(TipUIObj, pa.transform);// this.transform);
                             TipObj_KeyRotateTooMuch.GetComponentInChildren<Text>().text = "危險：你已發動引擎，請切換階級";
-                            TipObj_KeyRotateTooMuch.transform.localPosition = TipUIOffset;
+                            TipObj_KeyRotateTooMuch.transform.localPosition = TipUIOffset + new Vector3(0, 0.03f, 0.25f);
                         }
                     }
                     else if (CheckDeviceManager.gameMode_FirstStage == CheckDeviceManager.GameMode_firstStage.TestMode)
@@ -1072,7 +1180,7 @@ public class HandelContorller : MonoBehaviour
                     }
 
 
-                        Key_onCar.transform.localEulerAngles = new Vector3(-90, -27.31f, -90);
+                    Key_onCar.transform.localEulerAngles = new Vector3(-90, -27.31f, -90);
                     Destroy(TipChooseCnavasObj);
 
                     //警示燈
@@ -1082,7 +1190,29 @@ public class HandelContorller : MonoBehaviour
                         checkDeviceManager.alertLight_工作警示燈.goodObj_燈罩.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 
                     }
-                });                        
+                });
+
+                btn[2].onClick.AddListener(() =>
+                {
+                    isInKey_onCar = false;
+                    isKey_onCar = false;
+                    isKey_onHand = true;
+                    Key_onCar.GetComponent<MeshRenderer>().enabled = false;
+                    Key_onHand.SetActive(true);
+
+                    Destroy(TipChooseCnavasObj);
+
+                    if (TipObj_KeyRotateTooMuch != null)
+                    {
+                        Destroy(TipObj_KeyRotateTooMuch);
+                    }
+                    if (checkDeviceManager.dashbroad.OnKeyPlugOut != null)
+                    {
+                        checkDeviceManager.dashbroad.OnKeyPlugOut();
+                    }
+
+
+                });
             }
 
 
@@ -1144,7 +1274,9 @@ public class HandelContorller : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       
+        Debug.Log("=============");
+
+        Debug.Log("other"+other.name); 
         //離和器
         if (other.name == CluthPadelName_good)
         {
@@ -1234,13 +1366,23 @@ public class HandelContorller : MonoBehaviour
             isInKey_onTable = false;
             isInKey_onHand = false;
             isInKey_onCar = true;
+            isInTable = false;
         }
         if (other.name == Key_onTable.name )
         {
             isInKey_onTable = true;
             isInKey_onHand = false;
             isInKey_onCar = false;
+            isInTable = false;
         }
+        if (other.name == Table.name)
+        {
+            isInKey_onTable = false;
+            isInKey_onHand = false;
+            isInKey_onCar = false;
+            isInTable = true;
+        }
+        
         //右控制感(燈號)
         if (other.name == ControlRight_右控制桿.name)
         {
@@ -1371,7 +1513,7 @@ public class HandelContorller : MonoBehaviour
         //鑰匙
         if (other.name == Key_onCar.name)
         {
-            isKey_onCar = false;
+            //isKey_onCar = false;
         }
         if (other.name == ControlRight_右控制桿.name)
         {

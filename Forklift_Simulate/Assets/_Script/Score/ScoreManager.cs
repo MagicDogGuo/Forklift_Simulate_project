@@ -199,10 +199,10 @@ public class ScoreManager : MonoBehaviour
                 ForkitOnRoad(10);
                 OnStopTooLong(2, 20);
                 SpeedToHight(20, 10);
-                ForkPositionHight(1, 0.057f, 5);
-                ForkMastTiltRotate(1, 0.6f, 5);
+                ForkPositionHight(2, 0.057f, 5);
+                ForkMastTiltRotate(2, 0.6f, 5);
                 ForkHandBrake(2, 10);
-                ForkCluth(1, 10, 10);
+                ForkCluth(2, 10, 10);
                 ForkBackFrontNorStop(2, 10);
                 OnRoadNotEngine(2, 10);
             }
@@ -234,23 +234,23 @@ public class ScoreManager : MonoBehaviour
             SpeedToHight(20, 10);
             if (StageThreeGameManager.Instance.IsNeerGoods == true)
             {
-                ForkPositionHight_IsNeerGoods(1, 0.057f, 5);
-                ForkMastTiltRotate_IsNeerGoods(1, 0.6f, 5);
+                ForkPositionHight_IsNeerGoods(2, 0.057f, 5);
+                ForkMastTiltRotate_IsNeerGoods(2, 0.6f, 5);
 
             }
             else if (StageThreeGameManager.Instance.IsNeerGoods == false)
             {
-                ForkPositionHight(1, 0.057f, 5);
-                ForkMastTiltRotate(1, 0.6f, 5);
+                ForkPositionHight(2, 0.057f, 5);
+                ForkMastTiltRotate(2, 0.6f, 5);
 
             }     
             ForkHandBrake(2, 10);
-            ForkCluth(1, 10, 10);
+            ForkCluth(2, 10, 10);
             ForkBackFrontNorStop(2, 10);
             OnRoadNotEngine(2, 10);
             //=====================第三關=========================
             ForkitTouchShelf(10);
-            ForkGoodsTo後扶架(1, 0.02f, 5);
+            ForkGoodsTo後扶架(2, 0.02f, 5);
             GoodsTouchGroundLine(5);
             OnGoodsTouchGroundAdj(5);
         }
@@ -322,7 +322,7 @@ public class ScoreManager : MonoBehaviour
             ForkitOnLineScore += 1;
             Debug.Log("壓線" + ForkitOnLineScore + "次");
             OnForkitOnLineScore(ForkitOnLineScore);
-            //PlayWrongVoice(wrongVoice[2]);
+            PlayWrongVoice(wrongVoice[9]);
             TotalWrongAmount += score;
         }
         else if (!MainGameManager.Instance.IsForkitOnRoadOutLine)
@@ -593,7 +593,7 @@ public class ScoreManager : MonoBehaviour
             ForkitTouchShelfScore += 1;
             Debug.Log("撞擊貨架" + ForkitTouchShelfScore + "次");
             OnForkiTouchShelfScore(ForkitTouchShelfScore);
-            //PlayWrongVoice(wrongVoice[2]);
+            PlayWrongVoice(wrongVoice[10]);
             TotalWrongAmount += score;
         }
         else if (!StageThreeGameManager.Instance.IsForkitTouchShelf)
@@ -623,6 +623,7 @@ public class ScoreManager : MonoBehaviour
             Debug.Log("貨物距離後扶架超過10cm" + ForkitToFarto後扶架Score + "次");
             OnForkitToFarTo後扶架Score(ForkitToFarto後扶架Score);
             TotalWrongAmount += score;
+            PlayWrongVoice(wrongVoice[12]);
 
         }
         else if (!StageThreeGameManager.Instance.IsTooFarTo後扶架)
@@ -645,6 +646,7 @@ public class ScoreManager : MonoBehaviour
             Debug.Log("地面貨物區置放完成後壓線" + GoodTouchGroundLineScore + "次");
             OnGoodTouchGroundLineScore(GoodTouchGroundLineScore);
             TotalWrongAmount += score;
+            PlayWrongVoice(wrongVoice[13]);
         }
         else if (!StageThreeGameManager.Instance.IsTouchGroundLine)
         {
@@ -666,6 +668,7 @@ public class ScoreManager : MonoBehaviour
             Debug.Log("貨物置放於地面調整" + GoodTouchFloorScore + "次");
             OnGoodTouchFloorScore(GoodTouchFloorScore);
             TotalWrongAmount += score;
+            PlayWrongVoice(wrongVoice[11]);
         }
         else if (!StageThreeGameManager.Instance.IsGoodsTouchFloor)
         {

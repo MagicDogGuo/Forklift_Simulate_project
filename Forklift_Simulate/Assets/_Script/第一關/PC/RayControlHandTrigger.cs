@@ -39,12 +39,26 @@ public class RayControlHandTrigger : MonoBehaviour
         ReticleImg.sprite = crosshairImage;
         isOutsideCar = true;
         OutsideCarTipTxt.enabled = false;
+
+        Debug.Log("StageThreeGameManager.Instance.GameModes" + StageThreeGameManager.Instance.GameModes);
+
+        //測試模式關提示
+        if(CheckDeviceManager.gameMode_FirstStage == CheckDeviceManager.GameMode_firstStage.TestMode )
+        {
+            ReticleTxt.enabled = false;
+        }
+        else
+        {
+            ReticleTxt.enabled = true;
+
+        }
+
     }
 
     void Update()
     {
 
-        //關閉提示
+        //開關提示
         if (Input.GetKeyDown(KeyCode.T))
         {
             ReticleTxt.enabled = !ReticleTxt.enabled;
@@ -115,7 +129,6 @@ public class RayControlHandTrigger : MonoBehaviour
                     this.transform.GetChild(0).eulerAngles = hit.collider.GetComponent<CameraPosChangeObj>().OffsetRot;
 
                     isOutsideCar = false;
-
                 }      
             }
             else
@@ -128,7 +141,7 @@ public class RayControlHandTrigger : MonoBehaviour
             if (isOutsideCar == false)
             {
                 OutsideCarTipTxt.enabled = true;
-                OutsideCarTipTxt.text = "'Z'退出車輛";
+                OutsideCarTipTxt.text = "'滑鼠'右鍵拉近畫面 \n 'Z'退出車輛";
 
                 if (Input.GetKeyDown(KeyCode.Z))
                 {
@@ -141,6 +154,7 @@ public class RayControlHandTrigger : MonoBehaviour
                     this.transform.GetChild(0).localEulerAngles = Vector3.zero;
 
                 }
+                
             }
 
             //物品移動至面前
@@ -148,9 +162,8 @@ public class RayControlHandTrigger : MonoBehaviour
             {
                 if (isHaveObjInFront == false)
                 {
-                    if (Input.GetMouseButton(0) && isOutsideCar)
+                    if ( Input.GetMouseButton(0) && isOutsideCar)
                     {
-
                         hit.collider.gameObject.transform.SetParent(ObjFrontToSeePos);
                         hit.collider.gameObject.transform.localPosition = Vector3.zero + hit.collider.gameObject.GetComponent<MoveToFrontToSeeObj>().offsetVect;
                         hit.collider.gameObject.transform.localEulerAngles = Vector3.zero;
@@ -161,6 +174,7 @@ public class RayControlHandTrigger : MonoBehaviour
 
                         isHaveObjInFront = true;
                     }
+                   
                 }           
             }
             if (isHaveObjInFront == true)

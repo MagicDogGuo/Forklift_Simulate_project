@@ -3,10 +3,60 @@ guid: c637d49a3431e01448dd4741979d1afc
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Default 3
+    second: {fileID: 2100000, guid: 2279ca714ce6ffd4eaab59302d758241, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #13995629
+    second: {fileID: 2100000, guid: 623fce080852159499931ccd216c7cf5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 58c57fa05f401fc40bdf6c6cee2e5113, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall2
+    second: {fileID: 2100000, guid: 861f4510a50acc747a93eb5195dbff57, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u5899 \uFF08\u767D\uFF09"
+    second: {fileID: 2100000, guid: 17e21f847c1873540b868ca3a9384af8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u67B6\u5B50"
+    second: {fileID: 2100000, guid: 1f80a16a630a1994d9f717a13fc07c6e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u73BB\u7483 \uFF08\u7A97\uFF09"
+    second: {fileID: 2100000, guid: d78b679f04e81084ca6379c2b6e1f15f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u7A97\u7B50"
+    second: {fileID: 2100000, guid: 7866b7af0087c91468acc77cd6a13925, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u91D1\u5C5E  \u6DF1"
+    second: {fileID: 2100000, guid: b5ff51a72f5de914cbb0a3053e948087, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u91D1\u5C5E \uFF08\u94DD\u677F\uFF09"
+    second: {fileID: 2100000, guid: d063e3f9579928d4e8f39fedab706aa6, type: 2}
   materials:
     materialImportMode: 1
-    materialName: 0
+    materialName: 1
     materialSearch: 2
     materialLocation: 0
   animations:
