@@ -223,8 +223,6 @@ public class ScoreManager : MonoBehaviour
             //V棧板與貨(後)扶架距離超過10cm(如果要放貨物 退後時程式會誤判)
             //V地面貨物區置放完成後壓線
             //V貨物置放於地面調整
-            //棧板超出倉儲架範圍
-            //行駛時棧板底部離地高度超過50cm(暫不做，沒在評分表如果要放高的貨物前進時程式會誤判)
 
             if (logtichControl.CheckEnterUI || Input.GetKeyDown(KeyCode.Return)) startTime = true;//按下Enter開始計時 or 羅技上的Enter
             if (startTime) CountTime(900, 20);//15分鐘

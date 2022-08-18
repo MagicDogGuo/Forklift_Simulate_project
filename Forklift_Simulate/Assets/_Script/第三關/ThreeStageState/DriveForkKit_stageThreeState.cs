@@ -27,6 +27,12 @@ public class DriveForkKit_stageThreeState : IMainGameState
     GameObject WarningUI_退後;
     GameObject WarningUI_超出格子;
 
+    List<GameObject> GoodsList;
+    List<Vector3> GoodsOriPosList;
+    List<Vector3> GoodsOriRotList;
+
+
+
 
     bool _isCountScore_ScoreManager = false;
     bool isStopNow = false;
@@ -93,6 +99,19 @@ public class DriveForkKit_stageThreeState : IMainGameState
         _endPoint_Goods = StageThreeGameManager.Instance.EndPointObj_Goods.GetComponent<GoodsEndPoint>();
         _endPoint_Goods02 = StageThreeGameManager.Instance.EndPointObj_Goods02s.GetComponent<GoodsEndPoint>();
 
+        GoodsList = new List<GameObject>();
+        GoodsOriPosList = new List<Vector3>();
+        GoodsOriRotList = new List<Vector3>();
+
+        Goods[] gs =  GameObject.FindObjectsOfType<Goods>();
+        foreach(var g in gs)
+        {
+            Debug.Log("=================================" + g.name);
+            GoodsList.Add(g.gameObject);
+            GoodsOriPosList.Add(g.gameObject.transform.position);
+            GoodsOriRotList.Add(g.gameObject.transform.eulerAngles);
+        }
+
         logtichControl = GameObject.FindObjectOfType<LogtichControl>();
 
 
@@ -104,8 +123,7 @@ public class DriveForkKit_stageThreeState : IMainGameState
     }
     public override void StateUpdate()
     {
-    
-       
+
         ////測試記錄用
         //if (Input.GetKeyDown(KeyCode.N))
         //{
@@ -239,6 +257,13 @@ public class DriveForkKit_stageThreeState : IMainGameState
             if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.O))
             {
                 if (!_startPoint_Forkleft.isOnStartPoint_Forkit) BackToOri();
+                //貨物回原位
+                foreach (var gl in GoodsList)
+                {
+                    gl.transform.position = GoodsOriPosList[GoodsList.IndexOf(gl)];
+                    gl.transform.eulerAngles = GoodsOriRotList[GoodsList.IndexOf(gl)];
+                }
+
             }
         }
 
@@ -352,11 +377,19 @@ public class DriveForkKit_stageThreeState : IMainGameState
 
             if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return))
             {
+                //堆高機回原位
                 MainGameManager.Instance.ForkleftObj.transform.position
                     = MainGameManager.Instance.ForkitOriPoss.position;
 
                 MainGameManager.Instance.ForkleftObj.transform.localRotation
                     = MainGameManager.Instance.ForkitOriPoss.localRotation;
+
+                //貨物回原位
+                foreach(var gl in GoodsList)
+                {
+                    gl.transform.position = GoodsOriPosList[GoodsList.IndexOf(gl)];
+                    gl.transform.eulerAngles = GoodsOriRotList[GoodsList.IndexOf(gl)];
+                }
 
                 GameObject.Destroy(WarningUI);
 

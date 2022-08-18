@@ -12,7 +12,7 @@ public class DriveForkleftState : IMainGameState
         this.StateName = "DriveForkleftState";
     }
 
-    float delayScoreCount=0;
+    float delayScoreCount = 0;
     MainGameManager.GameMode _gameMode;
     StartPoint _startPoint;
     EndPoint _endPoint;
@@ -241,7 +241,7 @@ public class DriveForkleftState : IMainGameState
                 }
                 WarningUI_退後.GetComponentInChildren<Text>().text = "已停至定點，請操作基本動作";
                 //WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
-                WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
+                WarningUI_退後.transform.localPosition = new Vector3(0.19f, 0.098f, 0.06f);//(0.365f, 0.098f, 0.17f)
                 WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
 
                 GameObject.Destroy(WarningUI_退後, 3);
@@ -252,7 +252,8 @@ public class DriveForkleftState : IMainGameState
         if (_endPoint.isOnEndPoint_Forkit
             &&_wSMVehicleController.CurrentHandbrake == 1
             && _wSMVehicleController.CurrentBackFront == 0
-            && _forkliftController.CurrentForksVertical <= 0.02f) //高度
+            && _forkliftController.CurrentForksVertical <= 0.02f //高度
+            && _forkliftController.CurrentMastTilt > 0.59f)//傾斜
         {
             //第一步驟
             stepOne_拉起手煞 = true;
@@ -269,7 +270,7 @@ public class DriveForkleftState : IMainGameState
                 }
                 WarningUI_退後.GetComponentInChildren<Text>().text = "完成基本操作";
                 //WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
-                WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
+                WarningUI_退後.transform.localPosition = new Vector3(0.19f, 0.098f, 0.06f);
                 WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
 
                 GameObject.Destroy(WarningUI_退後, 3);
@@ -398,7 +399,7 @@ public class DriveForkleftState : IMainGameState
                 }
                 WarningUI_退後.GetComponentInChildren<Text>().text = "已停至定點，請操作基本動作";
                 //WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
-                WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
+                WarningUI_退後.transform.localPosition = new Vector3(0.19f, 0.098f, 0.06f);
                 WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
 
                 GameObject.Destroy(WarningUI_退後, 3);
@@ -409,7 +410,8 @@ public class DriveForkleftState : IMainGameState
         if (_endPoint.isOnEndPoint_Forkit
             && _wSMVehicleController.CurrentHandbrake == 1
             && _wSMVehicleController.CurrentBackFront == 0
-            && _forkliftController.CurrentForksVertical <= 0.02f) //高度
+            && _forkliftController.CurrentForksVertical <= 0.02f //高度
+            && _forkliftController.CurrentMastTilt > 0.59f)//傾斜
         {
             //第一步驟
             stepOne_拉起手煞 = true;
@@ -426,7 +428,7 @@ public class DriveForkleftState : IMainGameState
                 }
                 WarningUI_退後.GetComponentInChildren<Text>().text = "完成基本操作";
                 //WarningUI_退後.GetComponentInChildren<Text>().fontSize = 28;
-                WarningUI_退後.transform.localPosition = new Vector3(0.365f, 0.098f, 0.17f);
+                WarningUI_退後.transform.localPosition = new Vector3(0.19f, 0.098f, 0.06f);
                 WarningUI_退後.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
 
                 GameObject.Destroy(WarningUI_退後, 3);

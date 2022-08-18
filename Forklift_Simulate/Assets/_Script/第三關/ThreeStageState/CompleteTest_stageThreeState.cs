@@ -49,7 +49,7 @@ public class CompleteTest_stageThreeState : IMainGameState
         if (Input.GetKeyDown(KeyCode.R))
         {
             StageThreeGameManager.Instance.ScoreManagers.ReleaseEvent();
-            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.Init, m_Conrtoller);
+            m_Conrtoller.SetState(MainGameStateControl.GameFlowState.Init_stageThree, m_Conrtoller);
         }
     }
 

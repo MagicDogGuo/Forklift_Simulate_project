@@ -103,6 +103,10 @@ public class CheckDeviceManager : MonoBehaviour
         get { return _BreakDeviceInCorrectAnswerDict; }
     }
 
+
+    /// <summary>
+    /// 特別判斷鑰匙是否啟動引擎、超時、鑰匙歸位、安全帶歸位、大燈歸位、方向燈歸位、手煞歸位、後退檔歸位
+    /// </summary>
     bool _isKeyRot90Degree;
     public bool IsKeyRot90Degree
     {
@@ -158,7 +162,10 @@ public class CheckDeviceManager : MonoBehaviour
         get { return _isNoBackFrontBack; }
     }
 
-
+    
+    /// <summary>
+    /// 需要檢查的物件編號
+    /// </summary>
     public enum DevicePart
     {
         Cold_冷卻液 = 1,
@@ -199,7 +206,6 @@ public class CheckDeviceManager : MonoBehaviour
 
         GameEventSystem.Instance.OnPushTestModeBtn = null;
         GameEventSystem.Instance.OnPushPracticeModeBtn = null;
-
         GameEventSystem.Instance.OnPushTestModeBtn += TestMode;
         GameEventSystem.Instance.OnPushPracticeModeBtn += PracticeMode;
 
@@ -491,6 +497,7 @@ public class CheckDeviceManager : MonoBehaviour
                 tempBreakpartNumber.Add(2);
                 //WheelBreak();
                 handBrake.Obj.name = handBrake.badObjName;
+                handBrake.Obj.transform.localEulerAngles = new Vector3(0, 40, 180);//損壞位置
                 break;
             case DevicePart.SafeBalt:
                 tempBreakpartNumber.Add(2);

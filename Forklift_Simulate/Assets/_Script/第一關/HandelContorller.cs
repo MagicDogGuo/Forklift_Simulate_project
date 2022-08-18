@@ -298,9 +298,6 @@ public class HandelContorller : MonoBehaviour
         GetKeyOnTable();
         GiveKeyToCar();
         GetCanBeTakeObj();
-
- 
-  
     }
 
     [SerializeField]
@@ -574,7 +571,7 @@ public class HandelContorller : MonoBehaviour
                 if (!isPushRedDot)
                 {
                     if ((padel_abNor.transform.localEulerAngles.y - 360) >= -342 &&
-                  (padel_abNor.transform.localEulerAngles.y - 360) <= -338)
+                        (padel_abNor.transform.localEulerAngles.y - 360) <= -318)
                     {
                         isInUnStopBrakeArea = true;
                     }
@@ -582,7 +579,6 @@ public class HandelContorller : MonoBehaviour
                     {
                         isInUnStopBrakeArea = false;
                     }
-
                 }
 
                 //判斷有無按下紅點
@@ -602,10 +598,9 @@ public class HandelContorller : MonoBehaviour
                 //在移動把手
                 if (!isInUnStopBrakeArea)//在原位
                 {
-
                     if (isPushRedDot)
-                    {
-                        oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, 20, 70f * Time.deltaTime);
+                    {                      
+                        //oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, 20, 70f * Time.deltaTime);
                     }
                 }
                 else//在解煞車點
@@ -617,11 +612,13 @@ public class HandelContorller : MonoBehaviour
                 }
             }
             else
-            {   
-
+            {
+                //回彈回原位
+                //oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, -5, 70f * Time.deltaTime);
+                oriTemp_HandBrake = Mathf.MoveTowards(oriTemp_HandBrake, 20, 70f * Time.deltaTime);
                 isPushRedDot = false;
             }
-            padel_abNor.transform.localEulerAngles = new Vector3(0, oriTemp_HandBrake, 180);
+            padel_abNor.transform.localEulerAngles = new Vector3(0, oriTemp_HandBrake+20, 180);
 
             //提示
             if (isInPadel_abNor && isPushHandTrig)
@@ -630,7 +627,7 @@ public class HandelContorller : MonoBehaviour
                 {
                     //TipObj_abNormalHandBrakePadel = Instantiate(TipUIObj, padel_abNor.transform);
                     TipObj_abNormalHandBrakePadel = Instantiate(TipUIObj, this.transform);
-                    TipObj_abNormalHandBrakePadel.GetComponentInChildren<Text>().text = "煞車拉柄鬆動無阻力!";
+                    TipObj_abNormalHandBrakePadel.GetComponentInChildren<Text>().text = "手煞無法固定!";
                     TipObj_abNormalHandBrakePadel.transform.localPosition = TipUIOffset;//new Vector3(0.04f, 0.05f, 0.4f);
                     //TipObj_abNormalHandBrakePadel.transform.localEulerAngles = new Vector3(0, 0, 130);
 
@@ -639,8 +636,6 @@ public class HandelContorller : MonoBehaviour
                 {
                     TipObj_abNormalHandBrakePadel.transform.LookAt(GameObject.Find("TipUILookTraget").transform);
                 }
-
-
             }
             else if(isPushHandTrig==false)
             {
@@ -1211,7 +1206,13 @@ public class HandelContorller : MonoBehaviour
                         checkDeviceManager.dashbroad.OnKeyPlugOut();
                     }
 
-
+                    //警示燈關
+                    if (checkDeviceManager.alertLight_工作警示燈.goodObj_燈罩.GetActive() == true)
+                    {
+                        checkDeviceManager.alertLight_工作警示燈.goodObj_燈罩.GetComponent<MeshRenderer>().enabled = false;
+                        checkDeviceManager.alertLight_工作警示燈.goodObj_燈罩.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+                        GameObject.Find("ReverseAlarmLight").GetComponent<Light>().enabled = false;
+                    }
                 });
             }
 

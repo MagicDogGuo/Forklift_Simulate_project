@@ -14,15 +14,19 @@ public class Init_stageThreeState : IMainGameState
 
         StageThreeGameManager.Instance.InitPlayerCam.SetActive(true);
 
+        GameEventSystem.Instance.OnPushTestModeBtn = null ;
+        GameEventSystem.Instance.OnPushPracticeModeBtn = null;
+
         GameEventSystem.Instance.OnPushTestModeBtn += OnPushTestBtn;
         GameEventSystem.Instance.OnPushPracticeModeBtn += OnPushPracticeBtn;
 
         StageThreeGameManager.Instance.InstantiateInitObject_stageThree();
+
     }
     public override void StateUpdate()
     {
         //m_Conrtoller.SetState(MainGameStateControl.GameFlowState.DriveForkKit_stageThree, m_Conrtoller);
-        
+
     }
 
     public override void StateEnd()

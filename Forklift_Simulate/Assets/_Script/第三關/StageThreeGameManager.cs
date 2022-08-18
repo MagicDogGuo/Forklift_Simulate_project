@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageThreeGameManager : MainGameManager
 {
@@ -173,6 +174,12 @@ public class StageThreeGameManager : MainGameManager
         {
             Application.Quit();
         }
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
     }
     public  void InstantiateInitObject_stageThree()
     {

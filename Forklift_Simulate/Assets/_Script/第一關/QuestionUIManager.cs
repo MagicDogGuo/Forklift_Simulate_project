@@ -967,7 +967,8 @@ public class QuestionUIManager : MonoBehaviour
     /// <param name="limitSec"></param>
     void CountTime(int limitSec)
     {
-        m_Timer += Time.deltaTime;
+        // m_Timer += Time.deltaTime;
+        m_Timer = 5000;
         if (m_Timer > limitSec && isTimeUp == false)
         {
             isTimeUp = true;
@@ -984,19 +985,19 @@ public class QuestionUIManager : MonoBehaviour
         m_Second = (int)m_Timer;
         if (m_Second > 59.0f)
         {
-            m_Second = (int)(m_Timer - (m_Minute * 60));
+            m_Second = (int)(m_Timer - (m_Minute * 60) -(m_Hour * 3600));
         }
         m_Minute = (int)(m_Timer / 60);
         if (m_Minute > 59.0f)
         {
             m_Minute = (int)(m_Minute - (m_Hour * 60));
         }
-        m_Hour = m_Minute / 60;
+        m_Hour =(int) m_Timer / 3600;
         if (m_Hour >= 24.0f)
         {
             m_Timer = 0;
         }
-  
+
         //UI
         TimeTxt.text = string.Format("經過時間：{0:d2}:{1:d2}:{2:d2}", m_Hour, m_Minute, m_Second);
         ResultBack_TimeTxt.text = string.Format("總共用時：{0:d2}:{1:d2}:{2:d2}", m_Hour, m_Minute, m_Second);
