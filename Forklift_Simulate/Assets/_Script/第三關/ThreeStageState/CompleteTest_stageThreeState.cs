@@ -48,20 +48,16 @@ public class CompleteTest_stageThreeState : IMainGameState
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            StageThreeGameManager.Instance.ScoreManagers.ReleaseEvent();
             m_Conrtoller.SetState(MainGameStateControl.GameFlowState.Init_stageThree, m_Conrtoller);
         }
     }
 
     public override void StateEnd()
     {
+        StageThreeGameManager.Instance.ScoreManagers.ReleaseEvent();
         StageThreeGameManager.Instance.DestoryForkkit();
         GameObject.Destroy(StageThreeGameManager.Instance.PipeGroupObjs);
 
     }
 
-    void BackToStart()
-    {
-
-    }
 }

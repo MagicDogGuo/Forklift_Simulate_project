@@ -63,17 +63,17 @@ public class LogtichControl : MonoBehaviour
     {
         if (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0))
         {
-            actualState = "Steering wheel current state : \n\n";
+            this.actualState = "Steering wheel current state : \n\n";
             LogitechGSDK.DIJOYSTATE2ENGINES rec;
             rec = LogitechGSDK.LogiGetStateUnity(0);
-            actualState += "x-axis position :" + rec.lX + "\n";
+            this.actualState += "x-axis position :" + rec.lX + "\n";
 
             //float actualState_450 = rec.lX * 0.01373f; //450/+-32767/=0.01373
-            float actualState_750 = rec.lX * (RealWheelDegree / (float)32767.0f);//0.02288f; //750/+-32767=0.02288
+            float actualState = rec.lX * (RealWheelDegree / (float)32767.0f);//0.02288f; //750/+-32767=0.02288
             //Debug.Log("actualState_450:" + actualState_450);
 
             //LogitchSteelRotation = actualState_450;
-            LogitchSteelRotation = actualState_750;
+            LogitchSteelRotation = actualState;
 
             LogitchGasRotation = MapValue(32767, -32767, 0, 25, rec.lY);
             LogitchBreakRotation = MapValue(32767, -32767, 0, 25, rec.lRz);

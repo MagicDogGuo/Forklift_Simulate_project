@@ -967,8 +967,7 @@ public class QuestionUIManager : MonoBehaviour
     /// <param name="limitSec"></param>
     void CountTime(int limitSec)
     {
-        // m_Timer += Time.deltaTime;
-        m_Timer = 5000;
+         m_Timer += Time.deltaTime;
         if (m_Timer > limitSec && isTimeUp == false)
         {
             isTimeUp = true;

@@ -41,34 +41,34 @@ public class DriveForkKit_stageThreeState : IMainGameState
 
 
 
-    bool stepOne_拉起手煞 = false;
-    bool stepOne_前後檔回歸 = false;
-    bool stepOne_升降拉桿放回 = false;
-    bool stepTwo_開啟手煞 = false;
-    bool stepTwo_拉到退檔 = false;
-    bool stepTwo_升降拉桿上升 = false;
-    bool stepIsAllOK = false;
+    //bool stepOne_拉起手煞 = false;
+    //bool stepOne_前後檔回歸 = false;
+    //bool stepOne_升降拉桿放回 = false;
+    //bool stepTwo_開啟手煞 = false;
+    //bool stepTwo_拉到退檔 = false;
+    //bool stepTwo_升降拉桿上升 = false;
+    //bool stepIsAllOK = false;
 
 
     public override void StateBegin()
     {   //wheel歸位
-        //WheelBackPos();
+        WheelBackPos();
 
         //stepIsAllOK = false;
 
-        //delayScoreCount = 0;
+        delayScoreCount = 0;
         StageThreeGameManager.Instance.CreateForkkit();
         StageThreeGameManager.Instance.ScoreManagers.Init();
         _isCountScore_ScoreManager = true;
-        //isStopNow = false;
-        //MainGameManager.Instance.IsForkitOnRoadOutLineObj.Init();
+        isStopNow = false;
+        MainGameManager.Instance.IsForkitOnRoadOutLineObj.Init();
 
         _wSMVehicleController = StageThreeGameManager.Instance.ForkleftObj.GetComponent<WSMVehicleController>();
         _forkliftController = StageThreeGameManager.Instance.ForkleftObj.GetComponent<ForkliftController>();
         _gameMode = StageThreeGameManager.Instance.GameModes;
         _scoreManager = StageThreeGameManager.Instance.ScoreManagers;
 
-        //_wSMVehicleController.enabled = true;
+        _wSMVehicleController.enabled = true;
 
 
 
@@ -81,8 +81,8 @@ public class DriveForkKit_stageThreeState : IMainGameState
 
         else if (_gameMode == MainGameManager.GameMode.TestMode)
         {
-            _ScoreGroupCanvas = GameObject.Instantiate(MainGameManager.Instance.ScoreGroupCanvass,
-                                                        MainGameManager.Instance.ForkitCanvasPoss.transform);
+            _ScoreGroupCanvas = GameObject.Instantiate(StageThreeGameManager.Instance.ScoreGroupCanvass,
+                                                        StageThreeGameManager.Instance.ForkitCanvasPoss.transform);
 
             //判斷回原位(撞柱子、壓線)
             _scoreManager.OnPipeFallScore += OnPipeFall_Test;
@@ -132,11 +132,6 @@ public class DriveForkKit_stageThreeState : IMainGameState
         //}
 
 
-
-
-
-
-
         //string t = "_startPoint.isOnStartPoint_Forkit: " + _startPoint.isOnStartPoint_Forkit
         //  + "\n _endPoint.isAllreadyArraivalEndPoint: " + _endPoint.isAllreadyArraivalEndPoint
         //  + "\n _wSMVehicleController.CurrentHandbrake == 1: " + (_wSMVehicleController.CurrentHandbrake == 1)
@@ -166,11 +161,11 @@ public class DriveForkKit_stageThreeState : IMainGameState
         {
             OnTest();
         }
-        ////隨時歸位
-        //if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.O))
-        //{
-        //    if (!_startPoint_Forkleft.isOnStartPoint_Forkit) BackToOri();
-        //}
+        //隨時歸位
+        if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.O))
+        {
+            if (!_startPoint_Forkleft.isOnStartPoint_Forkit) BackToOri();
+        }
         ////到終點
         //if (Input.GetKey(KeyCode.K))
         //{
@@ -253,7 +248,7 @@ public class DriveForkKit_stageThreeState : IMainGameState
         }
         if (WarningUI != null)
         {
-            //隨時歸位
+            //歸位
             if (logtichControl.CheckEnterUI || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.O))
             {
                 if (!_startPoint_Forkleft.isOnStartPoint_Forkit) BackToOri();

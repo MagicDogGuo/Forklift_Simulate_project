@@ -24,7 +24,6 @@ public class CompletePricticeState : IMainGameState
         int WrongAmount;
         string[] WrongContent;
 
-        Debug.Log("============fgfgfgfgfgfgfgfgfg==="+ScoreGroupComp.WrongAmount);
 
         PassResult = "完成練習!";
         WrongAmount = ScoreGroupComp.WrongAmount;

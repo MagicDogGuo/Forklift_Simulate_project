@@ -123,7 +123,10 @@ public class ResetVRPosition : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// 無用
+    /// </summary>
+    /// <returns></returns>
     IEnumerator DalayRotata()
     {
         if (UnityEngine.XR.InputTracking.disablePositionalTracking == false) UnityEngine.XR.InputTracking.disablePositionalTracking = true;
@@ -180,7 +183,7 @@ public class ResetVRPosition : MonoBehaviour
         ResetRotateObj.transform.position = VREyeObj.transform.position;
         yield return new WaitForEndOfFrame();
 
-        //把VR EYE關掉VR功能並設定成ResetRotateObj的子物件(如此VR EYE會在(0,0,0))
+        //把VR EYE關掉VR功能
         VREyeObj.gameObject.SetActive(false);
         yield return new WaitForEndOfFrame();
 

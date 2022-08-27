@@ -47,13 +47,13 @@ public class CompleteTestState : IMainGameState
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            MainGameManager.Instance.ScoreManagers.ReleaseEvent();
             m_Conrtoller.SetState(MainGameStateControl.GameFlowState.Init, m_Conrtoller);
         }
     }
 
     public override void StateEnd()
     {
+        MainGameManager.Instance.ScoreManagers.ReleaseEvent();
         MainGameManager.Instance.DestoryForkkit();
         GameObject.Destroy(MainGameManager.Instance.PipeGroupObjs);
 

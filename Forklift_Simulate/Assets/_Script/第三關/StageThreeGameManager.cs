@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class StageThreeGameManager : MainGameManager
 {
     static StageThreeGameManager m_Instance;
-    public static StageThreeGameManager Instance
+    public static new StageThreeGameManager Instance
     {
         get
         {
@@ -136,10 +136,6 @@ public class StageThreeGameManager : MainGameManager
     // 場景狀態
     MainGameStateControl m_MainGameStateController = new MainGameStateControl();
 
-    private void Awake()
-    {
-
-    }
 
     // Start is called before the first frame update
     void Start()

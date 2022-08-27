@@ -171,6 +171,7 @@ public class ScoreManager : MonoBehaviour
         isCheckTouchShelf = false;
         isCheckToFarTo後扶架 = false;
         isCheckGoodTouchGroundLine = false;
+        isCheckGoodTouchFloor = false;
 
 
         logtichControl = GameObject.FindObjectOfType<LogtichControl>();
@@ -220,7 +221,7 @@ public class ScoreManager : MonoBehaviour
             //行駛時熄火
             //================第三關新增================
             //V倉儲架裝卸作業時碰撞貨架或碰撞貨物
-            //V棧板與貨(後)扶架距離超過10cm(如果要放貨物 退後時程式會誤判)
+            //V棧板與貨(後)扶架距離超過10cm(如果要放貨物 退後時程式會誤判，所以利用特定區域不判斷解決)
             //V地面貨物區置放完成後壓線
             //V貨物置放於地面調整
 
@@ -230,6 +231,7 @@ public class ScoreManager : MonoBehaviour
             ForkitOnRoad(10);
             OnStopTooLong(2, 20);
             SpeedToHight(20, 10);
+            //在貨物附近時，不判斷貨插位置是否正確
             if (StageThreeGameManager.Instance.IsNeerGoods == true)
             {
                 ForkPositionHight_IsNeerGoods(2, 0.057f, 5);
@@ -381,8 +383,43 @@ public class ScoreManager : MonoBehaviour
 
         //====第三關==========
         if (mainGameManager_stageThree != null)
-        { 
-        
+        {
+
+            //在開始點與終點不計算
+            if (!mainGameManager_stageThree.StartPointObjs.GetComponent<StartPoint>().isOnStartPoint_Forkit)
+            {
+                if (_wSMVehicleController.CurrentSpeed >= stopSpeed)
+                {
+                    isMove = true;
+                }
+                else
+                {
+                    isMove = false;
+                }
+                if (isMove)
+                {
+                    if (_wSMVehicleController.CurrentSpeed <= 0.001f)
+                    {
+                        countTime += Time.deltaTime;
+
+                    }
+                    if (_wSMVehicleController.CurrentSpeed <= 0.001f && !isCheckStopTooLong && countTime > 5)
+                    {
+                        isCheckStopTooLong = true;
+                        StopTooLongScore += 1;
+                        Debug.Log("停留超過5秒" + StopTooLongScore + "次");
+                        OnStopTooLongScore(StopTooLongScore);
+                        //PlayWrongVoice(wrongVoice[2]);
+                        TotalWrongAmount += score;
+                    }
+                    else if (_wSMVehicleController.CurrentSpeed > 0.001f && isCheckStopTooLong)
+                    {
+                        countTime = 0;
+                        isCheckStopTooLong = false;
+                    }
+                }
+
+            }
         }   
        
     }
@@ -580,7 +617,7 @@ public class ScoreManager : MonoBehaviour
 
 
     /// <summary>
-    /// 撞擊貨架
+    /// 第三關，撞擊貨架
     /// </summary>
     /// <param name="score"></param>
     void ForkitTouchShelf(int score)
