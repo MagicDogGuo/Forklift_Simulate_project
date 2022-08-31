@@ -1290,6 +1290,50 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &2446127070408101721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7839041004593707213}
+  - component: {fileID: 638106531348666951}
+  m_Layer: 0
+  m_Name: ForkCollsionTriggerR (1)
+  m_TagString: Forkleft
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7839041004593707213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2446127070408101721}
+  m_LocalRotation: {x: -0.00000006928548, y: 0.00811565, z: 0.00000001947761, w: 0.9999671}
+  m_LocalPosition: {x: 0.546, y: 0.343, z: -0.189}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8589439456128386020}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0.93, z: 0}
+--- !u!65 &638106531348666951
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2446127070408101721}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.08, y: 0.12, z: 0.52}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2648893246633092910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1587,6 +1631,8 @@ Transform:
   - {fileID: 63033589748114807}
   - {fileID: 6901130036203734139}
   - {fileID: 3766652895942757261}
+  - {fileID: 1638264088700854321}
+  - {fileID: 7839041004593707213}
   m_Father: {fileID: 8734641060456391005}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8325,6 +8371,50 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &6022390734651626229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1638264088700854321}
+  - component: {fileID: 8229901448581438282}
+  m_Layer: 0
+  m_Name: ForkCollsionTriggerL
+  m_TagString: Forkleft
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1638264088700854321
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6022390734651626229}
+  m_LocalRotation: {x: -0.00000006928548, y: 0.00811565, z: 0.00000001947761, w: 0.9999671}
+  m_LocalPosition: {x: 0.546, y: -0.34400013, z: -0.18900028}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8589439456128386020}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0.93, z: 0}
+--- !u!65 &8229901448581438282
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6022390734651626229}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.08, y: 0.12, z: 0.52}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6047682309512550778
 GameObject:
   m_ObjectHideFlags: 0
@@ -37689,15 +37779,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de469fc22788fb24a9bacdaa40378c71, type: 3}
---- !u!1 &583651019709229401 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1129639655132805605, guid: de469fc22788fb24a9bacdaa40378c71,
-    type: 3}
-  m_PrefabInstance: {fileID: 555282829445075132}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6121716654266167013 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5998924542529125977, guid: de469fc22788fb24a9bacdaa40378c71,
+    type: 3}
+  m_PrefabInstance: {fileID: 555282829445075132}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &583651019709229401 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1129639655132805605, guid: de469fc22788fb24a9bacdaa40378c71,
     type: 3}
   m_PrefabInstance: {fileID: 555282829445075132}
   m_PrefabAsset: {fileID: 0}
@@ -37712,6 +37802,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DewnSide_chain02_rotate90 (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129639655132805605, guid: de469fc22788fb24a9bacdaa40378c71,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5998924542529125977, guid: de469fc22788fb24a9bacdaa40378c71,
         type: 3}
@@ -37790,15 +37885,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de469fc22788fb24a9bacdaa40378c71, type: 3}
---- !u!1 &352638596366028775 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1129639655132805605, guid: de469fc22788fb24a9bacdaa40378c71,
-    type: 3}
-  m_PrefabInstance: {fileID: 813352350858081794}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6343862895294400603 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5998924542529125977, guid: de469fc22788fb24a9bacdaa40378c71,
+    type: 3}
+  m_PrefabInstance: {fileID: 813352350858081794}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &352638596366028775 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1129639655132805605, guid: de469fc22788fb24a9bacdaa40378c71,
     type: 3}
   m_PrefabInstance: {fileID: 813352350858081794}
   m_PrefabAsset: {fileID: 0}
@@ -37886,15 +37981,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de469fc22788fb24a9bacdaa40378c71, type: 3}
---- !u!1 &1948310843627482758 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1129639655132805605, guid: de469fc22788fb24a9bacdaa40378c71,
-    type: 3}
-  m_PrefabInstance: {fileID: 1487458000902264675}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5180535116774353210 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5998924542529125977, guid: de469fc22788fb24a9bacdaa40378c71,
+    type: 3}
+  m_PrefabInstance: {fileID: 1487458000902264675}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1948310843627482758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1129639655132805605, guid: de469fc22788fb24a9bacdaa40378c71,
     type: 3}
   m_PrefabInstance: {fileID: 1487458000902264675}
   m_PrefabAsset: {fileID: 0}
@@ -37909,6 +38004,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DewnSide_chain02_rotate90 (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129639655132805605, guid: de469fc22788fb24a9bacdaa40378c71,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5998924542529125977, guid: de469fc22788fb24a9bacdaa40378c71,
         type: 3}

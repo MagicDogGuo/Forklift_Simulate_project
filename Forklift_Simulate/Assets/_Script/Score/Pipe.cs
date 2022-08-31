@@ -46,7 +46,7 @@ public class Pipe : MonoBehaviour
     {
         if (IsStopCollDetect) return;
 
-        if(collision.gameObject.tag == "Forkleft")
+        if(collision.gameObject.tag == "Forkleft" || collision.gameObject.tag == "Goods")
         {
             Debug.Log("22222222222222222222222222");
 
